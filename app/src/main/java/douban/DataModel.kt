@@ -15,35 +15,22 @@ data class FilmItem(
         val rating: Rating,
         val genres: List<String>,
         val title: String,
-        val casts: List<Cast>,
+        val casts: List<Celebrity>,
         val collect_count: Int,
         val original_title: String,
         val subtype: String,
-        val directors: List<Director>,
+        val directors: List<Celebrity>,
         val year: String,
         val images: Images,
         val alt: String,
         val id: String
 )
 
-data class Cast(
-        val alt: String,
-        val avatars: Avatars,
-        val name: String,
-        val id: String
-)
 
 data class Avatars(
         val small: String,
         val large: String,
         val medium: String
-)
-
-data class Director(
-        val alt: String,
-        val avatars: Avatars,
-        val name: String,
-        val id: String
 )
 
 data class Images(
@@ -99,14 +86,14 @@ data class FilmDetail(
         val bloopers: List<Any>,
         val clip_urls: List<Any>,
         val current_season: Any,
-        val casts: List<Cast>,
+        val casts: List<Celebrity>,
         val countries: List<String>,
         val mainland_pubdate: String,
         val photos: List<Photo>,
         val summary: String,
         val clips: List<Any>,
         val subtype: String,
-        val directors: List<Director>,
+        val directors: List<Celebrity>,
         val comments_count: Int,
         val popular_reviews: List<PopularReview>,
         val ratings_count: Int,
@@ -241,6 +228,7 @@ data class Comment(
         val id: String
 )
 
+
 data class FilmReview(
         val count: Int,
         val reviews: List<Review>,
@@ -266,3 +254,93 @@ data class Review(
         val id: String,
         val subject_id: String
 )
+
+
+data class SearchBrief(
+        val episode: String,
+        val img: String,
+        val title: String,
+        val url: String,
+        val type: String,
+        val year: String,
+        val sub_title: String,
+        val id: String
+)
+
+
+data class CityList(
+        val count: Int,
+        val start: Int,
+        val total: Int,
+        val locs: List<Location>
+)
+
+data class Location(
+        val parent: String,
+        val habitable: String,
+        val id: String,
+        val name: String,
+        val uid: String
+)
+
+
+data class FilmMan(
+        val mobile_url: String,
+        val aka_en: List<String>,
+        val name: String,
+        val works: List<Work>,
+        val gender: String,
+        val avatars: Avatars,
+        val id: String,
+        val aka: List<String>,
+        val name_en: String,
+        val born_place: String,
+        val alt: String
+)
+
+data class Work(
+        val roles: List<String>,
+        val subject: FilmDetail
+)
+
+
+data class FilmManWork(
+        val count: Int,
+        val start: Int,
+        val celebrity: Celebrity,
+        val total: Int,
+        val works: List<Work>
+)
+
+data class Celebrity(
+        val avatars: Avatars,
+        val name_en: String,
+        val name: String,
+        val alt: String,
+        val id: String
+)
+
+
+data class FilmManPhoto(
+        val count: Int,
+        val photos: List<Photo>,
+        val celebrity: Celebrity,
+        val total: Int,
+        val start: Int
+)
+
+
+data class RankFilm(
+        val date: String,
+        val subjects: List<RankFilmItem>,
+        val title: String
+)
+
+data class RankFilmItem(
+        val box: Int,
+        val new: Boolean,
+        val rank: Int,
+        val subject: FilmItem,
+        val delta: Int
+)
+

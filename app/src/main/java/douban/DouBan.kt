@@ -25,7 +25,7 @@ class DouBan {
         return Gson().fromJson(html)
     }
 
-    //获取电影图片
+    //获取电影剧照
     fun getFilmPhoto(id: String, start: Int = 0, count: Int = 100): FilmPhoto {
         val url = "${mBaseUrl}subject/$id/photos?$mApiKey&start=$start&count=$count"
         val html = DownLoadString(url)
@@ -42,6 +42,69 @@ class DouBan {
     //获取电影影评
     fun getFilmReview(id: String, start: Int = 0, count: Int = 100): FilmReview {
         val url = "${mBaseUrl}subject/$id/reviews?$mApiKey&start=$start&count=$count"
+        val html = DownLoadString(url)
+        return Gson().fromJson(html)
+    }
+
+    //获取电影简短信息，用于搜索提示
+    fun getSearchBrief(key: String): Array<SearchBrief> {
+        val url = "https://movie.douban.com/j/subject_suggest?q=$key"
+        val html = DownLoadString(url)
+        return Gson().fromJson(html)
+    }
+
+    //获取城市列表
+    fun getCityList(start: Int = 0, count: Int = 100): CityList {
+        val url = "https://api.douban.com/v2/loc/list?&start=$start&count=$count"
+        val html = DownLoadString(url)
+        return Gson().fromJson(html)
+    }
+
+    //获取电影搜索列表
+    fun getSearchFilmList(key: String, start: Int = 0, count: Int = 100): FilmList {
+        val url = "${mBaseUrl}search?q=$key&start=$start&count=$count"
+        val html = DownLoadString(url)
+        return Gson().fromJson(html)
+    }
+
+    //获取影人信息
+    fun getFilmManInfo(id: String): FilmMan {
+        val url = "${mBaseUrl}celebrity/$id"
+        val html = DownLoadString(url)
+        return Gson().fromJson(html)
+    }
+
+    //获取影人作品
+    fun getFilmManWork(id: String, start: Int = 0, count: Int = 30): FilmManWork {
+        val url = "${mBaseUrl}celebrity/$id/works?$mApiKey&start=$start&count=$count"
+        val html = DownLoadString(url)
+        return Gson().fromJson(html)
+    }
+
+    //获取影人照片
+    fun getFilmManPhoto(id: String, start: Int = 0, count: Int = 30): FilmManPhoto {
+        val url = "${mBaseUrl}celebrity/$id/photos?$mApiKey&start=$start&count=$count"
+        val html = DownLoadString(url)
+        return Gson().fromJson(html)
+    }
+
+    //获取豆瓣 Top 250
+    fun getTop250Film(start: Int = 0, count: Int = 250): FilmList {
+        val url = "${mBaseUrl}top250?&start=$start&count=$count"
+        val html = DownLoadString(url)
+        return Gson().fromJson(html)
+    }
+
+    //获取北美票房榜
+    fun getUSFilmRank(): RankFilm {
+        val url = "${mBaseUrl}us_box?"
+        val html = DownLoadString(url)
+        return Gson().fromJson(html)
+    }
+
+    //获取周榜
+    fun getWeeklyRank(): RankFilm {
+        val url = "${mBaseUrl}weekly?$mApiKey"
         val html = DownLoadString(url)
         return Gson().fromJson(html)
     }
