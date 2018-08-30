@@ -790,6 +790,7 @@ class DouBanUnitTest {
         assertNotNull(film.subjects[0].subject.id)
     }
 
+
     @Test
     fun test_gson_parse_FilmDetail_fromLocal() {
         val film: FilmDetail = Gson().fromJson(strFilmDetail)
@@ -938,6 +939,10 @@ class DouBanUnitTest {
         test_RankFilm(film1)
         val film2 = Douban.getWeeklyRank()
         test_RankFilm(film2)
+        val film3 = Douban.getNewFilmRank()
+        test_FilmList(film3)
+        val film4 = Douban.getComingFilm()
+        test_FilmList(film4)
     }
 
     @Test

@@ -97,7 +97,7 @@ class DouBan {
 
     //获取北美票房榜
     fun getUSFilmRank(): RankFilm {
-        val url = "${mBaseUrl}us_box?"
+        val url = "${mBaseUrl}us_box?$mApiKey"
         val html = DownLoadString(url)
         return Gson().fromJson(html)
     }
@@ -105,6 +105,20 @@ class DouBan {
     //获取周榜
     fun getWeeklyRank(): RankFilm {
         val url = "${mBaseUrl}weekly?$mApiKey"
+        val html = DownLoadString(url)
+        return Gson().fromJson(html)
+    }
+
+    //获取新片榜
+    fun getNewFilmRank(): FilmList {
+        val url = "${mBaseUrl}new_movies?$mApiKey"
+        val html = DownLoadString(url)
+        return Gson().fromJson(html)
+    }
+
+    //获取即将上映
+    fun getComingFilm(): FilmList {
+        val url = "${mBaseUrl}coming_soon?$mApiKey"
         val html = DownLoadString(url)
         return Gson().fromJson(html)
     }
