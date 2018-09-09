@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group android:id="@+id/general_action">
+
+        <item
+                android:id="@+id/search_action"
+                android:title="@string/search_menu"
+                app:showAsAction="always"/>
+        <item
+                android:id="@+id/settings_action"
+                android:title="@string/settings"
+                app:showAsAction="always"/>
+
+    </group>
+</menu>

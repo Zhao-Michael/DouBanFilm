@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">DouBan Film</string>
+    <string name="search_menu">Search</string>
+    <string name="settings">Settings</string>
+
 </resources>

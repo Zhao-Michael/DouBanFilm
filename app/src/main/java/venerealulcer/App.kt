@@ -1,18 +1,18 @@
-package mainactivity
+package venerealulcer
 
 import android.app.Application
 import com.orhanobut.hawk.Hawk
 
-class APP : Application() {
+class App : Application() {
     companion object {
         val mCrashHandler = CrashHandler()
-        lateinit var Instance: APP
+        lateinit var Instance: App
     }
 
     override fun onCreate() {
         super.onCreate()
         Instance = this
-        mCrashHandler.init()
+        //mCrashHandler.init()
         Hawk.init(this).build()
     }
 
