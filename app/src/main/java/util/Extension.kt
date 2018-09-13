@@ -2,8 +2,10 @@
 
 package util
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.support.annotation.Nullable
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AlertDialog
 import android.util.Base64
@@ -12,8 +14,13 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import com.google.gson.Gson
 import io.reactivex.Observable
+import io.reactivex.ObservableEmitter
 import io.reactivex.ObservableOnSubscribe
+import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.functions.Action
+import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import org.apache.commons.lang3.StringEscapeUtils
 import org.jetbrains.anko.doAsync
@@ -154,17 +161,61 @@ fun Context.inflate(id: Int, viewGroup: ViewGroup): View {
     return LayoutInflater.from(this).inflate(id, viewGroup, false)
 }
 
-fun <T> Observable<T>.set(action: (it: T) -> Unit) {
-    subscribe { action(it) }
-}
+//fun <T> Observable<T>.set(action: (T) -> Unit): Rx<T> {
+//    val rx = Rx.createRx(Consumer(action))
+//    subscribe(rx)
+//    return rx
+//}
 
-class Rx {
+
+class Rx<T> private constructor() : Observer<T> {
+
     companion object {
-        fun <T> get(action: () -> T): Observable<T> {
-            return Observable.create<T> {
-                it.onNext(action())
+        fun <T> get(action: () -> T): Rx<T> {
+            val obs = Observable.create<T> {
+                val t = action()
+                it.onNext(t)
                 it.onComplete()
             }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            return Rx<T>(obs)
         }
     }
+
+    private constructor(_observer: Observable<T>) : this() {
+        mObserver = _observer
+        mObserver.subscribe(this)
+    }
+
+    lateinit var mObserver: Observable<T>
+    private var onNext = Consumer<T> {}
+    private var onError = Consumer<Throwable> {}
+    private var onComplete = Action {}
+    private var onSubscribe = Consumer<Disposable> {}
+
+    fun err(action: (Throwable) -> Unit) {
+        onError = Consumer(action)
+    }
+
+    fun set(action: (T) -> Unit): Rx<T> {
+        onNext = Consumer(action)
+        return this
+    }
+
+    override fun onComplete() {
+        onComplete.run()
+    }
+
+    override fun onSubscribe(d: Disposable) {
+        onSubscribe.accept(d)
+    }
+
+    override fun onNext(t: T) {
+        onNext.accept(t)
+    }
+
+    override fun onError(e: Throwable) {
+        onError.accept(e)
+    }
+
+
 }

@@ -6,20 +6,9 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.widget.GridLayoutManager
 import android.view.Menu
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
-import douban.DouBan
 import douban.Douban
 import douban.FilmAdapter
-import douban.FilmList
-import io.reactivex.Observable
-import io.reactivex.ObservableOnSubscribe
-import io.reactivex.ObservableSource
-import io.reactivex.Observer
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
-import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
-import org.jetbrains.anko.uiThread
 import util.*
 
 class MainActivity : BaseActivity() {
@@ -69,9 +58,11 @@ class MainActivity : BaseActivity() {
         mSwipeLayout.ShowRefresh()
         Rx.get {
             Douban.getTheaterFilms("上海")
-        }.set {
+        }.set { it ->
             mRecyclerView.adapter = FilmAdapter(it, mRecyclerView.context)
             mRecyclerView.adapter.notifyDataSetChanged()
+            mSwipeLayout.HideRefresh()
+        }.err {
             mSwipeLayout.HideRefresh()
         }
     }

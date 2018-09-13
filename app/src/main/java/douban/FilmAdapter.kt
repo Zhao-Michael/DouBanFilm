@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.TransitionOptions
 import com.bumptech.glide.request.RequestOptions.centerCropTransform
+import com.hedgehog.ratingbar.RatingBar
 import org.jetbrains.anko.find
 import util.OnClick
 import util.inflate
@@ -36,10 +36,10 @@ class FilmAdapter(listViews: FilmList, context: Context) : RecyclerView.Adapter<
         holder.rate.text = "评分：" + (film.rating.stars.toInt() / 10.0)
         holder.director.text = "导演：" + film.directors.joinToString("/") { it.name }
         holder.actor.text = "演员：" + film.casts.joinToString("/") { it.name }
-
+        holder.ratingbar.setStar((film.rating.stars.toInt() / 10.0).toFloat())
         Glide.with(holder.image.context)
                 .load(film.images.small)
-                .apply(centerCropTransform().placeholder(R.color.md_dark_secondary))
+                .apply(centerCropTransform())
                 .into(holder.image)
     }
 
@@ -54,6 +54,7 @@ class FilmAdapter(listViews: FilmList, context: Context) : RecyclerView.Adapter<
         val actor by lazy { mItemView.find<TextView>(R.id.actor) }
         val director by lazy { mItemView.find<TextView>(R.id.director) }
         val rate by lazy { mItemView.find<TextView>(R.id.rate) }
+        val ratingbar by lazy { mItemView.find<RatingBar>(R.id.ratingbar) }
     }
 
 }
