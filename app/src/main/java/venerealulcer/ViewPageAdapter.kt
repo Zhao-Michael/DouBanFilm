@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.orhanobut.hawk.Hawk
 import douban.Douban
+import douban.FilmAdapter
 import douban.FilmList
 import util.FilmAdapter
 import util.Rx
@@ -39,9 +40,11 @@ class ViewPageAdapter(context: Context, show_loading: (b: Boolean) -> Unit) : Pa
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view = mListRecycler[position]
         if (view.adapter == null) {
-            val list = Hawk.get<FilmList?>(mListTitle[position])
+            val list = Hawk.get<Any?>(mListTitle[position])
             if (list != null) {
-                view.FilmAdapter = list
+                if (list is FilmList) {
+                    view.FilmAdapter = list
+                }
             } else {
                 updatePageFromNet(position)
             }
@@ -73,9 +76,9 @@ class ViewPageAdapter(context: Context, show_loading: (b: Boolean) -> Unit) : Pa
             return@get when (position) {
                 0 -> Douban.getTheaterFilms("上海")
                 1 -> Douban.getComingFilm()
-            //2 -> Douban.getWeeklyRank()
+                2 -> Douban.getWeeklyRank().convetToFilmList()
                 3 -> Douban.getNewFilmRank()
-            //4 -> Douban.getUSFilmRank()
+                4 -> Douban.getUSFilmRank().convetToFilmList()
                 5 -> Douban.getTop250Film()
                 else -> Douban.getTheaterFilms("上海")
             }

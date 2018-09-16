@@ -335,7 +335,12 @@ data class RankFilm(
         val date: String,
         val subjects: List<RankFilmItem>,
         val title: String
-)
+) {
+
+    fun convetToFilmList(): FilmList {
+        return FilmList(subjects.size, 0, subjects.size, subjects.map { it.subject }, title)
+    }
+}
 
 data class RankFilmItem(
         val box: Int,

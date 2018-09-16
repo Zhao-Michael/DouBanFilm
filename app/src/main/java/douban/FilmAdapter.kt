@@ -38,10 +38,11 @@ class FilmAdapter(listViews: FilmList, context: Context) : RecyclerView.Adapter<
     override fun onBindViewHolder(holder: ViewHolder, pos: Int) {
         val film = mFilmList.subjects[holder.adapterPosition]
         holder.title.text = film.title
-        holder.rate.text = "评分：" + (film.rating.stars.toInt() / 10.0)
+        holder.rate.text = "评分：" + film.rating.average
         holder.director.text = "导演：" + film.directors.joinToString("/") { it.name }
         holder.actor.text = "演员：" + film.casts.joinToString("/") { it.name }
         holder.ratingbar.setStar((film.rating.stars.toInt() / 10.0).toFloat())
+        holder.page.text = (holder.adapterPosition + 1).toString()
         Glide.with(holder.image.context)
                 .load(film.images.small)
                 .apply(centerCropTransform())
@@ -61,6 +62,7 @@ class FilmAdapter(listViews: FilmList, context: Context) : RecyclerView.Adapter<
         val director by lazy { mItemView.find<TextView>(R.id.director) }
         val rate by lazy { mItemView.find<TextView>(R.id.rate) }
         val ratingbar by lazy { mItemView.find<RatingBar>(R.id.ratingbar) }
+        val page by lazy { mItemView.find<TextView>(R.id.page) }
     }
 
 }
