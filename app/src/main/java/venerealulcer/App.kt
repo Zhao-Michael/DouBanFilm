@@ -2,6 +2,7 @@ package venerealulcer
 
 import android.app.Application
 import com.orhanobut.hawk.Hawk
+import com.orhanobut.hawk.HawkBuilder
 
 class App : Application() {
     companion object {

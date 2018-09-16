@@ -328,4 +328,6 @@
     <color name="transparent_md_amber_500">#99FFC107</color>
     <color name="transparent">#00000000</color>
 
+    <color name="divider_color">#55504a</color>
+
 </resources>

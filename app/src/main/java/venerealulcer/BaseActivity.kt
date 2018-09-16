@@ -14,13 +14,13 @@ import com.mikepenz.iconics.typeface.IIcon
 import com.orhanobut.hawk.Hawk
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.find
+import util.VerticalSwipeRefreshLayout
 
 @SuppressLint("Registered")
 abstract class BaseActivity : AppCompatActivity() {
 
     protected val mToolBar by lazy { find<Toolbar>(R.id.toolbar) }
-    protected val mSwipeLayout by lazy { find<SwipeRefreshLayout>(R.id.mSwipeLayout) }
-    protected val mRecyclerView by lazy { find<RecyclerView>(R.id.mRecyclerView) }
+    protected val mSwipeLayout by lazy { find<VerticalSwipeRefreshLayout>(R.id.mSwipeLayout) }
 
     abstract val mLayout: Int
 
@@ -65,7 +65,7 @@ abstract class BaseActivity : AppCompatActivity() {
         return primaryColor
     }
 
-    fun getAccountColor(): Int {
+    private fun getAccountColor(): Int {
         return accentColor
     }
 
@@ -83,7 +83,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     @SuppressLint("SupportAnnotationUsage")
     @ColorInt
-    fun setAccountColor(id: Int) {
+    private fun setAccountColor(id: Int) {
         Hawk.put(getString(R.string.preference_accent_color),
                 getColorValue(id))
     }
@@ -93,7 +93,7 @@ abstract class BaseActivity : AppCompatActivity() {
         mToolBar.navigationIcon = getDrawableIcon(icon)
     }
 
-    private fun getColorValue(color: Int): Int {
+    protected fun getColorValue(color: Int): Int {
         return ContextCompat.getColor(this, color)
     }
 

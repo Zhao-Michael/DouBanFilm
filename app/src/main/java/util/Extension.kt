@@ -2,20 +2,26 @@
 
 package util
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.support.annotation.Nullable
+import android.content.res.Resources
+import android.support.design.widget.TabLayout
 import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.app.AlertDialog
+import android.support.v7.widget.RecyclerView
 import android.util.Base64
-import android.view.*
+import android.util.TypedValue
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
 import com.google.gson.Gson
+import douban.FilmAdapter
+import douban.FilmList
 import io.reactivex.Observable
-import io.reactivex.ObservableEmitter
-import io.reactivex.ObservableOnSubscribe
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -24,8 +30,12 @@ import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import org.apache.commons.lang3.StringEscapeUtils
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.find
+import org.jetbrains.anko.textColor
 import org.jetbrains.anko.uiThread
 import venerealulcer.App
+import venerealulcer.R
+import java.lang.reflect.Field
 import java.net.URLDecoder
 import java.net.URLEncoder
 
@@ -161,12 +171,80 @@ fun Context.inflate(id: Int, viewGroup: ViewGroup): View {
     return LayoutInflater.from(this).inflate(id, viewGroup, false)
 }
 
-//fun <T> Observable<T>.set(action: (T) -> Unit): Rx<T> {
-//    val rx = Rx.createRx(Consumer(action))
-//    subscribe(rx)
-//    return rx
-//}
+var RecyclerView.FilmAdapter: FilmList
+    get() {
+        return (adapter as FilmAdapter).getFilmList()
+    }
+    set(it) {
+        uiThread { adapter = FilmAdapter(it, context) }
+    }
 
+
+fun TabLayout.setTabStyle(dstDip: Int = 10) {
+    var tabStrip: Field? = null
+    try {
+        tabStrip = javaClass.getDeclaredField("mTabStrip")
+    } catch (e: NoSuchFieldException) {
+        e.printStackTrace()
+    }
+
+    if (tabStrip != null) {
+        tabStrip.isAccessible = true
+        var llTab: LinearLayout? = null
+        try {
+            llTab = tabStrip.get(this) as LinearLayout?
+        } catch (e: IllegalAccessException) {
+            e.printStackTrace()
+        }
+        if (llTab != null) {
+            val dst = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dstDip.toFloat(), Resources.getSystem().displayMetrics).toInt()
+            for (i in 0 until llTab.childCount) {
+                val child = llTab.getChildAt(i)
+                child.setPadding(0, 0, 0, 0)
+                val params = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1f)
+                params.leftMargin = dst
+                params.rightMargin = dst
+                child.layoutParams = params
+                child.invalidate()
+            }
+        }
+    }
+
+    fun getTextView(pos: Int): TextView? {
+        try {
+            val layout = getChildAt(0) as? LinearLayout
+            if (layout != null) {
+                val layout1 = layout.getChildAt(pos) as? LinearLayout
+                if (layout1 != null) {
+                    return layout1.getChildAt(1) as? TextView
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return null
+    }
+
+    getTextView(selectedTabPosition)?.paint?.isFakeBoldText = true
+
+    addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        override fun onTabReselected(tab: TabLayout.Tab?) = Unit
+        override fun onTabUnselected(tab: TabLayout.Tab?) {
+            if (tab != null) {
+                val text = getTextView(tab.position)
+                text?.paint?.isFakeBoldText = false
+            }
+        }
+
+        override fun onTabSelected(tab: TabLayout.Tab?) {
+            if (tab != null) {
+                val text = getTextView(tab.position)
+                text?.paint?.isFakeBoldText = true
+            }
+        }
+    })
+
+}
 
 class Rx<T> private constructor() : Observer<T> {
 

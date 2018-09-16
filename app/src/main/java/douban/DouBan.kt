@@ -11,12 +11,6 @@ class DouBan {
     private val mBaseUrl = "https://api.douban.com/v2/movie/"
     private val mApiKey = "apikey=0b2bdeda43b5688921839c8ecb20399b"
 
-    //获取院线电影
-    fun getTheaterFilms(city: String, start: Int = 0, count: Int = 100): FilmList {
-        val url = "${mBaseUrl}in_theaters?$mApiKey&city=${city.toURL()}&start=$start&count=$count"
-        val html = DownLoadString(url)
-        return Gson().fromJson(html)
-    }
 
     //获取影片介绍
     fun getFilmDetail(id: String): FilmDetail {
@@ -84,6 +78,13 @@ class DouBan {
     //获取影人照片
     fun getFilmManPhoto(id: String, start: Int = 0, count: Int = 30): FilmManPhoto {
         val url = "${mBaseUrl}celebrity/$id/photos?$mApiKey&start=$start&count=$count"
+        val html = DownLoadString(url)
+        return Gson().fromJson(html)
+    }
+
+    //获取院线电影
+    fun getTheaterFilms(city: String, start: Int = 0, count: Int = 100): FilmList {
+        val url = "${mBaseUrl}in_theaters?$mApiKey&city=${city.toURL()}&start=$start&count=$count"
         val html = DownLoadString(url)
         return Gson().fromJson(html)
     }

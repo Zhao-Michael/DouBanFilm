@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions.centerCropTransform
 import com.hedgehog.ratingbar.RatingBar
 import org.jetbrains.anko.find
@@ -30,8 +31,12 @@ class FilmAdapter(listViews: FilmList, context: Context) : RecyclerView.Adapter<
         return mFilmList.subjects.size
     }
 
+    fun getFilmList(): FilmList {
+        return mFilmList
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, pos: Int) {
-        val film = mFilmList.subjects[pos]
+        val film = mFilmList.subjects[holder.adapterPosition]
         holder.title.text = film.title
         holder.rate.text = "评分：" + (film.rating.stars.toInt() / 10.0)
         holder.director.text = "导演：" + film.directors.joinToString("/") { it.name }
@@ -40,6 +45,7 @@ class FilmAdapter(listViews: FilmList, context: Context) : RecyclerView.Adapter<
         Glide.with(holder.image.context)
                 .load(film.images.small)
                 .apply(centerCropTransform())
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .into(holder.image)
     }
 

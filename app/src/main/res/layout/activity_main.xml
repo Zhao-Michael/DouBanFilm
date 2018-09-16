@@ -2,36 +2,49 @@
 <android.support.v4.widget.DrawerLayout
         android:id="@+id/mDrawerLayout"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:openDrawer="start"
         android:orientation="vertical"
-        xmlns:tools="http://schemas.android.com/tools">
+        xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:orientation="vertical">
+    <android.support.design.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+        <android.support.design.widget.AppBarLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                app:layout_scrollFlags="scroll|enterAlways"
+                android:layout_height="wrap_content">
 
-        <android.support.v4.widget.SwipeRefreshLayout
+            <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    app:layout_scrollFlags="scroll|enterAlways"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            <android.support.design.widget.TabLayout
+                    android:id="@+id/mRecyclerTabLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"/>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <util.VerticalSwipeRefreshLayout
                 android:id="@+id/mSwipeLayout"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-            <android.support.v7.widget.RecyclerView
-                    android:id="@+id/mRecyclerView"
-                    android:scrollbars="vertical"
+            <android.support.v4.view.ViewPager
+                    android:id="@+id/mViewPager"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
 
-        </android.support.v4.widget.SwipeRefreshLayout>
+        </util.VerticalSwipeRefreshLayout>
 
-    </LinearLayout>
+    </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView
             android:id="@+id/home_navigation_drawer"
