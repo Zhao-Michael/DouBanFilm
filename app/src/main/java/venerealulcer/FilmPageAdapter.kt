@@ -14,7 +14,7 @@ import util.FilmAdapter
 import util.Rx
 
 
-class ViewPageAdapter(context: Context, show_loading: (b: Boolean) -> Unit) : PagerAdapter() {
+class FilmPageAdapter(context: Context, show_loading: (b: Boolean) -> Unit) : PagerAdapter() {
 
     private val mContext = context
     private val mListRecycler = mutableListOf<RecyclerView>()
@@ -41,10 +41,8 @@ class ViewPageAdapter(context: Context, show_loading: (b: Boolean) -> Unit) : Pa
         val view = mListRecycler[position]
         if (view.adapter == null) {
             val list = Hawk.get<Any?>(mListTitle[position])
-            if (list != null) {
-                if (list is FilmList) {
-                    view.FilmAdapter = list
-                }
+            if (list is FilmList) {
+                view.FilmAdapter = list
             } else {
                 updatePageFromNet(position)
             }
@@ -69,10 +67,13 @@ class ViewPageAdapter(context: Context, show_loading: (b: Boolean) -> Unit) : Pa
         return mListTitle.size
     }
 
+    fun getRecyclerView(position: Int): RecyclerView {
+        return mListRecycler[position]
+    }
+
     fun updatePageFromNet(position: Int) {
         Rx.get {
             mShowLoading.invoke(true)
-            //Need Change
             return@get when (position) {
                 0 -> Douban.getTheaterFilms("上海")
                 1 -> Douban.getComingFilm()
@@ -80,7 +81,7 @@ class ViewPageAdapter(context: Context, show_loading: (b: Boolean) -> Unit) : Pa
                 3 -> Douban.getNewFilmRank()
                 4 -> Douban.getUSFilmRank().convetToFilmList()
                 5 -> Douban.getTop250Film()
-                else -> Douban.getTheaterFilms("上海")
+                else -> throw NotImplementedError()
             }
         }.set {
             Hawk.put(mListTitle[position], it)

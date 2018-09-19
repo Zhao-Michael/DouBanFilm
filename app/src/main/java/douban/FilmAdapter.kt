@@ -14,6 +14,7 @@ import com.hedgehog.ratingbar.RatingBar
 import org.jetbrains.anko.find
 import util.OnClick
 import util.inflate
+import util.setImageUrl
 import venerealulcer.R
 
 class FilmAdapter(listViews: FilmList, context: Context) : RecyclerView.Adapter<FilmAdapter.ViewHolder>() {
@@ -38,17 +39,15 @@ class FilmAdapter(listViews: FilmList, context: Context) : RecyclerView.Adapter<
     override fun onBindViewHolder(holder: ViewHolder, pos: Int) {
         val film = mFilmList.subjects[holder.adapterPosition]
         holder.title.text = film.title
-        holder.rate.text = "评分：" + film.rating.average
-        holder.director.text = "导演：" + film.directors.joinToString("/") { it.name }
-        holder.actor.text = "演员：" + film.casts.joinToString("/") { it.name }
+        holder.year.text = film.year
+        holder.rate.text = film.rating.average.toString()
+        holder.director.text = film.directors.joinToString("/") { it.name }
+        holder.actor.text = film.casts.joinToString("/") { it.name }
         holder.ratingbar.setStar((film.rating.stars.toInt() / 10.0).toFloat())
         holder.page.text = (holder.adapterPosition + 1).toString()
-        Glide.with(holder.image.context)
-                .load(film.images.small)
-                .apply(centerCropTransform())
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(holder.image)
+        holder.image.setImageUrl(film.images.small)
     }
+
 
     fun setOnClickListener(list: View.OnClickListener) {
         mOnClickListener = list
@@ -58,6 +57,7 @@ class FilmAdapter(listViews: FilmList, context: Context) : RecyclerView.Adapter<
         val cardview by lazy { mItemView.find<CardView>(R.id.cardview) }
         val image by lazy { mItemView.find<ImageView>(R.id.image) }
         val title by lazy { mItemView.find<TextView>(R.id.title) }
+        val year by lazy { mItemView.find<TextView>(R.id.year) }
         val actor by lazy { mItemView.find<TextView>(R.id.actor) }
         val director by lazy { mItemView.find<TextView>(R.id.director) }
         val rate by lazy { mItemView.find<TextView>(R.id.rate) }

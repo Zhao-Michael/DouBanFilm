@@ -46,6 +46,7 @@ abstract class BaseActivity : AppCompatActivity() {
     fun setToolBarColor() {
         mToolBar.backgroundColor = getPrimaryColor()
         mToolBar.setTitleTextColor(getTextColorPrimary())
+        setToolBarTitle()
     }
 
     fun setStatusBarColor() {
@@ -88,6 +89,13 @@ abstract class BaseActivity : AppCompatActivity() {
                 getColorValue(id))
     }
 
+    fun setToolBarTitle(title: String = "") {
+        supportActionBar?.title = title
+    }
+
+    fun setToolBarTitle(titleID: Int) {
+        mToolBar.title = getString(titleID)
+    }
 
     fun setToolBarIcon(icon: IIcon) {
         mToolBar.navigationIcon = getDrawableIcon(icon)

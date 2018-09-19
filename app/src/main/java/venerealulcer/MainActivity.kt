@@ -7,9 +7,14 @@ import android.support.v4.view.ViewPager
 import android.support.v4.widget.DrawerLayout
 import android.view.Menu
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import douban.FilmAdapter
 import org.jetbrains.anko.find
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.onRefresh
-import util.*
+import util.HideRefresh
+import util.OnItemClick
+import util.ShowRefresh
+import util.setTabStyle
 
 
 class MainActivity : BaseActivity() {
@@ -28,16 +33,14 @@ class MainActivity : BaseActivity() {
     private fun init_UI() {
         setToolBarIcon(GoogleMaterial.Icon.gmd_menu)
         mToolBar.setNavigationOnClickListener { mDrawerLayout.openDrawer(GravityCompat.START) }
-        mToolBar.title = getString(R.string.app_name)
+        setToolBarTitle(R.string.app_name)
         mSwipeLayout.setColorSchemeColors(getPrimaryColor())
         mSwipeLayout.onRefresh { onSwipeRefresh() }
-        mSwipeLayout.isRefreshing = true
-        mSwipeLayout.isRefreshing = false
         mTableLayout.setupWithViewPager(mViewPager)
         mTableLayout.tabMode = TabLayout.MODE_SCROLLABLE
         mTableLayout.setSelectedTabIndicatorColor(getPrimaryColor())
         mTableLayout.setTabTextColors(getColorValue(R.color.divider_color), getPrimaryColor())
-        mViewPager.adapter = ViewPageAdapter(this) { b -> if (b) mSwipeLayout.ShowRefresh() else mSwipeLayout.HideRefresh() }
+        mViewPager.adapter = FilmPageAdapter(this) { b -> if (b) mSwipeLayout.ShowRefresh() else mSwipeLayout.HideRefresh() }
         mTableLayout.setTabStyle()
     }
 
@@ -64,11 +67,11 @@ class MainActivity : BaseActivity() {
     }
 
     private fun onSwipeRefresh() {
-        (mViewPager.adapter as ViewPageAdapter).updatePageFromNet(mTableLayout.selectedTabPosition)
+        (mViewPager.adapter as FilmPageAdapter).updatePageFromNet(mTableLayout.selectedTabPosition)
     }
 
     private fun searchMenu_Click() {
-        onSwipeRefresh()
+        startActivity<SearchActivity>()
     }
 
 

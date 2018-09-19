@@ -16,8 +16,12 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
 import douban.FilmAdapter
 import douban.FilmList
@@ -242,6 +246,15 @@ fun TabLayout.setTabStyle(dstDip: Int = 10) {
     })
 
 }
+
+fun ImageView.setImageUrl(url: String) {
+    Glide.with(context)
+            .load(url)
+            .apply(RequestOptions.centerCropTransform())
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .into(this)
+}
+
 
 class Rx<T> private constructor() : Observer<T> {
 
