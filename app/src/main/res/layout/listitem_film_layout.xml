@@ -14,14 +14,14 @@
         android:layout_height="wrap_content"
         android:focusable="true">
 
-    <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+    <FrameLayout android:layout_width="match_parent"
+                 android:layout_height="match_parent">
 
         <LinearLayout
                 android:id="@+id/layout_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="false"
-                android:layout_marginEnd="5dp"
                 android:orientation="horizontal">
 
             <ImageView
@@ -37,15 +37,15 @@
                     android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/title"
-                    android:textSize="16sp"
-                    android:layout_marginBottom="2dp"
-                    android:layout_marginEnd="2dp"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginTop="6dp"
-                    android:textStyle="bold"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                        android:id="@+id/title"
+                        android:textSize="16sp"
+                        android:layout_marginBottom="2dp"
+                        android:layout_marginEnd="2dp"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginTop="6dp"
+                        android:textStyle="bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
 
                 <LinearLayout android:layout_width="wrap_content"
                               android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
                     <TextView android:layout_margin="1dp"
                               android:text="评分："
                               android:textSize="12sp"
-                              android:layout_width="match_parent"
+                              android:layout_width="wrap_content"
                               android:layout_height="wrap_content"/>
 
                     <TextView
@@ -81,7 +81,7 @@
                             android:layout_margin="1dp"
                             android:ellipsize="end"
                             android:textSize="12sp"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
 
                     <com.hedgehog.ratingbar.RatingBar
@@ -104,33 +104,35 @@
 
                 <LinearLayout android:layout_width="wrap_content"
                               android:layout_height="wrap_content"
+                              android:layout_marginEnd="10dp"
                               android:orientation="horizontal">
 
                     <TextView android:layout_margin="1dp"
                               android:text="导演："
                               android:textSize="12sp"
-                              android:layout_width="match_parent"
+                              android:layout_width="wrap_content"
                               android:layout_height="wrap_content"/>
 
                     <TextView
                             android:id="@+id/director"
                             android:layout_margin="1dp"
                             android:ellipsize="end"
+                            android:lines="1"
                             android:textSize="12sp"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
 
                 </LinearLayout>
 
                 <LinearLayout android:layout_width="wrap_content"
                               android:layout_height="wrap_content"
+                              android:layout_marginEnd="10dp"
                               android:orientation="horizontal">
 
                     <TextView android:layout_margin="1dp"
                               android:text="演员："
                               android:textSize="12sp"
-                              android:layout_width="match_parent"
-                              android:layout_marginEnd="10dp"
+                              android:layout_width="wrap_content"
                               android:layout_height="wrap_content"/>
 
                     <TextView
@@ -139,7 +141,7 @@
                             android:ellipsize="end"
                             android:lines="1"
                             android:textSize="12sp"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
 
                 </LinearLayout>

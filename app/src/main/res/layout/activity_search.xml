@@ -12,17 +12,17 @@
             android:layout_height="wrap_content">
 
         <FrameLayout android:layout_width="match_parent"
+                     app:layout_scrollFlags="scroll|enterAlways"
                      android:layout_height="wrap_content">
 
             <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
-                    app:layout_scrollFlags="scroll|enterAlways"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
             <LinearLayout
                     android:orientation="horizontal"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                 <ImageButton
@@ -35,14 +35,39 @@
 
                 <android.support.v7.widget.SearchView
                         android:id="@+id/search_view"
+                        app:submitBackground="@null"
+                        app:searchIcon="@null"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
 
             </LinearLayout>
 
+            <View android:layout_width="match_parent"
+                  android:layout_gravity="bottom"
+                  android:layout_marginStart="20dp"
+                  android:layout_marginEnd="20dp"
+                  android:layout_marginBottom="8dp"
+                  android:background="@color/md_grey_200"
+                  android:alpha="0.5"
+                  android:layout_height="1dp"/>
+
         </FrameLayout>
 
     </android.support.design.widget.AppBarLayout>
+
+
+    <util.VerticalSwipeRefreshLayout
+            android:id="@+id/mSwipeLayout"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/mRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+    </util.VerticalSwipeRefreshLayout>
 
 </android.support.design.widget.CoordinatorLayout>

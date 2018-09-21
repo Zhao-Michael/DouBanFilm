@@ -10,7 +10,7 @@ val Douban = DouBan()
 class DouBan {
     private val mBaseUrl = "https://api.douban.com/v2/movie/"
     private val mApiKey = "apikey=0b2bdeda43b5688921839c8ecb20399b"
-
+    private val mIPCity = "http://pv.sohu.com/cityjson"
 
     //获取影片介绍
     fun getFilmDetail(id: String): FilmDetail {
@@ -45,6 +45,13 @@ class DouBan {
         val url = "https://movie.douban.com/j/subject_suggest?q=$key"
         val html = DownLoadString(url)
         return Gson().fromJson(html)
+    }
+
+    fun getCurrentCity(): IPCity {
+        val url = mIPCity
+        val html = DownLoadString(url)
+        if (html.isBlank() || !html.contains("var returnCitySN = ")) return IPCity("", "", "")
+        return Gson().fromJson(html.removePrefix("var returnCitySN = ").removeSuffix(";"))
     }
 
     //获取城市列表

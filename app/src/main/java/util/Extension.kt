@@ -23,8 +23,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
+import douban.BriefAdapter
 import douban.FilmAdapter
 import douban.FilmList
+import douban.SearchBrief
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -180,6 +182,14 @@ var RecyclerView.FilmAdapter: FilmList
         uiThread { adapter = FilmAdapter(it, context) }
     }
 
+var RecyclerView.BriefAdapter: Array<SearchBrief>
+    get() {
+        return (adapter as BriefAdapter).getListBrief()
+    }
+    set(it) {
+        uiThread { adapter = BriefAdapter(it, context) }
+    }
+
 
 fun TabLayout.setTabStyle(dstDip: Int = 10) {
     var tabStrip: Field? = null
@@ -250,7 +260,7 @@ fun TabLayout.setTabStyle(dstDip: Int = 10) {
 fun ImageView.setImageUrl(url: String) {
     Glide.with(context)
             .load(url)
-            .apply(RequestOptions.centerCropTransform())
+            .apply(RequestOptions.centerCropTransform().centerCrop())
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(this)
 }

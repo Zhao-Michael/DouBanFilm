@@ -7,11 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.RequestOptions.centerCropTransform
 import com.hedgehog.ratingbar.RatingBar
 import org.jetbrains.anko.find
+import util.Hide
 import util.OnClick
 import util.inflate
 import util.setImageUrl
@@ -44,6 +42,10 @@ class FilmAdapter(listViews: FilmList, context: Context) : RecyclerView.Adapter<
         holder.director.text = film.directors.joinToString("/") { it.name }
         holder.actor.text = film.casts.joinToString("/") { it.name }
         holder.ratingbar.setStar((film.rating.stars.toInt() / 10.0).toFloat())
+        if (film.rating.stars.toInt() == 0) {
+            holder.ratingbar.Hide()
+            holder.rate.text = "暂无评分"
+        }
         holder.page.text = (holder.adapterPosition + 1).toString()
         holder.image.setImageUrl(film.images.small)
     }

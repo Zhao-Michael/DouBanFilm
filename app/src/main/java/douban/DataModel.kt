@@ -1,8 +1,6 @@
 package douban
 
 import com.google.gson.annotations.SerializedName
-import java.util.*
-
 
 data class FilmList(
         val count: Int,
@@ -268,6 +266,12 @@ data class SearchBrief(
         val id: String
 )
 
+
+data class IPCity(
+        val cip: String,
+        val cid: String,
+        val cname: String
+)
 
 data class CityList(
         val count: Int,

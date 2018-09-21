@@ -7,14 +7,12 @@ import android.support.v4.view.ViewPager
 import android.support.v4.widget.DrawerLayout
 import android.view.Menu
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import douban.Douban
 import douban.FilmAdapter
 import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.onRefresh
-import util.HideRefresh
-import util.OnItemClick
-import util.ShowRefresh
-import util.setTabStyle
+import util.*
 
 
 class MainActivity : BaseActivity() {
@@ -22,7 +20,7 @@ class MainActivity : BaseActivity() {
     override val mLayout: Int = R.layout.activity_main
 
     private val mDrawerLayout by lazy { find<DrawerLayout>(R.id.mDrawerLayout) }
-    private val mTableLayout by lazy { find<TabLayout>(R.id.mRecyclerTabLayout) }
+    private val mTableLayout by lazy { find<TabLayout>(R.id.mTabLayout) }
     private val mViewPager by lazy { find<ViewPager>(R.id.mViewPager) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,8 +60,13 @@ class MainActivity : BaseActivity() {
     }
 
     private fun settingMenu_Click() {
-        setPrimaryColor(R.color.md_cyan_600)
-        recreate()
+        Rx.get {
+            Douban.getCurrentCity()
+        }.set {
+            println(it)
+        }
+//        setPrimaryColor(R.color.md_cyan_600)
+//        recreate()
     }
 
     private fun onSwipeRefresh() {
