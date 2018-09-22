@@ -265,6 +265,11 @@ fun ImageView.setImageUrl(url: String) {
             .into(this)
 }
 
+fun View.SetHeight(height: Int) {
+    val layoutParams = this.layoutParams
+    layoutParams.height = height
+    this.layoutParams = layoutParams
+}
 
 class Rx<T> private constructor() : Observer<T> {
 
@@ -287,11 +292,12 @@ class Rx<T> private constructor() : Observer<T> {
     lateinit var mObserver: Observable<T>
     private var onNext = Consumer<T> {}
     private var onError = Consumer<Throwable> {}
-    private var onComplete = Action {}
+    private var onComplete = {}
     private var onSubscribe = Consumer<Disposable> {}
 
-    fun err(action: (Throwable) -> Unit) {
+    fun err(action: (Throwable) -> Unit): Rx<T> {
         onError = Consumer(action)
+        return this
     }
 
     fun set(action: (T) -> Unit): Rx<T> {
@@ -299,8 +305,13 @@ class Rx<T> private constructor() : Observer<T> {
         return this
     }
 
+    fun com(action: () -> Unit): Rx<T> {
+        onComplete = { action.invoke() }
+        return this
+    }
+
     override fun onComplete() {
-        onComplete.run()
+        onComplete.invoke()
     }
 
     override fun onSubscribe(d: Disposable) {
@@ -313,6 +324,7 @@ class Rx<T> private constructor() : Observer<T> {
 
     override fun onError(e: Throwable) {
         onError.accept(e)
+        onComplete()
     }
 
 

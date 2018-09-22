@@ -18,3 +18,14 @@ fun HideKeyBoard(context: Activity) {
     imm.hideSoftInputFromWindow(context.window.decorView.windowToken, 0)
 }
 
+fun <T> TimeElapse(str: String, action: () -> T): T {
+    val start = System.nanoTime()
+
+    val result = action()
+
+    val elapse = System.nanoTime() - start
+
+    println(str + " : ${elapse / 1000.0 / 1000.0} ms")
+
+    return result
+}

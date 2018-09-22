@@ -8,11 +8,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.hedgehog.ratingbar.RatingBar
+import imageplayer.ImageViewActivity.Companion.ShowImages
 import org.jetbrains.anko.find
-import util.Hide
-import util.OnClick
-import util.inflate
-import util.setImageUrl
+import util.*
 import venerealulcer.R
 
 class FilmAdapter(listViews: FilmList, context: Context) : RecyclerView.Adapter<FilmAdapter.ViewHolder>() {
@@ -39,6 +37,8 @@ class FilmAdapter(listViews: FilmList, context: Context) : RecyclerView.Adapter<
         holder.title.text = film.title
         holder.year.text = film.year
         holder.rate.text = film.rating.average.toString()
+        holder.genres.text = film.genres.joinToString("/")
+        holder.org_name.text = film.original_title
         holder.director.text = film.directors.joinToString("/") { it.name }
         holder.actor.text = film.casts.joinToString("/") { it.name }
         holder.ratingbar.setStar((film.rating.stars.toInt() / 10.0).toFloat())
@@ -65,6 +65,8 @@ class FilmAdapter(listViews: FilmList, context: Context) : RecyclerView.Adapter<
         val rate by lazy { mItemView.find<TextView>(R.id.rate) }
         val ratingbar by lazy { mItemView.find<RatingBar>(R.id.ratingbar) }
         val page by lazy { mItemView.find<TextView>(R.id.page) }
+        val genres by lazy { mItemView.find<TextView>(R.id.genres) }
+        val org_name by lazy { mItemView.find<TextView>(R.id.org_name) }
     }
 
 }

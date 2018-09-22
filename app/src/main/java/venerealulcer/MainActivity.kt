@@ -7,8 +7,6 @@ import android.support.v4.view.ViewPager
 import android.support.v4.widget.DrawerLayout
 import android.view.Menu
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
-import douban.Douban
-import douban.FilmAdapter
 import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.onRefresh
@@ -60,13 +58,8 @@ class MainActivity : BaseActivity() {
     }
 
     private fun settingMenu_Click() {
-        Rx.get {
-            Douban.getCurrentCity()
-        }.set {
-            println(it)
-        }
-//        setPrimaryColor(R.color.md_cyan_600)
-//        recreate()
+        setPrimaryColor(R.color.md_cyan_600)
+        recreate()
     }
 
     private fun onSwipeRefresh() {

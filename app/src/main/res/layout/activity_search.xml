@@ -20,42 +20,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
-            <LinearLayout
-                    android:orientation="horizontal"
+            <com.arlib.floatingsearchview.FloatingSearchView
+                    android:id="@+id/floating_search_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                <ImageButton
-                        android:id="@+id/back_imagebtn"
-                        android:layout_marginStart="5dp"
-                        style="?android:attr/actionButtonStyle"
-                        android:layout_gravity="center_vertical"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-                <android.support.v7.widget.SearchView
-                        android:id="@+id/search_view"
-                        app:submitBackground="@null"
-                        app:searchIcon="@null"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
-
-            </LinearLayout>
-
-            <View android:layout_width="match_parent"
-                  android:layout_gravity="bottom"
-                  android:layout_marginStart="20dp"
-                  android:layout_marginEnd="20dp"
-                  android:layout_marginBottom="8dp"
-                  android:background="@color/md_grey_200"
-                  android:alpha="0.5"
-                  android:layout_height="1dp"/>
+                    android:layout_height="?actionBarSize"
+                    app:floatingSearch_searchHint="Search..."
+                    app:floatingSearch_suggestionsListAnimDuration="250"
+                    app:floatingSearch_leftActionMode="showHome"
+                    app:floatingSearch_close_search_on_keyboard_dismiss="true"/>
 
         </FrameLayout>
 
     </android.support.design.widget.AppBarLayout>
-
 
     <util.VerticalSwipeRefreshLayout
             android:id="@+id/mSwipeLayout"
@@ -71,3 +47,4 @@
     </util.VerticalSwipeRefreshLayout>
 
 </android.support.design.widget.CoordinatorLayout>
+
