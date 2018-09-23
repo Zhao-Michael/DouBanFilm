@@ -38,6 +38,7 @@ import org.apache.commons.lang3.StringEscapeUtils
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import venerealulcer.App
+import venerealulcer.R
 import java.lang.reflect.Field
 import java.net.URLDecoder
 import java.net.URLEncoder

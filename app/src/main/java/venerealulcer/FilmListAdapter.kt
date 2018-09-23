@@ -14,7 +14,7 @@ import util.FilmAdapter
 import util.Rx
 
 
-class FilmPageAdapter(context: Context, show_loading: (b: Boolean) -> Unit) : PagerAdapter() {
+class FilmListAdapter(context: Context, show_loading: (b: Boolean) -> Unit) : PagerAdapter() {
 
     private val mContext = context
     private val mListRecycler = mutableListOf<RecyclerView>()

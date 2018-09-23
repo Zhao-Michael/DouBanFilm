@@ -29,6 +29,7 @@
                     android:layout_margin="5dp"
                     android:background="@color/md_grey_300"
                     android:scaleType="centerCrop"
+                    android:src="@drawable/loading_large"
                     android:layout_width="89dp"
                     android:layout_height="135dp"/>
 

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent" xmlns:card_view="http://schemas.android.com/tools"
+        android:fitsSystemWindows="true"
+        android:clipChildren="false"
+        android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+            android:fitsSystemWindows="true"
+            android:layout_width="match_parent"
+            android:layout_height="250dp">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/collapse_layout"
+                android:fitsSystemWindows="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <ImageView
+                    android:id="@+id/img_activity_info"
+                    android:fitsSystemWindows="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#F2F2F2"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/loading_large"
+                    app:expandedTitleMarginStart="?attr/actionBarSize"
+                    app:layout_collapseMode="parallax"/>
+
+            <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    app:layout_collapseMode="pin"
+                    android:layout_height="?attr/actionBarSize"/>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <util.VerticalSwipeRefreshLayout
+            android:id="@+id/mSwipeLayout"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <LinearLayout android:orientation="vertical"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent">
+
+            <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    card_view:cardElevation="1dp"
+                    card_view:cardPreventCornerOverlap="true"
+                    android:layout_height="wrap_content">
+
+                <android.support.design.widget.TabLayout
+                        android:id="@+id/mTabLayout"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"/>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v4.view.ViewPager
+                    android:id="@+id/mViewPager"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+    </util.VerticalSwipeRefreshLayout>
+
+</android.support.design.widget.CoordinatorLayout>

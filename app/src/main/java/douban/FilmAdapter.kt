@@ -8,19 +8,17 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.hedgehog.ratingbar.RatingBar
-import imageplayer.ImageViewActivity.Companion.ShowImages
 import org.jetbrains.anko.find
 import util.*
+import venerealulcer.FilmDetailActivity
 import venerealulcer.R
 
 class FilmAdapter(listViews: FilmList, context: Context) : RecyclerView.Adapter<FilmAdapter.ViewHolder>() {
     private val mContext = context
     private var mFilmList: FilmList = listViews
-    private var mOnClickListener: View.OnClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = mContext.inflate(R.layout.listitem_film_layout, parent)
-        view.OnClick { mOnClickListener?.onClick(view) }
         return ViewHolder(view)
     }
 
@@ -43,16 +41,12 @@ class FilmAdapter(listViews: FilmList, context: Context) : RecyclerView.Adapter<
         holder.actor.text = film.casts.joinToString("/") { it.name }
         holder.ratingbar.setStar((film.rating.stars.toInt() / 10.0).toFloat())
         if (film.rating.stars.toInt() == 0) {
-            holder.ratingbar.Hide()
+            holder.ratingbar.visibility = View.GONE
             holder.rate.text = "暂无评分"
         }
         holder.page.text = (holder.adapterPosition + 1).toString()
         holder.image.setImageUrl(film.images.small)
-    }
-
-
-    fun setOnClickListener(list: View.OnClickListener) {
-        mOnClickListener = list
+        holder.cardview.OnClick { FilmDetailActivity.ShowFilmDetail(film.id) }
     }
 
     class ViewHolder(mItemView: View) : RecyclerView.ViewHolder(mItemView) {

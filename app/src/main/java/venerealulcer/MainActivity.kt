@@ -1,5 +1,6 @@
 package venerealulcer
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.view.GravityCompat
@@ -36,7 +37,13 @@ class MainActivity : BaseActivity() {
         mTableLayout.tabMode = TabLayout.MODE_SCROLLABLE
         mTableLayout.setSelectedTabIndicatorColor(getPrimaryColor())
         mTableLayout.setTabTextColors(getColorValue(R.color.divider_color), getPrimaryColor())
-        mViewPager.adapter = FilmPageAdapter(this) { b -> if (b) mSwipeLayout.ShowRefresh() else mSwipeLayout.HideRefresh() }
+        val showSwipe: (Boolean) -> Unit = { b ->
+            if (b)
+                mSwipeLayout.ShowRefresh()
+            else
+                mSwipeLayout.HideRefresh()
+        }
+        mViewPager.adapter = FilmListAdapter(this, showSwipe)
         mTableLayout.setTabStyle()
     }
 
@@ -63,7 +70,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun onSwipeRefresh() {
-        (mViewPager.adapter as FilmPageAdapter).updatePageFromNet(mTableLayout.selectedTabPosition)
+        (mViewPager.adapter as FilmListAdapter).updatePageFromNet(mTableLayout.selectedTabPosition)
     }
 
     private fun searchMenu_Click() {

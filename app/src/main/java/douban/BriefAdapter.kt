@@ -11,6 +11,7 @@ import org.jetbrains.anko.find
 import util.OnClick
 import util.inflate
 import util.setImageUrl
+import venerealulcer.FilmDetailActivity
 import venerealulcer.R
 
 class BriefAdapter(listViews: Array<SearchBrief>, context: Context) : RecyclerView.Adapter<BriefAdapter.ViewHolder>() {
@@ -40,10 +41,12 @@ class BriefAdapter(listViews: Array<SearchBrief>, context: Context) : RecyclerVi
         if (sb.year != null && sb.year.isNotBlank())
             holder.year.text = sb.year
         holder.page.text = (holder.adapterPosition + 1).toString()
+        holder.view.OnClick { FilmDetailActivity.ShowFilmDetail(sb.id) }
     }
 
 
     class ViewHolder(mItemView: View) : RecyclerView.ViewHolder(mItemView) {
+        val view = mItemView
         val image by lazy { mItemView.find<ImageView>(R.id.image) }
         val title by lazy { mItemView.find<TextView>(R.id.title) }
         val year by lazy { mItemView.find<TextView>(R.id.year) }
