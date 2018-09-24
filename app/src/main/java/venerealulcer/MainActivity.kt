@@ -1,6 +1,5 @@
 package venerealulcer
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.view.GravityCompat
@@ -8,6 +7,7 @@ import android.support.v4.view.ViewPager
 import android.support.v4.widget.DrawerLayout
 import android.view.Menu
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import douban.FilmPageAdapter
 import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.onRefresh
@@ -43,7 +43,7 @@ class MainActivity : BaseActivity() {
             else
                 mSwipeLayout.HideRefresh()
         }
-        mViewPager.adapter = FilmListAdapter(this, showSwipe)
+        mViewPager.adapter = FilmPageAdapter(this, showSwipe)
         mTableLayout.setTabStyle()
     }
 
@@ -70,7 +70,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun onSwipeRefresh() {
-        (mViewPager.adapter as FilmListAdapter).updatePageFromNet(mTableLayout.selectedTabPosition)
+        (mViewPager.adapter as FilmPageAdapter).updatePageFromNet(mTableLayout.selectedTabPosition)
     }
 
     private fun searchMenu_Click() {

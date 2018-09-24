@@ -47,6 +47,7 @@ class DouBan {
         return Gson().fromJson(html)
     }
 
+    //获取当前 IP 所在城市
     fun getCurrentCity(): IPCity {
         val url = mIPCity
         val html = GetUrlContent(url)

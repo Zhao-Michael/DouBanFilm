@@ -4,4 +4,20 @@
         <item name="android:textColorSecondary">@android:color/white</item>
     </style>
 
+    <style name="NumberProgressBar_Yellow">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+
+        <item name="progress_max">100</item>
+        <item name="progress_current">0</item>
+
+        <item name="progress_unreached_color">#CCCCCC</item>
+        <item name="progress_reached_color">#FFBB33</item>
+        <item name="progress_text_size">10sp</item>
+        <item name="progress_text_color">#FFBB33</item>
+
+        <item name="progress_reached_bar_height">10dp</item>
+        <item name="progress_unreached_bar_height">0dp</item>
+    </style>
+
 </resources>

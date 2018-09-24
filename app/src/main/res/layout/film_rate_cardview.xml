@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:custom_view="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:foreground="?attr/selectableItemBackground"
+        android:layout_margin="5dp"
+        custom_view:cardElevation="5dp"
+        android:clickable="true"
+        android:focusable="true"
+        custom_view:cardPreventCornerOverlap="true">
+
+    <LinearLayout android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content">
+
+        <LinearLayout android:orientation="vertical"
+                      android:layout_margin="10dp"
+                      android:layout_width="0dp"
+                      android:layout_weight="1"
+                      android:layout_height="wrap_content">
+
+            <LinearLayout android:orientation="horizontal"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content">
+
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="5 星"/>
+
+                <com.daimajia.numberprogressbar.NumberProgressBar
+                        android:id="@+id/rate_progress_5"
+                        style="@style/NumberProgressBar_Yellow"
+                        tools:progress_text_visibility="visible"
+                        custom_view:progress_current="50"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout android:orientation="horizontal"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content">
+
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="4 星"/>
+
+                <com.daimajia.numberprogressbar.NumberProgressBar
+                        android:id="@+id/rate_progress_4"
+                        style="@style/NumberProgressBar_Yellow"
+                        tools:progress_text_visibility="visible"
+                        custom_view:progress_current="50"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout android:orientation="horizontal"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content">
+
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="3 星"/>
+
+                <com.daimajia.numberprogressbar.NumberProgressBar
+                        android:id="@+id/rate_progress_3"
+                        style="@style/NumberProgressBar_Yellow"
+                        tools:progress_text_visibility="visible"
+                        custom_view:progress_current="50"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout android:orientation="horizontal"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content">
+
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="2 星"/>
+
+                <com.daimajia.numberprogressbar.NumberProgressBar
+                        android:id="@+id/rate_progress_2"
+                        style="@style/NumberProgressBar_Yellow"
+                        tools:progress_text_visibility="visible"
+                        custom_view:progress_current="50"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout android:orientation="horizontal"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content">
+
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="1 星"/>
+
+                <com.daimajia.numberprogressbar.NumberProgressBar
+                        android:id="@+id/rate_progress_1"
+                        style="@style/NumberProgressBar_Yellow"
+                        tools:progress_text_visibility="visible"
+                        custom_view:progress_current="50"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <FrameLayout
+                android:layout_marginEnd="10dp"
+                android:layout_gravity="center_vertical"
+                android:layout_width="100dp"
+                android:layout_height="100dp">
+
+            <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <TextView
+                        android:id="@+id/text_rate"
+                        android:text="0.0"
+                        android:textStyle="bold"
+                        android:textSize="28sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="41dp"
+                        android:layout_marginTop="12dp"
+                        custom_view:layout_constraintTop_toTopOf="parent"
+                        custom_view:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+                        custom_view:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
+
+                <com.hedgehog.ratingbar.RatingBar
+                        android:id="@+id/rate_bar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="16dp"
+                        custom_view:clickable="false"
+                        custom_view:halfstart="true"
+                        android:layout_margin="1dp"
+                        custom_view:starEmpty="@mipmap/ic_star_empty"
+                        custom_view:starFill="@mipmap/ic_star_fill"
+                        custom_view:starHalf="@drawable/ic_star_half"
+                        custom_view:starCount="5"
+                        custom_view:starImageHeight="16dp"
+                        custom_view:starImageWidth="16dp"
+                        android:paddingStart="5dp"
+                        tools:ignore="RtlSymmetry"
+                        android:layout_marginTop="4dp"
+                        custom_view:layout_constraintTop_toBottomOf="@+id/text_rate"
+                        custom_view:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        custom_view:layout_constraintEnd_toEndOf="parent"/>
+
+                <TextView android:id="@+id/text_rate_descript"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:textSize="10sp"
+                          custom_view:layout_constraintTop_toBottomOf="@+id/rate_bar"
+                          custom_view:layout_constraintStart_toStartOf="parent"
+                          android:layout_marginEnd="8dp"
+                          custom_view:layout_constraintEnd_toEndOf="parent"
+                          custom_view:layout_constraintHorizontal_bias="0.5"
+                          android:layout_marginTop="4dp"
+                          android:layout_marginStart="8dp"/>
+
+            </android.support.constraint.ConstraintLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

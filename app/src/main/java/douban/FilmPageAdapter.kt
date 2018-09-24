@@ -1,4 +1,4 @@
-package venerealulcer
+package douban
 
 import android.content.Context
 import android.support.v4.view.PagerAdapter
@@ -7,14 +7,11 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.orhanobut.hawk.Hawk
-import douban.Douban
-import douban.FilmAdapter
-import douban.FilmList
 import util.FilmAdapter
 import util.Rx
 
-
-class FilmListAdapter(context: Context, show_loading: (b: Boolean) -> Unit) : PagerAdapter() {
+//电影列表 切换
+class FilmPageAdapter(context: Context, show_loading: (b: Boolean) -> Unit) : PagerAdapter() {
 
     private val mContext = context
     private val mListRecycler = mutableListOf<RecyclerView>()

@@ -1,15 +1,18 @@
-package venerealulcer
+package douban
 
 import android.content.Context
 import android.support.v4.view.PagerAdapter
 import android.view.View
 import android.view.ViewGroup
-import douban.FilmDetail
+import douban.subfilmview.IFilmView
+import douban.subfilmview.FilmView
+import douban.subfilmview.FilmViewSummary
 
+//电影详情页面
 class FilmDetailAdapter(context: Context, filmDetail: FilmDetail?, show_loading: (b: Boolean) -> Unit) : PagerAdapter() {
 
     private val mContext = context
-    private val mListRecycler = mutableListOf<View>()
+    private val mListRecycler = mutableListOf<IFilmView>()
     private val mListTitle = mutableListOf<String>()
     private var mShowLoading: (Boolean) -> Unit = show_loading
     private val mFilmDetail: FilmDetail? = filmDetail
@@ -27,19 +30,25 @@ class FilmDetailAdapter(context: Context, filmDetail: FilmDetail?, show_loading:
         } else {
             mListRecycler.clear()
             mListTitle.forEach {
-                mListRecycler.add(View(context))
+                mListRecycler.add(FilmView(context))
             }
         }
     }
 
     private fun initUI(filmDetail: FilmDetail) {
         mListRecycler.clear()
+        mListRecycler.add(FilmViewSummary(mContext, filmDetail))
+        mListRecycler.add(FilmViewSummary(mContext, filmDetail))
+        mListRecycler.add(FilmViewSummary(mContext, filmDetail))
+        mListRecycler.add(FilmViewSummary(mContext, filmDetail))
+        mListRecycler.add(FilmViewSummary(mContext, filmDetail))
+        mListRecycler.add(FilmViewSummary(mContext, filmDetail))
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view = mListRecycler[position]
-        container.addView(view)
-        return view
+        container.addView(view.getView())
+        return view.getView()
     }
 
     override fun isViewFromObject(p0: View, p1: Any): Boolean {
@@ -58,7 +67,7 @@ class FilmDetailAdapter(context: Context, filmDetail: FilmDetail?, show_loading:
         return mListTitle[position]
     }
 
-    fun getRecyclerView(position: Int): View {
+    fun getRecyclerView(position: Int): IFilmView {
         return mListRecycler[position]
     }
 

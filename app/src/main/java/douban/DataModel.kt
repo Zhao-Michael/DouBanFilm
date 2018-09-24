@@ -127,6 +127,10 @@ data class Writer(
 )
 
 class Details {
+    fun sum(): Double {
+        return star1 + star2 + star3 + star4 + star5
+    }
+
     @SerializedName("1")
     var star1: Double = 0.0
 

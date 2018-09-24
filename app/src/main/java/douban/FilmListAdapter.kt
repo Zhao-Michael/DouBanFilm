@@ -13,7 +13,8 @@ import util.*
 import venerealulcer.FilmDetailActivity
 import venerealulcer.R
 
-class FilmAdapter(listViews: FilmList, context: Context) : RecyclerView.Adapter<FilmAdapter.ViewHolder>() {
+//电影列表
+class FilmListAdapter(listViews: FilmList, context: Context) : RecyclerView.Adapter<FilmListAdapter.ViewHolder>() {
     private val mContext = context
     private var mFilmList: FilmList = listViews
 
@@ -50,6 +51,7 @@ class FilmAdapter(listViews: FilmList, context: Context) : RecyclerView.Adapter<
     }
 
     class ViewHolder(mItemView: View) : RecyclerView.ViewHolder(mItemView) {
+
         val cardview by lazy { mItemView.find<CardView>(R.id.cardview) }
         val image by lazy { mItemView.find<ImageView>(R.id.image) }
         val title by lazy { mItemView.find<TextView>(R.id.title) }

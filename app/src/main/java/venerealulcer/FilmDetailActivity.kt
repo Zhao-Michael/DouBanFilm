@@ -5,14 +5,15 @@ import android.os.Bundle
 import android.support.design.widget.CollapsingToolbarLayout
 import android.support.design.widget.Snackbar
 import android.support.design.widget.TabLayout
-import android.support.v4.view.GravityCompat
 import android.support.v4.view.ViewPager
 import android.widget.ImageView
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import douban.Douban
 import douban.FilmDetail
+import douban.FilmDetailAdapter
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.find
+import org.jetbrains.anko.support.v4.onRefresh
 import util.*
 
 class FilmDetailActivity : BaseActivity() {
@@ -74,16 +75,16 @@ class FilmDetailActivity : BaseActivity() {
         }.set {
             updateFilmDetail(it)
         }.err {
-            uiThread { Snackbar.make(mCollapseLayout, "${it.message}", Snackbar.LENGTH_INDEFINITE) }
+            Snackbar.make(mViewPager, "${it.message}", Snackbar.LENGTH_INDEFINITE).show()
         }.com {
-            showRefresh(false)
+            mSwipeLayout.isEnabled = false
         }
     }
 
     private fun updateFilmDetail(film: FilmDetail) {
         mImageView.setImageUrl(film.images.large)
         setToolBarTitle(film.title)
-        mViewPager.adapter = FilmDetailAdapter(this, null) { showRefresh(it) }
+        mViewPager.adapter = FilmDetailAdapter(this, film) { showRefresh(it) }
     }
 
 }

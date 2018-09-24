@@ -24,21 +24,19 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
 import douban.BriefAdapter
-import douban.FilmAdapter
+import douban.FilmListAdapter
 import douban.FilmList
 import douban.SearchBrief
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Action
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import org.apache.commons.lang3.StringEscapeUtils
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import venerealulcer.App
-import venerealulcer.R
 import java.lang.reflect.Field
 import java.net.URLDecoder
 import java.net.URLEncoder
@@ -177,10 +175,10 @@ fun Context.inflate(id: Int, viewGroup: ViewGroup): View {
 
 var RecyclerView.FilmAdapter: FilmList
     get() {
-        return (adapter as FilmAdapter).getFilmList()
+        return (adapter as FilmListAdapter).getFilmList()
     }
     set(it) {
-        uiThread { adapter = FilmAdapter(it, context) }
+        uiThread { adapter = FilmListAdapter(it, context) }
     }
 
 var RecyclerView.BriefAdapter: Array<SearchBrief>
@@ -320,11 +318,15 @@ class Rx<T> private constructor() : Observer<T> {
     }
 
     override fun onNext(t: T) {
-        onNext.accept(t)
+        try {
+            onNext.accept(t)
+        } catch (ex: Exception) {
+            onError.accept(ex)
+        }
     }
 
-    override fun onError(e: Throwable) {
-        onError.accept(e)
+    override fun onError(ex: Throwable) {
+        onError.accept(ex)
         onComplete()
     }
 

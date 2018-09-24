@@ -20,8 +20,7 @@
             tools:replace="android:icon"
             android:supportsRtl="true">
 
-        <activity android:name="venerealulcer.MainActivity"
-                  android:launchMode="singleTask">
+        <activity android:name="venerealulcer.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

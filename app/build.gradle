@@ -39,7 +39,8 @@ dependencies {
     implementation "org.jetbrains.anko:anko-appcompat-v7:$anko_version"
     implementation "org.jetbrains.anko:anko-coroutines:$anko_version"
     implementation "org.jetbrains.anko:anko-cardview-v7:$anko_version"
-    
+
+    implementation 'com.daimajia.numberprogressbar:library:1.4@aar'
     implementation 'com.github.arimorty:floatingsearchview:2.1.1'
     implementation 'com.hedgehog.ratingbar:app:1.1.2'
     implementation "com.orhanobut:hawk:2.0.1"
@@ -53,6 +54,7 @@ dependencies {
     implementation 'com.mikepenz:iconics-core:3.0.3@aar'
     implementation 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'
     implementation 'junit:junit:4.12'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 }
 
 android {
