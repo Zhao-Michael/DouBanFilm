@@ -15,11 +15,13 @@
                      app:layout_scrollFlags="scroll|enterAlways"
                      android:layout_height="wrap_content">
 
+            <!--suppress AndroidDomInspection -->
             <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"/>
 
+            <!--suppress AndroidDomInspection -->
             <com.arlib.floatingsearchview.FloatingSearchView
                     android:id="@+id/floating_search_view"
                     android:layout_width="match_parent"

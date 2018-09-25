@@ -19,6 +19,7 @@
                 app:layout_scrollFlags="scroll|enterAlways"
                 android:layout_height="wrap_content">
 
+            <!--suppress AndroidDomInspection -->
             <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
                     app:layout_scrollFlags="scroll|enterAlways"

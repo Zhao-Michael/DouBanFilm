@@ -20,4 +20,8 @@
         <item name="progress_unreached_bar_height">0dp</item>
     </style>
 
+    <style name="collapsing_toolbarTitle">
+        <item name="android:textSize">20sp</item>
+    </style>
+
 </resources>

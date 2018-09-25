@@ -262,7 +262,7 @@ fun TabLayout.setTabStyle(dstDip: Int = 10) {
 fun ImageView.setImageUrl(url: String) {
     Glide.with(context)
             .load(url)
-            .apply(RequestOptions.centerCropTransform().centerCrop())
+            .apply(RequestOptions.centerCropTransform())
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(this)
 }
