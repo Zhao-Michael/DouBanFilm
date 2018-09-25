@@ -5,6 +5,7 @@ import android.widget.TextView
 import com.daimajia.numberprogressbar.NumberProgressBar
 import com.hedgehog.ratingbar.RatingBar
 import douban.FilmDetail
+import douban.FilmListAdapter
 import venerealulcer.R
 import org.jetbrains.anko.find
 
@@ -15,25 +16,18 @@ class FilmViewSummary(context: Context, filmDetail: FilmDetail) : IFilmView(cont
     private val mTextBrief by lazy { mView.find<TextView>(R.id.mTextBrief) }
 
     init {
-        initPoster(mFilmDetail)
+        initSummary(mFilmDetail)
         initFilmBrief(mFilmDetail)
         initFilmRate(mFilmDetail)
+
+
     }
 
     private fun initFilmBrief(film: FilmDetail) {
-        getTextView(R.id.org_name).text = film.original_title
-        getTextView(R.id.other_name).text = film.aka.joinToString("\n")
-        getTextView(R.id.genres).text = film.genres.joinToString("/")
-        getTextView(R.id.durations).text = film.durations.joinToString("/")
-        getTextView(R.id.year).text = film.year
-        getTextView(R.id.pubdate).text = film.pubdates.joinToString("/")
-        getTextView(R.id.country).text = film.countries.joinToString("/")
-        getTextView(R.id.director).text = film.directors.joinToString("/") { it.name }
-        getTextView(R.id.actor).text = film.casts.joinToString("/") { it.name }
-        getTextView(R.id.language).text = film.languages.joinToString("/")
+        FilmListAdapter.ViewHolder(mView).setFilmDetail(film)
     }
 
-    private fun initPoster(film: FilmDetail) {
+    private fun initSummary(film: FilmDetail) {
         mTextBrief.text = film.summary.trim()
     }
 

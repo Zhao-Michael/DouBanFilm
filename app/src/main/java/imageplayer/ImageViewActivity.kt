@@ -11,6 +11,7 @@ import org.jetbrains.anko.find
 import org.jetbrains.anko.image
 import org.jetbrains.anko.toast
 import util.OnClick
+import util.setIcon
 import venerealulcer.BaseActivity
 import venerealulcer.R
 
@@ -58,8 +59,8 @@ class ImageViewActivity : BaseActivity() {
             }
         }
 
-        mBtnMore.image = getDrawableIcon(GoogleMaterial.Icon.gmd_more_vert)
-        mBtnClose.image = getDrawableIcon(GoogleMaterial.Icon.gmd_close)
+        mBtnMore.setIcon(GoogleMaterial.Icon.gmd_more_vert)
+        mBtnClose.setIcon(GoogleMaterial.Icon.gmd_close)
         mBtnClose.OnClick { finish() }
     }
 }

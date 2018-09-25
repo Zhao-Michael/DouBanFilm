@@ -5,6 +5,7 @@ package util
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.Color
 import android.support.design.widget.TabLayout
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.RecyclerView
@@ -23,6 +24,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
+import com.mikepenz.iconics.IconicsDrawable
+import com.mikepenz.iconics.typeface.IIcon
 import douban.BriefAdapter
 import douban.FilmListAdapter
 import douban.FilmList
@@ -35,6 +38,8 @@ import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import org.apache.commons.lang3.StringEscapeUtils
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.image
+import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.uiThread
 import venerealulcer.App
 import java.lang.reflect.Field
@@ -123,11 +128,9 @@ fun View.Hide(): View {
     return this
 }
 
-
 fun Activity.GetText(id: Int): String {
     return getText(id).toString()
 }
-
 
 fun MenuItem.OnItemClick(action: () -> Unit): MenuItem {
     setOnMenuItemClickListener {
@@ -262,6 +265,14 @@ fun ImageView.setImageUrl(url: String) {
             .apply(RequestOptions.centerCropTransform().centerCrop())
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(this)
+}
+
+fun ImageView.setIcon(icon: IIcon) {
+    image = IconicsDrawable(context).icon(icon).color(Color.WHITE).sizeDp(18)
+}
+
+fun ImageView.setIcon(icon: IIcon, color: Int, size: Int) {
+    image = IconicsDrawable(context).icon(icon).color(color).sizeDp(size)
 }
 
 fun View.SetHeight(height: Int) {

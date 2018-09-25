@@ -28,6 +28,7 @@
 
                 <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
+                          android:textSize="12sp"
                           android:text="5 星"/>
 
                 <com.daimajia.numberprogressbar.NumberProgressBar
@@ -49,6 +50,7 @@
 
                 <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
+                          android:textSize="12sp"
                           android:text="4 星"/>
 
                 <com.daimajia.numberprogressbar.NumberProgressBar
@@ -70,6 +72,7 @@
 
                 <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
+                          android:textSize="12sp"
                           android:text="3 星"/>
 
                 <com.daimajia.numberprogressbar.NumberProgressBar
@@ -91,6 +94,7 @@
 
                 <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
+                          android:textSize="12sp"
                           android:text="2 星"/>
 
                 <com.daimajia.numberprogressbar.NumberProgressBar
@@ -112,6 +116,7 @@
 
                 <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
+                          android:textSize="12sp"
                           android:text="1 星"/>
 
                 <com.daimajia.numberprogressbar.NumberProgressBar
