@@ -7,10 +7,10 @@ import android.support.design.widget.Snackbar
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.view.Gravity
+import android.view.View
 import android.widget.ImageView
-import android.widget.RelativeLayout
 import com.bumptech.glide.Glide
-import com.github.florent37.glidepalette.BitmapPalette.Profile.*
+import com.github.florent37.glidepalette.BitmapPalette.Profile.MUTED
 import com.github.florent37.glidepalette.GlidePalette
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import douban.Douban
@@ -36,7 +36,7 @@ class FilmDetailActivity : BaseActivity() {
     private val mImageView by lazy { find<ImageView>(R.id.img_activity_info) }
     private val mViewPager by lazy { find<ViewPager>(R.id.mViewPager) }
     private val mTableLayout by lazy { find<TabLayout>(R.id.mTabLayout) }
-    private val mPosterLayout by lazy { find<RelativeLayout>(R.id.layout_poster) }
+    private val mPosterLayout by lazy { find<View>(R.id.layout_poster) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +65,7 @@ class FilmDetailActivity : BaseActivity() {
         mTableLayout.setSelectedTabIndicatorColor(getPrimaryColor())
         mTableLayout.setTabTextColors(getColorValue(R.color.divider_color), getPrimaryColor())
         mTableLayout.setTabStyle()
-        mViewPager.adapter = FilmDetailAdapter(this, null) { showRefresh(it) }
+        mViewPager.adapter = FilmDetailAdapter(this, null)
     }
 
     private fun showRefresh(b: Boolean) {
@@ -90,17 +90,18 @@ class FilmDetailActivity : BaseActivity() {
     }
 
     private fun updateFilmDetail(film: FilmDetail) {
-        updatePosterImage(film.images.large)
+        updatePosterImage(film.images.large, film.title)
         setToolBarTitle(film.title)
-        mViewPager.adapter = FilmDetailAdapter(this, film) { showRefresh(it) }
+        mViewPager.adapter = FilmDetailAdapter(this, film)
     }
 
-    private fun updatePosterImage(url: String) {
+    private fun updatePosterImage(url: String, title: String) {
         Glide.with(this)
                 .load(url)
                 .listener(GlidePalette.with(url)
-                        .use(MUTED)
-                        .intoBackground(mPosterLayout)
+                        .use(MUTED).intoCallBack {
+                            mPosterLayout.background = CreateRepeatDrawable(title, it?.mutedSwatch?.rgb!!, resources)
+                        }
                         .crossfade(true))
                 .into(mImageView)
     }

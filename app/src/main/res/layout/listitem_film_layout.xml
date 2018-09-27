@@ -15,206 +15,194 @@
         card_view:cardPreventCornerOverlap="true">
 
     <FrameLayout android:layout_width="match_parent"
-                 android:layout_height="match_parent">
+                 android:layout_height="wrap_content">
 
-        <LinearLayout android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:orientation="vertical">
+        <LinearLayout
+                android:id="@+id/layout_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:orientation="horizontal">
 
-            <LinearLayout android:layout_width="match_parent"
-                          android:orientation="vertical"
-                          android:layout_height="wrap_content">
+            <ImageView
+                    android:id="@+id/image"
+                    android:layout_margin="5dp"
+                    android:background="@color/md_grey_300"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/loading_large"
+                    android:layout_width="89dp"
+                    android:layout_height="135dp"/>
 
-                <LinearLayout
-                        android:id="@+id/layout_item"
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <TextView
+                        android:id="@+id/title"
+                        android:textSize="16sp"
+                        android:layout_marginBottom="2dp"
+                        android:layout_marginEnd="2dp"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginTop="6dp"
+                        android:textStyle="bold"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:focusable="false"
-                        android:orientation="horizontal">
+                        android:layout_height="wrap_content"/>
 
-                    <ImageView
-                            android:id="@+id/image"
-                            android:layout_margin="5dp"
-                            android:background="@color/md_grey_300"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/loading_large"
-                            android:layout_width="89dp"
-                            android:layout_height="135dp"/>
+                <LinearLayout android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_marginEnd="10dp"
+                              android:id="@+id/layout_org_name"
+                              android:orientation="horizontal">
 
-                    <LinearLayout
-                            android:orientation="vertical"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                    <TextView android:layout_margin="1dp"
+                              android:text="原名："
+                              android:textSize="12sp"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"/>
 
-                        <TextView
-                                android:id="@+id/title"
-                                android:textSize="16sp"
-                                android:layout_marginBottom="2dp"
-                                android:layout_marginEnd="2dp"
-                                android:layout_marginStart="2dp"
-                                android:layout_marginTop="6dp"
-                                android:textStyle="bold"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"/>
-
-                        <LinearLayout android:layout_width="wrap_content"
-                                      android:layout_height="wrap_content"
-                                      android:layout_marginEnd="10dp"
-                                      android:id="@+id/layout_org_name"
-                                      android:orientation="horizontal">
-
-                            <TextView android:layout_margin="1dp"
-                                      android:text="原名："
-                                      android:textSize="12sp"
-                                      android:layout_width="wrap_content"
-                                      android:layout_height="wrap_content"/>
-
-                            <TextView
-                                    android:id="@+id/org_name"
-                                    android:layout_margin="1dp"
-                                    android:ellipsize="end"
-                                    android:lines="1"
-                                    android:textSize="12sp"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"/>
-
-                        </LinearLayout>
-
-                        <LinearLayout android:layout_width="wrap_content"
-                                      android:layout_height="wrap_content"
-                                      android:layout_marginEnd="10dp"
-                                      android:orientation="horizontal">
-
-                            <TextView android:layout_margin="1dp"
-                                      android:text="类型："
-                                      android:textSize="12sp"
-                                      android:layout_width="wrap_content"
-                                      android:layout_height="wrap_content"/>
-
-                            <TextView
-                                    android:id="@+id/genres"
-                                    android:layout_margin="1dp"
-                                    android:ellipsize="end"
-                                    android:lines="1"
-                                    android:textSize="12sp"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"/>
-
-                        </LinearLayout>
-
-                        <LinearLayout android:layout_width="wrap_content"
-                                      android:layout_height="wrap_content"
-                                      android:orientation="horizontal">
-
-                            <TextView android:layout_margin="1dp"
-                                      android:text="年份："
-                                      android:textSize="12sp"
-                                      android:layout_width="match_parent"
-                                      android:layout_height="wrap_content"/>
-
-                            <TextView
-                                    android:id="@+id/year"
-                                    android:textSize="12sp"
-                                    android:layout_margin="1dp"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"/>
-
-                        </LinearLayout>
-
-                        <LinearLayout android:layout_width="wrap_content"
-                                      android:layout_height="wrap_content"
-                                      android:orientation="horizontal">
-
-                            <TextView android:layout_margin="1dp"
-                                      android:text="评分："
-                                      android:textSize="12sp"
-                                      android:layout_width="wrap_content"
-                                      android:layout_height="wrap_content"/>
-
-                            <TextView
-                                    android:id="@+id/rate"
-                                    android:layout_margin="1dp"
-                                    android:ellipsize="end"
-                                    android:textSize="12sp"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"/>
-
-                            <com.hedgehog.ratingbar.RatingBar
-                                    android:id="@+id/ratingbar"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    hedgehog:clickable="false"
-                                    hedgehog:halfstart="true"
-                                    android:layout_margin="1dp"
-                                    hedgehog:starEmpty="@mipmap/ic_star_empty"
-                                    hedgehog:starFill="@mipmap/ic_star_fill"
-                                    hedgehog:starHalf="@drawable/ic_star_half"
-                                    hedgehog:starCount="5"
-                                    hedgehog:starImageHeight="16dp"
-                                    hedgehog:starImageWidth="16dp"
-                                    android:paddingStart="5dp"
-                                    tools:ignore="RtlSymmetry"/>
-
-                        </LinearLayout>
-
-                        <LinearLayout android:layout_width="wrap_content"
-                                      android:layout_height="wrap_content"
-                                      android:layout_marginEnd="10dp"
-                                      android:orientation="horizontal">
-
-                            <TextView android:layout_margin="1dp"
-                                      android:text="导演："
-                                      android:textSize="12sp"
-                                      android:layout_width="wrap_content"
-                                      android:layout_height="wrap_content"/>
-
-                            <TextView
-                                    android:id="@+id/director"
-                                    android:layout_margin="1dp"
-                                    android:ellipsize="end"
-                                    android:lines="1"
-                                    android:textSize="12sp"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"/>
-
-                        </LinearLayout>
-
-                        <LinearLayout android:layout_width="wrap_content"
-                                      android:layout_height="wrap_content"
-                                      android:layout_marginEnd="10dp"
-                                      android:orientation="horizontal">
-
-                            <TextView android:layout_margin="1dp"
-                                      android:text="演员："
-                                      android:textSize="12sp"
-                                      android:layout_width="wrap_content"
-                                      android:layout_height="wrap_content"/>
-
-                            <TextView
-                                    android:id="@+id/actor"
-                                    android:layout_margin="1dp"
-                                    android:ellipsize="end"
-                                    android:lines="1"
-                                    android:textSize="12sp"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"/>
-
-                        </LinearLayout>
-
-                    </LinearLayout>
+                    <TextView
+                            android:id="@+id/org_name"
+                            android:layout_margin="1dp"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:textSize="12sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
 
                 </LinearLayout>
 
+                <LinearLayout android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_marginEnd="10dp"
+                              android:orientation="horizontal">
+
+                    <TextView android:layout_margin="1dp"
+                              android:text="类型："
+                              android:textSize="12sp"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"/>
+
+                    <TextView
+                            android:id="@+id/genres"
+                            android:layout_margin="1dp"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:textSize="12sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <LinearLayout android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:orientation="horizontal">
+
+                    <TextView android:layout_margin="1dp"
+                              android:text="年份："
+                              android:textSize="12sp"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"/>
+
+                    <TextView
+                            android:id="@+id/year"
+                            android:textSize="12sp"
+                            android:layout_margin="1dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <LinearLayout android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:orientation="horizontal">
+
+                    <TextView android:layout_margin="1dp"
+                              android:text="评分："
+                              android:textSize="12sp"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"/>
+
+                    <TextView
+                            android:id="@+id/rate"
+                            android:layout_margin="1dp"
+                            android:ellipsize="end"
+                            android:textSize="12sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    <com.hedgehog.ratingbar.RatingBar
+                            android:id="@+id/ratingbar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            hedgehog:clickable="false"
+                            hedgehog:halfstart="true"
+                            android:layout_margin="1dp"
+                            hedgehog:starEmpty="@mipmap/ic_star_empty"
+                            hedgehog:starFill="@mipmap/ic_star_fill"
+                            hedgehog:starHalf="@drawable/ic_star_half"
+                            hedgehog:starCount="5"
+                            hedgehog:starImageHeight="16dp"
+                            hedgehog:starImageWidth="16dp"
+                            android:paddingStart="5dp"
+                            tools:ignore="RtlSymmetry"/>
+
+                </LinearLayout>
+
+                <LinearLayout android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_marginEnd="10dp"
+                              android:orientation="horizontal">
+
+                    <TextView android:layout_margin="1dp"
+                              android:text="导演："
+                              android:textSize="12sp"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"/>
+
+                    <TextView
+                            android:id="@+id/director"
+                            android:layout_margin="1dp"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:textSize="12sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <LinearLayout android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_marginEnd="10dp"
+                              android:orientation="horizontal">
+
+                    <TextView android:layout_margin="1dp"
+                              android:text="演员："
+                              android:textSize="12sp"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"/>
+
+                    <TextView
+                            android:id="@+id/actor"
+                            android:layout_margin="1dp"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:textSize="12sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <FrameLayout android:id="@+id/more_layout"
+                             android:visibility="gone"
+                             android:layout_width="match_parent"
+                             android:layout_height="wrap_content">
+
+                    <include layout="@layout/film_detail_cardview"/>
+
+                </FrameLayout>
+
             </LinearLayout>
-
-            <FrameLayout android:id="@+id/more_layout"
-                         android:visibility="gone"
-                         android:layout_width="match_parent"
-                         android:layout_height="wrap_content">
-
-                <include layout="@layout/film_detail_cardview"/>
-
-            </FrameLayout>
 
         </LinearLayout>
 

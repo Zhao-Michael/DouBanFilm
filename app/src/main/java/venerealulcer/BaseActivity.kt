@@ -12,6 +12,7 @@ import com.mikepenz.iconics.typeface.IIcon
 import com.orhanobut.hawk.Hawk
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.find
+import util.HideKeyBoard
 import util.VerticalSwipeRefreshLayout
 
 @SuppressLint("Registered")

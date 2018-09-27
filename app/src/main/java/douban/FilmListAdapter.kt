@@ -114,6 +114,7 @@ class FilmListAdapter(listViews: FilmList, context: Context) : RecyclerView.Adap
                 switch_btn.tag = !isExpand
                 more_layout.visibility = if (isExpand) View.GONE else View.VISIBLE
             }
+            cardview.OnClick { switch_btn.callOnClick() }
             other_name.text = film.aka.joinToString("\n")
             durations.text = film.durations.joinToString("/")
             pubdate.text = film.pubdates.joinToString("\n")

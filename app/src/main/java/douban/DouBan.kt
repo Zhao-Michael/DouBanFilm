@@ -12,6 +12,7 @@ class DouBan {
     private val mApiKey = "apikey=0b2bdeda43b5688921839c8ecb20399b"
     private val mIPCity = "http://pv.sohu.com/cityjson"
 
+
     //获取影片介绍
     fun getFilmDetail(id: String): FilmDetail {
         val url = "${mBaseUrl}subject/$id?$mApiKey"
@@ -63,8 +64,15 @@ class DouBan {
     }
 
     //获取电影搜索列表
-    fun getSearchFilmList(key: String, start: Int = 0, count: Int = 100): FilmList {
+    fun getSearchFilmList(key: String, start: Int = 0, count: Int = 20): FilmList {
         val url = "${mBaseUrl}search?q=$key&start=$start&count=$count"
+        val html = GetUrlContent(url)
+        return Gson().fromJson(html)
+    }
+
+    //获取指定标记相关的电影列表
+    fun getTagFilmList(tag: String, start: Int = 0, count: Int = 20): FilmList {
+        val url = "${mBaseUrl}search?tag=$tag&start=$start&count=$count"
         val html = GetUrlContent(url)
         return Gson().fromJson(html)
     }

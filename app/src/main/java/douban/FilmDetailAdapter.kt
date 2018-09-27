@@ -9,19 +9,18 @@ import douban.subfilmview.FilmView
 import douban.subfilmview.FilmViewSummary
 
 //电影详情页面
-class FilmDetailAdapter(context: Context, filmDetail: FilmDetail?, show_loading: (b: Boolean) -> Unit) : PagerAdapter() {
+class FilmDetailAdapter(context: Context, filmDetail: FilmDetail?) : PagerAdapter() {
 
     private val mContext = context
     private val mListRecycler = mutableListOf<IFilmView>()
     private val mListTitle = mutableListOf<String>()
-    private var mShowLoading: (Boolean) -> Unit = show_loading
     private val mFilmDetail: FilmDetail? = filmDetail
 
     init {
         mListTitle.add("简介")
         mListTitle.add("影人")
         mListTitle.add("剧照")
-        mListTitle.add("评论")
+        mListTitle.add("短评")
         mListTitle.add("影评")
         mListTitle.add("其他")
 

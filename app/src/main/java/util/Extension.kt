@@ -299,7 +299,7 @@ class Rx<T> private constructor() : Observer<T> {
         mObserver.subscribe(this)
     }
 
-    lateinit var mObserver: Observable<T>
+    private lateinit var mObserver: Observable<T>
     private var onNext = Consumer<T> {}
     private var onError = Consumer<Throwable> {}
     private var onComplete = {}

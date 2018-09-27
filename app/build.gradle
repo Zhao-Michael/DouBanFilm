@@ -41,6 +41,7 @@ dependencies {
     implementation "org.jetbrains.anko:anko-coroutines:$anko_version"
     implementation "org.jetbrains.anko:anko-cardview-v7:$anko_version"
 
+    implementation 'co.lujun:androidtagview:1.1.4'
     implementation 'com.github.florent37:glidepalette:2.1.2'
     implementation 'com.daimajia.numberprogressbar:library:1.4@aar'
     implementation 'com.github.arimorty:floatingsearchview:2.1.1'

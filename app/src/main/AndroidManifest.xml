@@ -30,6 +30,7 @@
         <activity android:name=".SearchActivity"/>
 
         <activity android:name="imageplayer.ImageViewActivity"/>
+
         <activity android:name=".FilmDetailActivity"/>
 
     </application>

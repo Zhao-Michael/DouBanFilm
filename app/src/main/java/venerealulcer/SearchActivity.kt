@@ -23,6 +23,8 @@ class SearchActivity : BaseActivity(), FloatingSearchView.OnSearchListener, Floa
 
         mSwipeLayout.DisEnable()
 
+        mSearchView.setSearchFocused(true)
+
         mRecyclerView.layoutManager = GridLayoutManager(this, 1)
 
         mSearchView.setOnQueryChangeListener(this)
@@ -65,5 +67,9 @@ class SearchActivity : BaseActivity(), FloatingSearchView.OnSearchListener, Floa
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        HideKeyBoard(this)
+    }
 
 }

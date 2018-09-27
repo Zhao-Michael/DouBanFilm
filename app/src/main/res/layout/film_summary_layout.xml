@@ -2,7 +2,6 @@
 <android.support.v4.widget.NestedScrollView
         xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical"
-        xmlns:card_view="http://schemas.android.com/tools"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:scrollbars="vertical"
         android:layout_width="match_parent"
@@ -16,6 +15,36 @@
         <include layout="@layout/listitem_film_layout"/>
 
         <include layout="@layout/film_rate_cardview"/>
+
+        <android.support.v7.widget.CardView
+                android:id="@+id/cardview_tag"
+                android:foreground="?attr/selectableItemBackground"
+                android:layout_margin="5dp"
+                app:cardElevation="5dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardPreventCornerOverlap="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <co.lujun.androidtagview.TagContainerLayout
+                    android:id="@+id/layout_tagcontainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:visibility="gone"
+                    app:container_border_color="@color/transparent"
+                    app:container_background_color="@color/transparent"
+                    app:tag_ripple_alpha="250"
+                    app:tag_ripple_duration="600"
+                    app:container_enable_drag="true"
+                    app:horizontal_interval="10dp"
+                    app:vertical_interval="10dp"
+                    app:tag_corner_radius="5dp"
+                    app:tag_clickable="true"
+                    app:tag_theme="random"/>
+
+        </android.support.v7.widget.CardView>
 
         <FrameLayout android:layout_width="match_parent"
                      android:layout_height="wrap_content"
