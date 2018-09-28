@@ -31,6 +31,9 @@ class DouBanUnitTest {
 
     val strFilmManPhoto = get_strFilmManPhoto()
 
+    val strIPCity = get_strIPCity()
+
+
     fun get_strFilmList(): String {
         return "{\n" +
                 "    \"count\": 20,\n" +
@@ -671,6 +674,10 @@ class DouBanUnitTest {
         return "{\"count\": 2, \"photos\": [{\"photos_count\": 187, \"thumb\": \"https://img3.doubanio.com\\/view\\/photo\\/m\\/public\\/p2178784642.webp\", \"icon\": \"https://img3.doubanio.com\\/view\\/photo\\/s\\/public\\/p2178784642.webp\", \"author\": {\"uid\": \"nolimiting\", \"avatar\": \"https://img3.doubanio.com\\/icon\\/u60936188-4.jpg\", \"signature\": \"\", \"alt\": \"https:\\/\\/www.douban.com\\/people\\/nolimiting\\/\", \"id\": \"60936188\", \"name\": \"NO\\u00b7NOO\"}, \"created_at\": \"2014-04-14 14:36:05\", \"album_id\": \"34333334\", \"cover\": \"https://img3.doubanio.com\\/view\\/photo\\/sqs\\/public\\/p2178784642.webp\", \"id\": \"2178784642\", \"prev_photo\": \"2181181196\", \"album_url\": \"https:\\/\\/movie.douban.com\\/celebrity\\/1054398\\/photos\\/\", \"comments_count\": 36, \"image\": \"https://img3.doubanio.com\\/view\\/photo\\/l\\/public\\/p2178784642.webp\", \"recs_count\": 4, \"position\": 52, \"alt\": \"https:\\/\\/movie.douban.com\\/celebrity\\/1054398\\/photo\\/2178784642\\/\", \"album_title\": \"Yimou Zhang\", \"next_photo\": \"2178349190\", \"subject_id\": \"1054398\", \"desc\": \"\\u5de9\\u4fd0and\\u5f20\\u827a\\u8c0b\"}, {\"photos_count\": 187, \"thumb\": \"https://img3.doubanio.com\\/view\\/photo\\/m\\/public\\/p2177662366.webp\", \"icon\": \"https://img3.doubanio.com\\/view\\/photo\\/s\\/public\\/p2177662366.webp\", \"author\": {\"uid\": \"79787429\", \"avatar\": \"https://img3.doubanio.com\\/icon\\/u79787429-2.jpg\", \"signature\": \"\", \"alt\": \"https:\\/\\/www.douban.com\\/people\\/79787429\\/\", \"id\": \"79787429\", \"name\": \"\\u9633\\u5149\\u548c\\u5f71\\u5b50\"}, \"created_at\": \"2014-04-07 19:03:17\", \"album_id\": \"34333334\", \"cover\": \"https://img3.doubanio.com\\/view\\/photo\\/sqs\\/public\\/p2177662366.webp\", \"id\": \"2177662366\", \"prev_photo\": \"2177662378\", \"album_url\": \"https:\\/\\/movie.douban.com\\/celebrity\\/1054398\\/photos\\/\", \"comments_count\": 15, \"image\": \"https://img3.doubanio.com\\/view\\/photo\\/l\\/public\\/p2177662366.webp\", \"recs_count\": 3, \"position\": 113, \"alt\": \"https:\\/\\/movie.douban.com\\/celebrity\\/1054398\\/photo\\/2177662366\\/\", \"album_title\": \"Yimou Zhang\", \"next_photo\": \"2177662350\", \"subject_id\": \"1054398\", \"desc\": \"\"}], \"celebrity\": {\"avatars\": {\"small\": \"https://img1.doubanio.com\\/view\\/celebrity\\/s_ratio_celebrity\\/public\\/p568.webp\", \"large\": \"https://img1.doubanio.com\\/view\\/celebrity\\/s_ratio_celebrity\\/public\\/p568.webp\", \"medium\": \"https://img1.doubanio.com\\/view\\/celebrity\\/s_ratio_celebrity\\/public\\/p568.webp\"}, \"name_en\": \"Yimou Zhang\", \"name\": \"\\u5f20\\u827a\\u8c0b\", \"alt\": \"https:\\/\\/movie.douban.com\\/celebrity\\/1054398\\/\", \"id\": \"1054398\"}, \"total\": 187, \"start\": 0}"
     }
 
+    fun get_strIPCity(): String {
+        return "{\"cip\": \"223.166.167.0\", \"cid\": \"310000\", \"cname\": \"上海市\"}"
+    }
+
     fun test_FilmList(film: FilmList) {
         assertNotNull(film)
         assertNotNull(film.subjects)
@@ -788,6 +795,13 @@ class DouBanUnitTest {
         assertNotNull(film.subjects[0].subject)
         assertNotNull(film.subjects[0].subject.original_title)
         assertNotNull(film.subjects[0].subject.id)
+    }
+
+    fun test_IPCity(city: IPCity) {
+        assertNotNull(city)
+        assert(city.cid.isNotBlank())
+        assert(city.cip.isNotBlank())
+        assert(city.cname.isNotBlank())
     }
 
 
@@ -951,5 +965,15 @@ class DouBanUnitTest {
         test_RankFilm(film)
     }
 
+    @Test
+    fun test_getCurrentCity_fromNet() {
+        val city1 = Douban.getCurrentCity()
+        test_IPCity(city1)
+    }
 
+    @Test
+    fun test_getCurrentCity_fromLocal() {
+        val city: IPCity = Gson().fromJson(strIPCity)
+        test_IPCity(city)
+    }
 }

@@ -1,12 +1,12 @@
-package douban
+package douban.adapter
 
 import android.content.Context
-import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import douban.SearchBrief
 import org.jetbrains.anko.find
 import util.OnClick
 import util.inflate
@@ -20,10 +20,10 @@ class BriefAdapter(listViews: Array<SearchBrief>, context: Context) : RecyclerVi
     private val mContext = context
     private var mOnClickListener: View.OnClickListener? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BriefAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = mContext.inflate(R.layout.listitem_brief_layout, parent)
         view.OnClick { mOnClickListener?.onClick(view) }
-        return BriefAdapter.ViewHolder(view)
+        return ViewHolder(view)
     }
 
     override fun getItemCount(): Int {
@@ -34,7 +34,7 @@ class BriefAdapter(listViews: Array<SearchBrief>, context: Context) : RecyclerVi
         return mListBrief.toTypedArray()
     }
 
-    override fun onBindViewHolder(holder: BriefAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val sb = mListBrief[position]
         holder.image.setImageUrl(sb.img)
         holder.title.text = sb.title

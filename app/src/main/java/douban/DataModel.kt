@@ -70,7 +70,7 @@ data class FilmDetail(
         val seasons_count: Any,
         val languages: List<String>,
         val schedule_url: String,
-        val writers: List<Writer>,
+        val writers: List<Celebrity>,
         val pubdates: List<String>,
         val website: String,
         val tags: List<String>,
@@ -118,13 +118,13 @@ data class Author(
         val name: String
 )
 
-data class Writer(
-        val avatars: Avatars,
-        val name_en: String,
-        val name: String,
-        val alt: String,
-        val id: String
-)
+//data class Writer(
+//        val avatars: Avatars,
+//        val name_en: String,
+//        val name: String,
+//        val alt: String,
+//        val id: String
+//)
 
 class Details {
     fun sum(): Double {
@@ -327,7 +327,11 @@ data class Celebrity(
         val name: String,
         val alt: String,
         val id: String
-)
+) {
+    fun resetAlt(str: String): Celebrity {
+        return Celebrity(avatars, name_en, name, str, id)
+    }
+}
 
 
 data class FilmManPhoto(

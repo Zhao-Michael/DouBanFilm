@@ -7,7 +7,10 @@ import android.support.v4.view.ViewPager
 import android.support.v4.widget.DrawerLayout
 import android.view.Menu
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
-import douban.FilmPageAdapter
+import douban.adapter.FilmPageAdapter
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.onRefresh
@@ -65,6 +68,8 @@ class MainActivity : BaseActivity() {
     }
 
     private fun settingMenu_Click() {
+//        Debug()
+//        return
         setPrimaryColor(R.color.md_cyan_600)
         recreate()
     }
@@ -77,6 +82,20 @@ class MainActivity : BaseActivity() {
         startActivity<SearchActivity>()
     }
 
+
+    private fun Debug() {
+        doAsync {
+            val okhttp = OkHttpClient()
+            val url = "https://frodo.douban.com/api/v2/search/mix?q=%E5%BC%A0&type=movie&apikey=0b2bdeda43b5688921839c8ecb20399b"
+            val request = Request.Builder().url(url).addHeader("User-Agent", "api-client/1 com.douban.movie/4.5.0(81)").build()
+            val body = okhttp.newCall(request).execute().body()
+            if (body != null) {
+                println(body.string().toUnicode())
+            } else {
+                println("body is null")
+            }
+        }
+    }
 
 }
 

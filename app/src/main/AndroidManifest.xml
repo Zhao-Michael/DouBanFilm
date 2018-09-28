@@ -18,7 +18,9 @@
             android:theme="@style/AppTheme"
             android:hardwareAccelerated="true"
             tools:replace="android:icon"
-            android:supportsRtl="true">
+            android:networkSecurityConfig="@xml/network_security_config"
+            android:supportsRtl="true"
+            tools:targetApi="n">
 
         <activity android:name="venerealulcer.MainActivity">
             <intent-filter>

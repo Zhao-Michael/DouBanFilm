@@ -7,7 +7,6 @@ import android.support.design.widget.Snackbar
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.view.Gravity
-import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.github.florent37.glidepalette.BitmapPalette.Profile.MUTED
@@ -15,7 +14,7 @@ import com.github.florent37.glidepalette.GlidePalette
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import douban.Douban
 import douban.FilmDetail
-import douban.FilmDetailAdapter
+import douban.adapter.FilmDetailAdapter
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.find
 import util.*
@@ -36,7 +35,8 @@ class FilmDetailActivity : BaseActivity() {
     private val mImageView by lazy { find<ImageView>(R.id.img_activity_info) }
     private val mViewPager by lazy { find<ViewPager>(R.id.mViewPager) }
     private val mTableLayout by lazy { find<TabLayout>(R.id.mTabLayout) }
-    private val mPosterLayout by lazy { find<View>(R.id.layout_poster) }
+    private val mPosterBackground by lazy { find<ImageView>(R.id.image_poster_bg) }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,11 +96,15 @@ class FilmDetailActivity : BaseActivity() {
     }
 
     private fun updatePosterImage(url: String, title: String) {
-        Glide.with(this)
-                .load(url)
+        Glide.with(this).load(url)
                 .listener(GlidePalette.with(url)
                         .use(MUTED).intoCallBack {
-                            mPosterLayout.background = CreateRepeatDrawable(title, it?.mutedSwatch?.rgb!!, resources)
+                            try {
+                                val drawable = CreateRepeatDrawable(title, it?.mutedSwatch?.rgb!!, resources)
+                                mPosterBackground.setImageUrl(drawable)
+                            } catch (ex: Exception) {
+                                ex.printStackTrace()
+                            }
                         }
                         .crossfade(true))
                 .into(mImageView)

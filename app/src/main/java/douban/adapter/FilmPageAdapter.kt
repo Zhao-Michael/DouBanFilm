@@ -1,4 +1,4 @@
-package douban
+package douban.adapter
 
 import android.content.Context
 import android.support.v4.view.PagerAdapter
@@ -7,6 +7,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.orhanobut.hawk.Hawk
+import douban.Douban
+import douban.FilmList
+import org.jetbrains.anko.toast
 import util.FilmAdapter
 import util.Rx
 
@@ -83,9 +86,10 @@ class FilmPageAdapter(context: Context, show_loading: (b: Boolean) -> Unit) : Pa
         }.set {
             Hawk.put(mListTitle[position], it)
             mListRecycler[position].FilmAdapter = it
-            mShowLoading.invoke(false)
         }.err {
-            TODO(it.message.toString())
+            mContext.toast(it.message.toString())
+        }.com {
+            mShowLoading.invoke(false)
         }
     }
 

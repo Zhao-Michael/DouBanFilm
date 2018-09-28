@@ -1,4 +1,4 @@
-package douban.subfilmview
+package douban.subview
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -12,7 +12,7 @@ import com.daimajia.numberprogressbar.NumberProgressBar
 import com.hedgehog.ratingbar.RatingBar
 import douban.Douban
 import douban.FilmDetail
-import douban.FilmListAdapter
+import douban.adapter.FilmListAdapter
 import venerealulcer.R
 import org.jetbrains.anko.find
 import util.Rx
@@ -76,6 +76,7 @@ class FilmViewSummary(context: Context, filmDetail: FilmDetail) : IFilmView(cont
                     Douban.getTagFilmList(text.toString())
                 }.set {
                     println(it)
+                    //TODO
                 }
             }
         })

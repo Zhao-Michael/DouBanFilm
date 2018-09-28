@@ -1,12 +1,14 @@
-package douban
+package douban.adapter
 
 import android.content.Context
 import android.support.v4.view.PagerAdapter
 import android.view.View
 import android.view.ViewGroup
-import douban.subfilmview.IFilmView
-import douban.subfilmview.FilmView
-import douban.subfilmview.FilmViewSummary
+import douban.FilmDetail
+import douban.subview.IFilmView
+import douban.subview.FilmView
+import douban.subview.FilmViewCelebrity
+import douban.subview.FilmViewSummary
 
 //电影详情页面
 class FilmDetailAdapter(context: Context, filmDetail: FilmDetail?) : PagerAdapter() {
@@ -27,6 +29,7 @@ class FilmDetailAdapter(context: Context, filmDetail: FilmDetail?) : PagerAdapte
         if (mFilmDetail != null) {
             initUI(mFilmDetail)
         } else {
+            //Empty Detail Activity
             mListRecycler.clear()
             mListTitle.forEach {
                 mListRecycler.add(FilmView(context))
@@ -37,7 +40,7 @@ class FilmDetailAdapter(context: Context, filmDetail: FilmDetail?) : PagerAdapte
     private fun initUI(filmDetail: FilmDetail) {
         mListRecycler.clear()
         mListRecycler.add(FilmViewSummary(mContext, filmDetail))
-        mListRecycler.add(FilmViewSummary(mContext, filmDetail))
+        mListRecycler.add(FilmViewCelebrity(mContext, filmDetail))
         mListRecycler.add(FilmViewSummary(mContext, filmDetail))
         mListRecycler.add(FilmViewSummary(mContext, filmDetail))
         mListRecycler.add(FilmViewSummary(mContext, filmDetail))

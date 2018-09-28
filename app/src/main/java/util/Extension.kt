@@ -6,6 +6,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.support.design.widget.TabLayout
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.RecyclerView
@@ -26,8 +27,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.IIcon
-import douban.BriefAdapter
-import douban.FilmListAdapter
+import douban.adapter.BriefAdapter
+import douban.adapter.FilmListAdapter
 import douban.FilmList
 import douban.SearchBrief
 import io.reactivex.Observable
@@ -39,7 +40,6 @@ import io.reactivex.schedulers.Schedulers
 import org.apache.commons.lang3.StringEscapeUtils
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.image
-import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.uiThread
 import venerealulcer.App
 import java.lang.reflect.Field
@@ -263,6 +263,13 @@ fun ImageView.setImageUrl(url: String) {
     Glide.with(context)
             .load(url)
             .apply(RequestOptions.centerCropTransform())
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .into(this)
+}
+
+fun ImageView.setImageUrl(url: Drawable) {
+    Glide.with(context)
+            .load(url)
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(this)
 }

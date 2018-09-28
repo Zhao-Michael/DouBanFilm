@@ -1,4 +1,4 @@
-package douban
+package douban.adapter
 
 import android.content.Context
 import android.graphics.Color
@@ -11,9 +11,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.hedgehog.ratingbar.RatingBar
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
-import com.mikepenz.iconics.IconicsDrawable
+import douban.FilmDetail
+import douban.FilmItem
+import douban.FilmList
 import org.jetbrains.anko.find
-import org.jetbrains.anko.image
 import util.OnClick
 import util.inflate
 import util.setIcon
@@ -106,10 +107,14 @@ class FilmListAdapter(listViews: FilmList, context: Context) : RecyclerView.Adap
             switch_btn.setIcon(GoogleMaterial.Icon.gmd_keyboard_arrow_down, Color.GRAY, 10)
             switch_btn.OnClick {
                 val isExpand = switch_btn.tag as Boolean
-                if (isExpand) {
+                if (isExpand) {// in collapsed
                     switch_btn.setIcon(GoogleMaterial.Icon.gmd_keyboard_arrow_down, Color.GRAY, 10)
-                } else {
+                    actor.text = film.casts.joinToString("/") { it.name }
+                    actor.setLines(1)
+                } else { // in expand
                     switch_btn.setIcon(GoogleMaterial.Icon.gmd_keyboard_arrow_up, Color.GRAY, 10)
+                    actor.text = film.casts.joinToString("\n") { it.name }
+                    actor.setLines(film.casts.size)
                 }
                 switch_btn.tag = !isExpand
                 more_layout.visibility = if (isExpand) View.GONE else View.VISIBLE

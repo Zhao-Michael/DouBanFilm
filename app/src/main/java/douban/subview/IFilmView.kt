@@ -1,4 +1,4 @@
-package douban.subfilmview
+package douban.subview
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ abstract class IFilmView(context: Context) {
 
     protected val mView: View by lazy { LayoutInflater.from(context).inflate(mLayout, null) }
 
-    private val mContext = context
+    protected val mContext = context
 
     fun getView(): View {
         return if (mLayout == 0)
