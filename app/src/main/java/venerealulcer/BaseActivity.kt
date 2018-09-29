@@ -12,20 +12,33 @@ import com.mikepenz.iconics.typeface.IIcon
 import com.orhanobut.hawk.Hawk
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.find
-import util.HideKeyBoard
 import util.VerticalSwipeRefreshLayout
 
 @SuppressLint("Registered")
 abstract class BaseActivity : AppCompatActivity() {
 
+    companion object {
+        private var primaryColor: Int = 0
+        private var accentColor: Int = 0
+        private var textColorPrimary: Int = 0
+
+        fun getPrimaryColor(): Int {
+            return primaryColor
+        }
+
+        private fun getAccountColor(): Int {
+            return accentColor
+        }
+
+        fun getTextColorPrimary(): Int {
+            return textColorPrimary
+        }
+    }
+
     protected val mToolBar by lazy { find<Toolbar>(R.id.toolbar) }
     protected val mSwipeLayout by lazy { find<VerticalSwipeRefreshLayout>(R.id.mSwipeLayout) }
 
     abstract val mLayout: Int
-
-    private var primaryColor: Int = 0
-    private var accentColor: Int = 0
-    private var textColorPrimary: Int = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,25 +74,12 @@ abstract class BaseActivity : AppCompatActivity() {
                 getColorValue(R.color.accent_white))
     }
 
-    fun getPrimaryColor(): Int {
-        return primaryColor
-    }
-
-    private fun getAccountColor(): Int {
-        return accentColor
-    }
-
-    fun getTextColorPrimary(): Int {
-        return textColorPrimary
-    }
-
     @SuppressLint("SupportAnnotationUsage")
     @ColorInt
     fun setPrimaryColor(id: Int) {
         Hawk.put(getString(R.string.preference_primary_color),
                 getColorValue(id))
     }
-
 
     @SuppressLint("SupportAnnotationUsage")
     @ColorInt

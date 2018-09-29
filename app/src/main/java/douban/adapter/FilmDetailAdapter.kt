@@ -5,10 +5,7 @@ import android.support.v4.view.PagerAdapter
 import android.view.View
 import android.view.ViewGroup
 import douban.FilmDetail
-import douban.subview.IFilmView
-import douban.subview.FilmView
-import douban.subview.FilmViewCelebrity
-import douban.subview.FilmViewSummary
+import douban.subview.*
 
 //电影详情页面
 class FilmDetailAdapter(context: Context, filmDetail: FilmDetail?) : PagerAdapter() {
@@ -41,7 +38,7 @@ class FilmDetailAdapter(context: Context, filmDetail: FilmDetail?) : PagerAdapte
         mListRecycler.clear()
         mListRecycler.add(FilmViewSummary(mContext, filmDetail))
         mListRecycler.add(FilmViewCelebrity(mContext, filmDetail))
-        mListRecycler.add(FilmViewSummary(mContext, filmDetail))
+        mListRecycler.add(FilmViewPhoto(mContext, filmDetail))
         mListRecycler.add(FilmViewSummary(mContext, filmDetail))
         mListRecycler.add(FilmViewSummary(mContext, filmDetail))
         mListRecycler.add(FilmViewSummary(mContext, filmDetail))

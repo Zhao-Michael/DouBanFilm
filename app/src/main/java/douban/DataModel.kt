@@ -321,15 +321,21 @@ data class FilmManWork(
         val works: List<Work>
 )
 
+@Suppress("SENSELESS_COMPARISON")
 data class Celebrity(
         val avatars: Avatars,
         val name_en: String,
         val name: String,
-        val alt: String,
+        var alt: String,
         val id: String
 ) {
-    fun resetAlt(str: String): Celebrity {
-        return Celebrity(avatars, name_en, name, str, id)
+
+    fun isNotNULL(): Boolean {
+        return avatars != null && name_en != null && name != null && alt != null && id != null
+    }
+
+    fun set_Alt(str: String) {
+        alt = str
     }
 }
 

@@ -28,7 +28,7 @@ class FilmListAdapter(listViews: FilmList, context: Context) : RecyclerView.Adap
     private var mFilmList: FilmList = listViews
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = mContext.inflate(R.layout.listitem_film_layout, parent)
+        val view = mContext.inflate(R.layout.listitem_film_cardview, parent)
         return ViewHolder(view)
     }
 

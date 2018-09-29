@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.os.Looper
 import android.support.design.widget.TabLayout
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.RecyclerView
@@ -86,9 +87,13 @@ fun View.SetPadding(left: Int, top: Int, right: Int, bottom: Int) {
 }
 
 fun Any.uiThread(run: () -> Unit) {
-    doAsync {
-        uiThread {
-            run()
+    if (Looper.getMainLooper().thread == Thread.currentThread()) {
+        run()
+    } else {
+        doAsync {
+            uiThread {
+                run()
+            }
         }
     }
 }
@@ -98,16 +103,6 @@ fun Any.uiThread(delay: Long, run: () -> Unit) {
         Thread.sleep(delay)
         uiThread { run() }
     }
-}
-
-fun SwipeRefreshLayout.ShowRefresh(): SwipeRefreshLayout {
-    uiThread { isRefreshing = true }
-    return this
-}
-
-fun SwipeRefreshLayout.HideRefresh(): SwipeRefreshLayout {
-    uiThread(300) { isRefreshing = false }
-    return this
 }
 
 fun ViewGroup.Enable() {
@@ -267,6 +262,14 @@ fun ImageView.setImageUrl(url: String) {
             .into(this)
 }
 
+fun ImageView.setImageUrl(url: String, holder: Int) {
+    Glide.with(context)
+            .load(url)
+            .apply(RequestOptions.placeholderOf(holder).centerCrop())
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .into(this)
+}
+
 fun ImageView.setImageUrl(url: Drawable) {
     Glide.with(context)
             .load(url)
@@ -339,6 +342,7 @@ class Rx<T> private constructor() : Observer<T> {
         try {
             onNext.accept(t)
         } catch (ex: Exception) {
+            ex.printStackTrace()
             onError.accept(ex)
         }
     }

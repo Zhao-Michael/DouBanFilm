@@ -48,7 +48,7 @@ private fun DownLoadString(url: String): String {
 }
 
 fun GetUrlContent(url: String, type: TimeType = TimeType.Day): String {
-    return TimeElapse("Get Url Content") {
+    return Util.TimeElapse("Get Url Content") {
         DownLoadString(url)
     }
 }

@@ -9,6 +9,8 @@ import android.support.v4.view.ViewPager
 import android.view.Gravity
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestOptions
 import com.github.florent37.glidepalette.BitmapPalette.Profile.MUTED
 import com.github.florent37.glidepalette.GlidePalette
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
@@ -25,7 +27,7 @@ class FilmDetailActivity : BaseActivity() {
         private var FILM_ID = ""
         fun ShowFilmDetail(id: String) {
             FILM_ID = id
-            App.Instance.startActivity(Intent(App.Instance, FilmDetailActivity::class.java))
+            App.Instance.StartActivity(FilmDetailActivity::class.java)
         }
     }
 
@@ -68,16 +70,8 @@ class FilmDetailActivity : BaseActivity() {
         mViewPager.adapter = FilmDetailAdapter(this, null)
     }
 
-    private fun showRefresh(b: Boolean) {
-        if (b) {
-            mSwipeLayout.ShowRefresh()
-        } else {
-            mSwipeLayout.HideRefresh()
-        }
-    }
-
     private fun refreshFilmDetail() {
-        showRefresh(true)
+        mSwipeLayout.ShowRefresh()
         Rx.get {
             Douban.getFilmDetail(FILM_ID)
         }.set {
@@ -85,7 +79,7 @@ class FilmDetailActivity : BaseActivity() {
         }.err {
             Snackbar.make(mViewPager, "${it.message}", Snackbar.LENGTH_INDEFINITE).show()
         }.com {
-            mSwipeLayout.isEnabled = false
+            mSwipeLayout.DisEnable()
         }
     }
 
@@ -100,13 +94,14 @@ class FilmDetailActivity : BaseActivity() {
                 .listener(GlidePalette.with(url)
                         .use(MUTED).intoCallBack {
                             try {
-                                val drawable = CreateRepeatDrawable(title, it?.mutedSwatch?.rgb!!, resources)
+                                val drawable = Util.CreateRepeatDrawable(title, it?.mutedSwatch?.rgb!!, resources)
                                 mPosterBackground.setImageUrl(drawable)
                             } catch (ex: Exception) {
                                 ex.printStackTrace()
                             }
                         }
                         .crossfade(true))
+                .transition(DrawableTransitionOptions.withCrossFade(400))
                 .into(mImageView)
     }
 

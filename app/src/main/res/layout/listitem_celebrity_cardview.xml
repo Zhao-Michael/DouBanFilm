@@ -4,9 +4,10 @@
         xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
         android:layout_height="wrap_content"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/cardview"
         android:foreground="?attr/selectableItemBackground"
         android:layout_margin="5dp"
-        app:cardElevation="5dp"
+        app:cardElevation="4dp"
         android:clickable="true"
         android:focusable="true"
         app:cardPreventCornerOverlap="true">
@@ -30,16 +31,22 @@
                       android:layout_margin="3dp"
                       android:id="@+id/text_name"
                       android:textSize="14sp"
+                      android:lines="1"
+                      android:ellipsize="end"
                       android:layout_height="wrap_content"/>
 
             <TextView android:layout_width="wrap_content"
                       android:id="@+id/text_name_en"
                       android:layout_margin="3dp"
+                      android:lines="1"
+                      android:ellipsize="end"
                       android:layout_height="wrap_content"/>
 
             <TextView android:layout_width="wrap_content"
                       android:id="@+id/text_alt"
                       android:layout_margin="3dp"
+                      android:lines="1"
+                      android:ellipsize="end"
                       android:layout_height="wrap_content"/>
 
         </LinearLayout>

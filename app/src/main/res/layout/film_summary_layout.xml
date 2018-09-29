@@ -12,7 +12,7 @@
                   android:paddingTop="5dp"
                   android:layout_height="wrap_content">
 
-        <include layout="@layout/listitem_film_layout"/>
+        <include layout="@layout/listitem_film_cardview"/>
 
         <include layout="@layout/film_rate_cardview"/>
 

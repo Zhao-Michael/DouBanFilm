@@ -12,13 +12,13 @@ class FilmViewCelebrity(context: Context, filmDetail: FilmDetail) : IFilmView(co
 
     override val mLayout: Int = R.layout.film_celebrity_layout
     private val mFilmDetail = filmDetail
-    private val mRecyclerView by lazy { mView.find<RecyclerView>(R.id.mRecyclerView) }
 
     init {
         initRecyclerView(mFilmDetail)
     }
 
     private fun initRecyclerView(film: FilmDetail) {
+        mRecyclerView.setHasFixedSize(true)
         mRecyclerView.layoutManager = GridLayoutManager(mContext, 1)
         mRecyclerView.adapter = FilmCelebrityAdapter(mContext, film)
     }

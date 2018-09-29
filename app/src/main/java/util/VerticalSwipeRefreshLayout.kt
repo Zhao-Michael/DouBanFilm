@@ -5,12 +5,17 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.ViewConfiguration
+import venerealulcer.BaseActivity.Companion.getPrimaryColor
 
 class VerticalSwipeRefreshLayout(context: Context, attrs: AttributeSet) : SwipeRefreshLayout(context, attrs) {
 
     private val mTouchSlop: Int = ViewConfiguration.get(context).scaledTouchSlop
 
     private var mPrevX: Float = 0.toFloat()
+
+    init {
+        setColorSchemeColors(getPrimaryColor())
+    }
 
     override fun onInterceptTouchEvent(event: MotionEvent): Boolean {
         when (event.action) {
@@ -26,4 +31,28 @@ class VerticalSwipeRefreshLayout(context: Context, attrs: AttributeSet) : SwipeR
         }
         return super.onInterceptTouchEvent(event)
     }
+
+    val mShowSwipe: (Boolean) -> Unit = { b ->
+        if (b)
+            ShowRefresh()
+        else
+            HideRefresh()
+    }
+
+    fun ShowRefresh() {
+        uiThread { isRefreshing = true }
+    }
+
+    fun HideRefresh() {
+        uiThread { isRefreshing = false }
+    }
+
+    fun DisEnable() {
+        uiThread { isEnabled = false }
+    }
+
+    fun Enable() {
+        uiThread { isEnabled = true }
+    }
+
 }

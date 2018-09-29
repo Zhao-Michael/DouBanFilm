@@ -5,12 +5,11 @@ import util.GetUrlContent
 import util.*
 
 
-val Douban = DouBan()
+object Douban {
 
-class DouBan {
-    private val mBaseUrl = "https://api.douban.com/v2/movie/"
-    private val mApiKey = "apikey=0b2bdeda43b5688921839c8ecb20399b"
-    private val mIPCity = "http://pv.sohu.com/cityjson"
+    const val mBaseUrl = "https://api.douban.com/v2/movie/"
+    const val mApiKey = "apikey=0b2bdeda43b5688921839c8ecb20399b"
+    const val mIPCity = "http://pv.sohu.com/cityjson"
 
 
     //获取影片介绍

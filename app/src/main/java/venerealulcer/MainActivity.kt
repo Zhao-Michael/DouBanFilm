@@ -34,19 +34,12 @@ class MainActivity : BaseActivity() {
         setToolBarIcon(GoogleMaterial.Icon.gmd_menu)
         mToolBar.setNavigationOnClickListener { mDrawerLayout.openDrawer(GravityCompat.START) }
         setToolBarTitle(R.string.app_name)
-        mSwipeLayout.setColorSchemeColors(getPrimaryColor())
         mSwipeLayout.onRefresh { onSwipeRefresh() }
         mTableLayout.setupWithViewPager(mViewPager)
         mTableLayout.tabMode = TabLayout.MODE_SCROLLABLE
         mTableLayout.setSelectedTabIndicatorColor(getPrimaryColor())
         mTableLayout.setTabTextColors(getColorValue(R.color.divider_color), getPrimaryColor())
-        val showSwipe: (Boolean) -> Unit = { b ->
-            if (b)
-                mSwipeLayout.ShowRefresh()
-            else
-                mSwipeLayout.HideRefresh()
-        }
-        mViewPager.adapter = FilmPageAdapter(this, showSwipe)
+        mViewPager.adapter = FilmPageAdapter(this, mSwipeLayout.mShowSwipe)
         mTableLayout.setTabStyle()
     }
 
@@ -70,7 +63,7 @@ class MainActivity : BaseActivity() {
     private fun settingMenu_Click() {
 //        Debug()
 //        return
-        setPrimaryColor(R.color.md_cyan_600)
+        setPrimaryColor(R.color.md_deep_orange_400)
         recreate()
     }
 

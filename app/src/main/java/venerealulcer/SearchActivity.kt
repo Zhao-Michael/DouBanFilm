@@ -69,7 +69,7 @@ class SearchActivity : BaseActivity(), FloatingSearchView.OnSearchListener, Floa
 
     override fun onPause() {
         super.onPause()
-        HideKeyBoard(this)
+        Util.HideKeyBoard(this)
     }
 
 }

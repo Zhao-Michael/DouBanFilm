@@ -21,7 +21,7 @@ class BriefAdapter(listViews: Array<SearchBrief>, context: Context) : RecyclerVi
     private var mOnClickListener: View.OnClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = mContext.inflate(R.layout.listitem_brief_layout, parent)
+        val view = mContext.inflate(R.layout.listitem_search_brief_layout, parent)
         view.OnClick { mOnClickListener?.onClick(view) }
         return ViewHolder(view)
     }
