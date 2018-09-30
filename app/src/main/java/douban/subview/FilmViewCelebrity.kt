@@ -10,10 +10,11 @@ import venerealulcer.R
 
 class FilmViewCelebrity(context: Context, filmDetail: FilmDetail) : IFilmView(context) {
 
-    override val mLayout: Int = R.layout.film_celebrity_layout
+    override val mLayout: Int = R.layout.film_common_subview_layout
     private val mFilmDetail = filmDetail
 
     init {
+        initSwitchBtn()
         initRecyclerView(mFilmDetail)
     }
 
