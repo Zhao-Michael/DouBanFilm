@@ -19,8 +19,8 @@ import util.OnClick
 import util.inflate
 import util.setIcon
 import util.setImageUrl
-import venerealulcer.FilmDetailActivity
-import venerealulcer.R
+import michaelzhao.FilmDetailActivity
+import michaelzhao.R
 
 //电影列表
 class FilmListAdapter(listViews: FilmList, context: Context) : RecyclerView.Adapter<FilmListAdapter.ViewHolder>() {
@@ -68,7 +68,6 @@ class FilmListAdapter(listViews: FilmList, context: Context) : RecyclerView.Adap
         val language by lazy { mItemView.find<TextView>(R.id.language) }
         val more_layout by lazy { mItemView.find<FrameLayout>(R.id.more_layout) }
 
-
         fun setFilmItem(film: FilmItem) {
             title.text = film.title
             year.text = film.year
@@ -83,7 +82,7 @@ class FilmListAdapter(listViews: FilmList, context: Context) : RecyclerView.Adap
                 rate.text = "暂无评分"
             }
             page.text = (adapterPosition + 1).toString()
-            image.setImageUrl(film.images.small)
+            image.setImageUrl(film.images.small, R.drawable.loading_large)
             cardview.OnClick { FilmDetailActivity.ShowFilmDetail(film.id) }
         }
 
@@ -105,26 +104,29 @@ class FilmListAdapter(listViews: FilmList, context: Context) : RecyclerView.Adap
             switch_btn.visibility = View.VISIBLE
             switch_btn.tag = false // IsExpanded
             switch_btn.setIcon(GoogleMaterial.Icon.gmd_keyboard_arrow_down, Color.GRAY, 10)
-            switch_btn.OnClick {
-                val isExpand = switch_btn.tag as Boolean
-                if (isExpand) {// in collapsed
-                    switch_btn.setIcon(GoogleMaterial.Icon.gmd_keyboard_arrow_down, Color.GRAY, 10)
-                    actor.text = film.casts.joinToString("/") { it.name }
-                    actor.setLines(1)
-                } else { // in expand
-                    switch_btn.setIcon(GoogleMaterial.Icon.gmd_keyboard_arrow_up, Color.GRAY, 10)
-                    actor.text = film.casts.joinToString("\n") { it.name }
-                    actor.setLines(film.casts.size)
-                }
-                switch_btn.tag = !isExpand
-                more_layout.visibility = if (isExpand) View.GONE else View.VISIBLE
-            }
+            switch_btn.OnClick { switch_BtnClick(film) }
             cardview.OnClick { switch_btn.callOnClick() }
             other_name.text = film.aka.joinToString("\n")
             durations.text = film.durations.joinToString("/")
             pubdate.text = film.pubdates.joinToString("\n")
             country.text = film.countries.joinToString("/")
             language.text = film.languages.joinToString("/")
+        }
+
+        private fun switch_BtnClick(film: FilmDetail) {
+            val isExpand = switch_btn.tag as Boolean
+            if (isExpand) {// in collapsed
+                switch_btn.setIcon(GoogleMaterial.Icon.gmd_keyboard_arrow_down, Color.GRAY, 10)
+                actor.text = film.casts.joinToString("/") { it.name }
+                actor.setLines(1)
+            } else { // in expand
+                switch_btn.setIcon(GoogleMaterial.Icon.gmd_keyboard_arrow_up, Color.GRAY, 10)
+                val too_long = film.casts.joinToString("") { it.name }.length > 20
+                actor.text = film.casts.joinToString(if (too_long) "\n" else "/") { it.name }
+                actor.setLines(if (too_long) film.casts.size else 1)
+            }
+            switch_btn.tag = !isExpand
+            more_layout.visibility = if (isExpand) View.GONE else View.VISIBLE
         }
 
     }

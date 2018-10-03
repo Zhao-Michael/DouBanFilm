@@ -118,14 +118,6 @@ data class Author(
         val name: String
 )
 
-//data class Writer(
-//        val avatars: Avatars,
-//        val name_en: String,
-//        val name: String,
-//        val alt: String,
-//        val id: String
-//)
-
 class Details {
     fun sum(): Double {
         return star1 + star2 + star3 + star4 + star5

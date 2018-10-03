@@ -14,7 +14,7 @@ import util.SetMargins
 import util.dip2px
 import util.inflate
 import util.setImageUrl
-import venerealulcer.R
+import michaelzhao.R
 
 class FilmCelebrityAdapter(context: Context, filmDetail: FilmDetail) : RecyclerView.Adapter<FilmCelebrityAdapter.ViewHolder>() {
 

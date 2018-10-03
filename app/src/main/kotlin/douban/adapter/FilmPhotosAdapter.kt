@@ -5,12 +5,14 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import com.squareup.picasso.Picasso
 import douban.FilmDetail
 import douban.Photo
+import imageplayer.ImageViewActivity
+import michaelzhao.R
 import org.jetbrains.anko.find
+import util.OnClick
 import util.inflate
-import util.setImageUrl
-import venerealulcer.R
 
 class FilmPhotosAdapter(context: Context, filmDetail: FilmDetail) : RecyclerView.Adapter<FilmPhotosAdapter.ViewHolder>() {
 
@@ -34,6 +36,7 @@ class FilmPhotosAdapter(context: Context, filmDetail: FilmDetail) : RecyclerView
     override fun onBindViewHolder(holder: FilmPhotosAdapter.ViewHolder, position: Int) {
         val pos = holder.adapterPosition
         holder.setPhoto(mListPhoto[pos], pos)
+        holder.itemView.OnClick { ImageViewActivity.ShowImages(mContext, mListPhoto.map { it.image }, pos) }
     }
 
 
@@ -42,7 +45,13 @@ class FilmPhotosAdapter(context: Context, filmDetail: FilmDetail) : RecyclerView
         private val image_photo by lazy { mItemView.find<ImageView>(R.id.image_photo) }
 
         internal fun setPhoto(photo: Photo, pos: Int) {
-            image_photo.setImageUrl(photo.thumb, R.drawable.loading_large)
+
+            Picasso.get()
+                    .load(photo.thumb)
+                    .placeholder(R.drawable.loading_large)
+                    .into(image_photo)
+
+            //image_photo.setImageUrl(photo.thumb, R.drawable.loading_large)
         }
 
     }

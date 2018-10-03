@@ -17,7 +17,7 @@
         <View android:layout_width="1dp"
               android:layout_marginStart="10dp"
               android:layout_marginEnd="10dp"
-              android:background="@color/light_gray"
+              android:background="#AAA"
               android:layout_gravity="center_vertical"
               android:layout_height="15dp"/>
 

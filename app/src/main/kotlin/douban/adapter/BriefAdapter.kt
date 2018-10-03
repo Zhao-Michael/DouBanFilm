@@ -11,8 +11,8 @@ import org.jetbrains.anko.find
 import util.OnClick
 import util.inflate
 import util.setImageUrl
-import venerealulcer.FilmDetailActivity
-import venerealulcer.R
+import michaelzhao.FilmDetailActivity
+import michaelzhao.R
 
 class BriefAdapter(listViews: Array<SearchBrief>, context: Context) : RecyclerView.Adapter<BriefAdapter.ViewHolder>() {
 
@@ -34,6 +34,7 @@ class BriefAdapter(listViews: Array<SearchBrief>, context: Context) : RecyclerVi
         return mListBrief.toTypedArray()
     }
 
+    @Suppress("SENSELESS_COMPARISON")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val sb = mListBrief[position]
         holder.image.setImageUrl(sb.img)

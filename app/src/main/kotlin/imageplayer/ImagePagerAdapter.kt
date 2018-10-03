@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.github.chrisbanes.photoview.PhotoView
 import org.jetbrains.anko.find
 import util.setImageUrl
-import venerealulcer.R
+import michaelzhao.R
 
 
 class ImagePagerAdapter(context: Context, listUrl: List<String>) : PagerAdapter() {
@@ -18,7 +18,7 @@ class ImagePagerAdapter(context: Context, listUrl: List<String>) : PagerAdapter(
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val obj = mListUrl[position]
-        val view = LayoutInflater.from(mContext).inflate(R.layout.bigimage_layout, null)
+        val view = LayoutInflater.from(mContext).inflate(R.layout.full_image_layout, null)
         val photoView = view.find<PhotoView>(R.id.mPhotoView)
         photoView.setImageUrl(obj)
         container.addView(view)

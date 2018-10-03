@@ -5,7 +5,7 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.ViewConfiguration
-import venerealulcer.BaseActivity.Companion.getPrimaryColor
+import michaelzhao.BaseActivity.Companion.getPrimaryColor
 
 class VerticalSwipeRefreshLayout(context: Context, attrs: AttributeSet) : SwipeRefreshLayout(context, attrs) {
 
@@ -39,8 +39,8 @@ class VerticalSwipeRefreshLayout(context: Context, attrs: AttributeSet) : SwipeR
             HideRefresh()
     }
 
-    fun ShowRefresh() {
-        uiThread { isRefreshing = true }
+    fun ShowRefresh(b: Boolean = true) {
+        uiThread { isRefreshing = b }
     }
 
     fun HideRefresh() {

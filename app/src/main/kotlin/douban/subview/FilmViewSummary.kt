@@ -13,7 +13,7 @@ import com.hedgehog.ratingbar.RatingBar
 import douban.Douban
 import douban.FilmDetail
 import douban.adapter.FilmListAdapter
-import venerealulcer.R
+import michaelzhao.R
 import org.jetbrains.anko.find
 import util.Rx
 
@@ -26,25 +26,26 @@ class FilmViewSummary(context: Context, filmDetail: FilmDetail) : IFilmView(cont
     private val mTagCardView by lazy { mView.find<CardView>(R.id.cardview_tag) }
 
     init {
-        initSummary(mFilmDetail)
-        initFilmBrief(mFilmDetail)
-        initFilmRate(mFilmDetail)
-        initFilmTag(mFilmDetail)
+        initSummary()
+        initFilmBrief()
+        initFilmRate()
+        initFilmTag()
     }
 
-    private fun initFilmBrief(film: FilmDetail) {
-        FilmListAdapter.ViewHolder(mView).setFilmDetail(film)
+    private fun initFilmBrief() {
+        FilmListAdapter.ViewHolder(mView).setFilmDetail(mFilmDetail)
     }
 
-    private fun initSummary(film: FilmDetail) {
-        mTextBrief.text = film.summary.trim()
+    private fun initSummary() {
+        mTextBrief.text = mFilmDetail.summary.trim()
     }
 
     private fun getTextView(id: Int): TextView {
         return mView.find(id)
     }
 
-    private fun initFilmRate(film: FilmDetail) {
+    private fun initFilmRate() {
+        val film = mFilmDetail
         getTextView(R.id.text_rate).text = film.rating.average.toString()
         getTextView(R.id.text_rate_descript).text = "${film.ratings_count}" + " 人评分"
         mView.find<RatingBar>(R.id.rate_bar).setStar((film.rating.stars.toInt() / 10.0).toFloat())
@@ -59,8 +60,7 @@ class FilmViewSummary(context: Context, filmDetail: FilmDetail) : IFilmView(cont
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun initFilmTag(film: FilmDetail) {
-
+    private fun initFilmTag() {
         mTagContainer.setOnTouchListener { _: View, motionEvent: MotionEvent ->
             mTagCardView.onTouchEvent(motionEvent)
             return@setOnTouchListener false
@@ -81,9 +81,9 @@ class FilmViewSummary(context: Context, filmDetail: FilmDetail) : IFilmView(cont
             }
         })
 
-        if (film.tags.isNotEmpty()) {
+        if (mFilmDetail.tags.isNotEmpty()) {
             mTagContainer.visibility = View.VISIBLE
-            mTagContainer.tags = film.tags
+            mTagContainer.tags = mFilmDetail.tags
         }
     }
 

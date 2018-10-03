@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">豆瓣电影</string>
+    <string name="app_name">Git Film</string>
     <string name="search_menu">Search</string>
     <string name="settings">Settings</string>
-
 </resources>

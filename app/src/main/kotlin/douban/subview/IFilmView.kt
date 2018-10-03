@@ -2,6 +2,7 @@ package douban.subview
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +12,8 @@ import org.jetbrains.anko.support.v4.onRefresh
 import org.jetbrains.anko.textColor
 import util.OnClick
 import util.VerticalSwipeRefreshLayout
-import venerealulcer.BaseActivity
-import venerealulcer.R
+import michaelzhao.BaseActivity
+import michaelzhao.R
 
 abstract class IFilmView(context: Context) {
 
@@ -30,11 +31,15 @@ abstract class IFilmView(context: Context) {
     private val mGrayColor by lazy { ContextCompat.getColor(mContext, R.color.dark_gray) }
     private var mIsNormalMode = false
 
-    init {
+    protected fun initRecyclerView(span: Int = 1) {
+        mRecyclerView.setHasFixedSize(true)
+        mRecyclerView.scrollBarStyle
+        mRecyclerView.layoutManager = GridLayoutManager(mContext, span)
+    }
+
+    protected fun initSwipeLayout() {
         mSwipeLayout.onRefresh {
-            if (mIsNormalMode)
-                onNormalClick()
-            else
+            if (!mIsNormalMode)
                 onMoreClick()
         }
     }
@@ -49,6 +54,7 @@ abstract class IFilmView(context: Context) {
     }
 
     private fun switchState(isNormal: Boolean) {
+        mSwipeLayout.isEnabled = !isNormal
         if (isNormal == mIsNormalMode) return
         mIsNormalMode = isNormal
         if (isNormal) {
@@ -75,6 +81,16 @@ abstract class IFilmView(context: Context) {
             View(mContext)
         else
             mView
+    }
+
+    fun ShowSwipe(b: Boolean = true) {
+        if (mLayout != 0) {
+            mSwipeLayout.ShowRefresh(b)
+        }
+    }
+
+    fun HideSwipe() {
+        ShowSwipe(false)
     }
 
 }
