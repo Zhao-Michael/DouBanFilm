@@ -46,11 +46,13 @@ class WebActivity : BaseActivity() {
 
     class WebClient(swipe: SwipeRefreshLayout) : WebViewClient() {
         private val mSwipe = swipe
-        override fun onPageFinished(view: WebView?, url: String?) {
-            super.onPageFinished(view, url)
+
+        override fun onPageCommitVisible(view: WebView?, url: String?) {
+            super.onPageCommitVisible(view, url)
             mSwipe.isRefreshing = false
             mSwipe.isEnabled = false
         }
+
     }
 
 }
