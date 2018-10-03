@@ -121,7 +121,7 @@ class FilmListAdapter(listViews: FilmList, context: Context) : RecyclerView.Adap
                 actor.setLines(1)
             } else { // in expand
                 switch_btn.setIcon(GoogleMaterial.Icon.gmd_keyboard_arrow_up, Color.GRAY, 10)
-                val too_long = film.casts.joinToString("") { it.name }.length > 20
+                val too_long = film.casts.joinToString("") { it.name }.length > 15
                 actor.text = film.casts.joinToString(if (too_long) "\n" else "/") { it.name }
                 actor.setLines(if (too_long) film.casts.size else 1)
             }

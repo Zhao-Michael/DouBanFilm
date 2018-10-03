@@ -10,11 +10,9 @@ import android.widget.TextView
 import douban.FilmDetail
 import douban.PopularReview
 import michaelzhao.R
+import michaelzhao.WebActivity.Companion.ShowWebView
 import org.jetbrains.anko.find
-import util.SetMargins
-import util.dip2px
-import util.inflate
-import util.setImageUrl
+import util.*
 
 class FilmReviewAdapter(context: Context, filmDetail: FilmDetail) : RecyclerView.Adapter<FilmReviewAdapter.ViewHolder>() {
 
@@ -33,10 +31,12 @@ class FilmReviewAdapter(context: Context, filmDetail: FilmDetail) : RecyclerView
 
     override fun onBindViewHolder(holder: FilmReviewAdapter.ViewHolder, position: Int) {
         val pos = holder.adapterPosition
-        holder.setReview(mListReview[pos], pos + 1)
+        val review = mListReview[pos]
+        holder.setReview(review, pos + 1)
         if (pos == itemCount - 1) {
             (holder.cardview.layoutParams as? ViewGroup.MarginLayoutParams)?.SetMargins(5, 5, 5, 10.dip2px())
         }
+        holder.cardview.OnClick { ShowWebView(mContext, review.alt, review.author.name + " : " + review.title) }
     }
 
     class ViewHolder(mItemView: View) : RecyclerView.ViewHolder(mItemView) {

@@ -35,6 +35,7 @@
         <activity android:name="imageplayer.ImageViewActivity"/>
 
         <activity android:name="michaelzhao.FilmDetailActivity"/>
+        <activity android:name=".WebActivity"/>
 
     </application>
 
