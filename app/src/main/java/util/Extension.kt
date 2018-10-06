@@ -5,6 +5,7 @@ package util
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Looper
@@ -22,6 +23,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
@@ -247,17 +249,15 @@ fun TabLayout.setTabStyle(dstDip: Int = 10) {
 
 }
 
-fun ImageView.setImageUrl(url: String, holder: Int = 0) {
+fun ImageView.setImageUrl(url: String, holder: Int = 0, isCenterCrop: Boolean = true) {
     Glide.with(context)
             .load(url)
-            .apply(RequestOptions.placeholderOf(holder))
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .into(this)
-}
-
-fun ImageView.setImageUrl(url: Drawable) {
-    Glide.with(context)
-            .load(url)
+            .apply(RequestOptions.placeholderOf(holder).apply {
+                if (isCenterCrop) {
+                    scaleType = ImageView.ScaleType.CENTER_CROP
+                    centerCrop()
+                }
+            })
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(this)
 }

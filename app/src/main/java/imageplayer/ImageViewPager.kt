@@ -12,7 +12,7 @@ class ImageViewPager(context: Context, attrs: AttributeSet) : ViewPager(context,
         return try {
             super.onInterceptTouchEvent(ev)
         } catch (e: IllegalArgumentException) {
-            println(e.message)
+            e.printStackTrace()
             false
         }
     }

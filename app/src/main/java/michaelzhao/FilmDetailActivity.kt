@@ -1,5 +1,7 @@
 package michaelzhao
 
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.design.widget.CollapsingToolbarLayout
 import android.support.design.widget.Snackbar
@@ -15,9 +17,9 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import douban.Douban
 import douban.FilmDetail
 import douban.adapter.FilmDetailAdapter
-import org.jetbrains.anko.backgroundColor
-import org.jetbrains.anko.find
+import org.jetbrains.anko.*
 import util.*
+import java.lang.Exception
 
 class FilmDetailActivity : BaseActivity() {
 
@@ -93,7 +95,7 @@ class FilmDetailActivity : BaseActivity() {
                         .use(MUTED).intoCallBack {
                             try {
                                 val drawable = Util.CreateRepeatDrawable(title, it?.mutedSwatch?.rgb!!, resources)
-                                mPosterBackground.setImageUrl(drawable)
+                                mPosterBackground.image = drawable
                             } catch (ex: Exception) {
                                 ex.printStackTrace()
                             }

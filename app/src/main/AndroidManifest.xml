@@ -32,7 +32,7 @@
 
         <activity android:name="michaelzhao.SearchActivity"/>
 
-        <activity android:name="imageplayer.ImageViewActivity"/>
+        <activity android:name="imageplayer.ImageViewActivity" android:process=":picture"/>
 
         <activity android:name="michaelzhao.FilmDetailActivity"/>
         <activity android:name=".WebActivity"/>

@@ -33,7 +33,7 @@ abstract class IFilmView(context: Context) {
 
     protected fun initRecyclerView(span: Int = 1) {
         mRecyclerView.setHasFixedSize(true)
-        mRecyclerView.scrollBarStyle
+        mRecyclerView.isNestedScrollingEnabled = false
         mRecyclerView.layoutManager = GridLayoutManager(mContext, span)
     }
 

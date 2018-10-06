@@ -3,6 +3,7 @@ package michaelzhao
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.webkit.WebView
@@ -41,11 +42,16 @@ class WebActivity : BaseActivity() {
         mWebView.settings.javaScriptEnabled = true
         mWebView.webViewClient = WebClient(mSwipeLayout)
         mWebView.loadUrl(mWebUrl)
-        mSwipeLayout.ShowRefresh()
     }
 
     class WebClient(swipe: SwipeRefreshLayout) : WebViewClient() {
         private val mSwipe = swipe
+
+        override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+            mSwipe.isRefreshing = true
+            mSwipe.isEnabled = true
+            super.onPageStarted(view, url, favicon)
+        }
 
         override fun onPageCommitVisible(view: WebView?, url: String?) {
             super.onPageCommitVisible(view, url)

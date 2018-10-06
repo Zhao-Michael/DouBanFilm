@@ -23,7 +23,6 @@ class VerticalSwipeRefreshLayout(context: Context, attrs: AttributeSet) : SwipeR
             MotionEvent.ACTION_MOVE -> {
                 val eventX = event.x
                 val xDiff = Math.abs(eventX - mPrevX)
-                // 增加60的容差，让下拉刷新在竖直滑动时就可以触发
                 if (xDiff > mTouchSlop + 120) {
                     return false
                 }
