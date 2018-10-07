@@ -15,15 +15,12 @@ import douban.FilmDetail
 import douban.FilmItem
 import douban.FilmList
 import org.jetbrains.anko.find
-import util.OnClick
-import util.inflate
-import util.setIcon
-import util.setImageUrl
 import michaelzhao.FilmDetailActivity
 import michaelzhao.R
+import util.*
 
 //电影列表
-class FilmListAdapter(listViews: FilmList, context: Context) : RecyclerView.Adapter<FilmListAdapter.ViewHolder>() {
+class FilmListAdapter(context: Context, listViews: FilmList) : RecyclerView.Adapter<FilmListAdapter.ViewHolder>() {
     private val mContext = context
     private var mFilmList: FilmList = listViews
 
@@ -43,6 +40,9 @@ class FilmListAdapter(listViews: FilmList, context: Context) : RecyclerView.Adap
     override fun onBindViewHolder(holder: ViewHolder, pos: Int) {
         val film = mFilmList.subjects[holder.adapterPosition]
         holder.setFilmItem(film)
+        if (pos == itemCount - 1) {
+            (holder.cardview.layoutParams as? ViewGroup.MarginLayoutParams)?.SetMargins(5, 5, 5, 5.dip2px())
+        }
     }
 
     class ViewHolder(mItemView: View) : RecyclerView.ViewHolder(mItemView) {
@@ -109,6 +109,7 @@ class FilmListAdapter(listViews: FilmList, context: Context) : RecyclerView.Adap
             other_name.text = film.aka.joinToString("\n")
             durations.text = film.durations.joinToString("/")
             pubdate.text = film.pubdates.joinToString("\n")
+            if (pubdate.text.isBlank()) pubdate.text = "无"
             country.text = film.countries.joinToString("/")
             language.text = film.languages.joinToString("/")
         }

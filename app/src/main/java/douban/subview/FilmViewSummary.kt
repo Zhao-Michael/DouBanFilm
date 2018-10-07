@@ -10,7 +10,7 @@ import co.lujun.androidtagview.TagContainerLayout
 import co.lujun.androidtagview.TagView
 import com.daimajia.numberprogressbar.NumberProgressBar
 import com.hedgehog.ratingbar.RatingBar
-import douban.Douban
+import douban.DouBanV1
 import douban.FilmDetail
 import douban.adapter.FilmListAdapter
 import michaelzhao.R
@@ -37,7 +37,7 @@ class FilmViewSummary(context: Context, filmDetail: FilmDetail) : IFilmView(cont
     }
 
     private fun initSummary() {
-        mTextBrief.text = mFilmDetail.summary.trim()
+        mTextBrief.text = "电影：${mFilmDetail.summary.trim()}"
     }
 
     private fun getTextView(id: Int): TextView {
@@ -73,7 +73,7 @@ class FilmViewSummary(context: Context, filmDetail: FilmDetail) : IFilmView(cont
 
             override fun onTagClick(position: Int, text: String?) {
                 Rx.get {
-                    Douban.getTagFilmList(text.toString())
+                    DouBanV1.getTagFilmList(text.toString())
                 }.set {
                     println(it)
                     //TODO

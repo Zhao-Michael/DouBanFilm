@@ -34,7 +34,7 @@ class FilmReviewAdapter(context: Context, filmDetail: FilmDetail) : RecyclerView
         val review = mListReview[pos]
         holder.setReview(review, pos + 1)
         if (pos == itemCount - 1) {
-            (holder.cardview.layoutParams as? ViewGroup.MarginLayoutParams)?.SetMargins(5, 5, 5, 10.dip2px())
+            (holder.cardview.layoutParams as? ViewGroup.MarginLayoutParams)?.SetMargins(5, 5, 5, 5.dip2px())
         }
         holder.cardview.OnClick { ShowWebView(mContext, review.alt, review.author.name + " : " + review.title) }
     }

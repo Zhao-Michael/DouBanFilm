@@ -14,7 +14,7 @@ import util.setImageUrl
 import michaelzhao.FilmDetailActivity
 import michaelzhao.R
 
-class BriefAdapter(listViews: Array<SearchBrief>, context: Context) : RecyclerView.Adapter<BriefAdapter.ViewHolder>() {
+class FilmBriefAdapter(listViews: Array<SearchBrief>, context: Context) : RecyclerView.Adapter<FilmBriefAdapter.ViewHolder>() {
 
     private val mListBrief = listOf(*listViews)
     private val mContext = context
@@ -41,8 +41,15 @@ class BriefAdapter(listViews: Array<SearchBrief>, context: Context) : RecyclerVi
         holder.title.text = sb.title
         if (sb.year != null && sb.year.isNotBlank())
             holder.year.text = sb.year
+        else
+            holder.year.visibility = View.GONE
         holder.page.text = (holder.adapterPosition + 1).toString()
-        holder.view.OnClick { FilmDetailActivity.ShowFilmDetail(sb.id) }
+        holder.view.OnClick {
+            when (sb.type) {
+                "celebrity" -> FilmDetailActivity.ShowFilmMan(sb.id)
+                "movie" -> FilmDetailActivity.ShowFilmDetail(sb.id)
+            }
+        }
     }
 
 

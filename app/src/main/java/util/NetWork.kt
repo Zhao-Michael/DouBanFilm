@@ -1,5 +1,6 @@
 package util
 
+import michaelzhao.App.Companion.UserAge
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.util.concurrent.TimeUnit
@@ -28,12 +29,12 @@ private val okhttp: OkHttpClient
                 .build()
     }
 
-private fun DownLoadString(url: String): String {
+private fun DownLoadString(url: String, userAgent: String = UserAge): String {
     var result = ""
     try {
         val real_url = url.replace(Regex("\\s+"), "+")
         println("Net Request: $real_url")
-        val request = Request.Builder().url(real_url).build()
+        val request = Request.Builder().url(real_url).addHeader("User-Agent", userAgent).build()
         val response = okhttp.newCall(request).execute()
         result = response.body()?.string()!!
         if (result.isNotBlank()) {
@@ -47,8 +48,9 @@ private fun DownLoadString(url: String): String {
     return result
 }
 
-fun GetUrlContent(url: String, type: TimeType = TimeType.Day): String {
+fun GetUrlContent(url: String, type: TimeType = TimeType.Day, userAgent: String = UserAge): String {
+
     return Util.TimeElapse("Get Url Content") {
-        DownLoadString(url)
+        DownLoadString(url, userAgent)
     }
 }

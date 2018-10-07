@@ -93,6 +93,10 @@ abstract class IFilmView(context: Context) {
         ShowSwipe(false)
     }
 
+    fun HideHeaderLayout() {
+        mView.find<View>(R.id.other_layout).visibility = View.GONE
+    }
+
 }
 
 class FilmView(context: Context) : IFilmView(context) {

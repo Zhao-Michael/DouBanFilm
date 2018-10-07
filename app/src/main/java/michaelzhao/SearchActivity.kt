@@ -5,7 +5,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.arlib.floatingsearchview.FloatingSearchView
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
-import douban.Douban
+import douban.DouBanV1
 import org.jetbrains.anko.find
 import util.*
 
@@ -44,7 +44,7 @@ class SearchActivity : BaseActivity(), FloatingSearchView.OnSearchListener, Floa
             mSwipeLayout.Enable()
             mSwipeLayout.ShowRefresh()
             Rx.get {
-                Douban.getSearchFilmList(query)
+                DouBanV1.getSearchFilmList(query)
             }.set {
                 mRecyclerView.FilmAdapter = it
             }.com {
@@ -59,7 +59,7 @@ class SearchActivity : BaseActivity(), FloatingSearchView.OnSearchListener, Floa
             mRecyclerView.adapter = null
         } else {
             Rx.get {
-                Douban.getSearchBrief(newQuery)
+                DouBanV1.getSearchBrief(newQuery)
             }.set {
                 if (newQuery == mSearchView.query)
                     mRecyclerView.BriefAdapter = it

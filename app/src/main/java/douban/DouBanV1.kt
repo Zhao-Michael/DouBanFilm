@@ -5,7 +5,7 @@ import util.GetUrlContent
 import util.*
 
 
-object Douban {
+object DouBanV1 {
 
     const val mBaseUrl = "https://api.douban.com/v2/movie/"
     const val mApiKey = "apikey=0b2bdeda43b5688921839c8ecb20399b"
@@ -20,21 +20,21 @@ object Douban {
     }
 
     //获取电影剧照
-    fun getFilmPhoto(id: String, start: Int = 0, count: Int = 100): FilmPhoto {
+    fun getFilmPhoto(id: String, start: Int = 0, count: Int = 50): FilmPhoto {
         val url = "${mBaseUrl}subject/$id/photos?$mApiKey&start=$start&count=$count"
         val html = GetUrlContent(url)
         return Gson().fromJson(html)
     }
 
     //获取电影短评
-    fun getFilmComment(id: String, start: Int = 0, count: Int = 100): FilmComment {
+    fun getFilmComment(id: String, start: Int = 0, count: Int = 50): FilmComment {
         val url = "${mBaseUrl}subject/$id/comments?$mApiKey&start=$start&count=$count"
         val html = GetUrlContent(url)
         return Gson().fromJson(html)
     }
 
     //获取电影影评
-    fun getFilmReview(id: String, start: Int = 0, count: Int = 100): FilmReview {
+    fun getFilmReview(id: String, start: Int = 0, count: Int = 50): FilmReview {
         val url = "${mBaseUrl}subject/$id/reviews?$mApiKey&start=$start&count=$count"
         val html = GetUrlContent(url)
         return Gson().fromJson(html)

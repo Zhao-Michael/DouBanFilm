@@ -301,7 +301,7 @@ data class FilmMan(
 
 data class Work(
         val roles: List<String>,
-        val subject: FilmDetail
+        val subject: FilmItem
 )
 
 

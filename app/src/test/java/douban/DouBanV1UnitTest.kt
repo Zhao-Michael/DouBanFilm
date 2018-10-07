@@ -5,7 +5,7 @@ import org.junit.Assert.assertNotNull
 import org.junit.Test
 import util.*
 
-class DouBanUnitTest {
+class DouBanV1UnitTest {
 
     val strFilmList = get_strFilmList()
 
@@ -819,13 +819,13 @@ class DouBanUnitTest {
 
     @Test
     fun test_getTheaterFilm_fromNet() {
-        val film = Douban.getTheaterFilms("北京")
+        val film = DouBanV1.getTheaterFilms("北京")
         test_FilmList(film)
     }
 
     @Test
     fun test_getFilmDetail_fromNet() {
-        val film = Douban.getFilmDetail("26309969")
+        val film = DouBanV1.getFilmDetail("26309969")
         test_FilmDetail(film)
     }
 
@@ -837,7 +837,7 @@ class DouBanUnitTest {
 
     @Test
     fun test_getFilmPhoto_fromNet() {
-        val film = Douban.getFilmPhoto("26865690")
+        val film = DouBanV1.getFilmPhoto("26865690")
         test_FilmPhoto(film)
     }
 
@@ -849,7 +849,7 @@ class DouBanUnitTest {
 
     @Test
     fun test_getFilmReview_fromNet() {
-        val film = Douban.getFilmReview("26865690")
+        val film = DouBanV1.getFilmReview("26865690")
         test_FilmReview(film)
     }
 
@@ -861,7 +861,7 @@ class DouBanUnitTest {
 
     @Test
     fun test_getFilmComment_fromNet() {
-        val film = Douban.getFilmComment("26636712")
+        val film = DouBanV1.getFilmComment("26636712")
         test_FilmComment(film)
     }
 
@@ -873,7 +873,7 @@ class DouBanUnitTest {
 
     @Test
     fun test_getSearchBrief_fromNet() {
-        val film = Douban.getSearchBrief("1")
+        val film = DouBanV1.getSearchBrief("1")
         test_SearchBrief(film)
     }
 
@@ -885,7 +885,7 @@ class DouBanUnitTest {
 
     @Test
     fun test_getTop250_fromNet() {
-        val film = Douban.getTop250Film(0, 10)
+        val film = DouBanV1.getTop250Film(0, 10)
         test_FilmList(film)
     }
 
@@ -897,20 +897,20 @@ class DouBanUnitTest {
 
     @Test
     fun test_getCityList_fromNet() {
-        val film = Douban.getCityList(0, 10)
+        val film = DouBanV1.getCityList(0, 10)
         test_CityList(film)
     }
 
 
     @Test
     fun test_getSearchFilmList_fromNet() {
-        val film = Douban.getSearchFilmList("1", 0, 10)
+        val film = DouBanV1.getSearchFilmList("1", 0, 10)
         test_FilmList(film)
     }
 
     @Test
     fun text_getFilmMan_fromNet() {
-        val film = Douban.getFilmManInfo("1054398")
+        val film = DouBanV1.getFilmManInfo("1054398")
         test_FilmMan(film)
     }
 
@@ -923,7 +923,7 @@ class DouBanUnitTest {
 
     @Test
     fun text_getFilmManWork_fromNet() {
-        val film = Douban.getFilmManWork("1054398")
+        val film = DouBanV1.getFilmManWork("1054398")
         test_FilmManWork(film)
     }
 
@@ -936,7 +936,7 @@ class DouBanUnitTest {
 
     @Test
     fun text_getFilmManPhoto_fromNet() {
-        val film = Douban.getFilmManPhoto("1054398")
+        val film = DouBanV1.getFilmManPhoto("1054398")
         test_FilmManPhoto(film)
     }
 
@@ -949,13 +949,13 @@ class DouBanUnitTest {
 
     @Test
     fun text_getRankFilm_fromNet() {
-        val film1 = Douban.getUSFilmRank()
+        val film1 = DouBanV1.getUSFilmRank()
         test_RankFilm(film1)
-        val film2 = Douban.getWeeklyRank()
+        val film2 = DouBanV1.getWeeklyRank()
         test_RankFilm(film2)
-        val film3 = Douban.getNewFilmRank()
+        val film3 = DouBanV1.getNewFilmRank()
         test_FilmList(film3)
-        val film4 = Douban.getComingFilm()
+        val film4 = DouBanV1.getComingFilm()
         test_FilmList(film4)
     }
 
@@ -967,7 +967,7 @@ class DouBanUnitTest {
 
     @Test
     fun test_getCurrentCity_fromNet() {
-        val city1 = Douban.getCurrentCity()
+        val city1 = DouBanV1.getCurrentCity()
         test_IPCity(city1)
     }
 

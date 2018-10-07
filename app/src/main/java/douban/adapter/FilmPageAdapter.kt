@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.orhanobut.hawk.Hawk
-import douban.Douban
+import douban.DouBanV1
 import douban.FilmList
 import org.jetbrains.anko.toast
 import util.FilmAdapter
@@ -67,20 +67,16 @@ class FilmPageAdapter(context: Context, show_loading: (b: Boolean) -> Unit) : Pa
         return mListTitle.size
     }
 
-    fun getRecyclerView(position: Int): RecyclerView {
-        return mListRecycler[position]
-    }
-
     fun updatePageFromNet(position: Int) {
         Rx.get {
             mShowLoading.invoke(true)
             return@get when (position) {
-                0 -> Douban.getTheaterFilms("上海")
-                1 -> Douban.getComingFilm()
-                2 -> Douban.getWeeklyRank().convetToFilmList()
-                3 -> Douban.getNewFilmRank()
-                4 -> Douban.getUSFilmRank().convetToFilmList()
-                5 -> Douban.getTop250Film()
+                0 -> DouBanV1.getTheaterFilms("上海")
+                1 -> DouBanV1.getComingFilm()
+                2 -> DouBanV1.getWeeklyRank().convetToFilmList()
+                3 -> DouBanV1.getNewFilmRank()
+                4 -> DouBanV1.getUSFilmRank().convetToFilmList()
+                5 -> DouBanV1.getTop250Film()
                 else -> throw NotImplementedError()
             }
         }.set {

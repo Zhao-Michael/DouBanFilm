@@ -9,12 +9,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import douban.Celebrity
 import douban.FilmDetail
+import michaelzhao.App
+import michaelzhao.FilmDetailActivity
 import org.jetbrains.anko.find
-import util.SetMargins
-import util.dip2px
-import util.inflate
-import util.setImageUrl
 import michaelzhao.R
+import michaelzhao.WebActivity
+import util.*
 
 class FilmCelebrityAdapter(context: Context, filmDetail: FilmDetail) : RecyclerView.Adapter<FilmCelebrityAdapter.ViewHolder>() {
 
@@ -54,9 +54,11 @@ class FilmCelebrityAdapter(context: Context, filmDetail: FilmDetail) : RecyclerV
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val pos = holder.adapterPosition
         if (pos == itemCount - 1) {
-            (holder.cardview.layoutParams as? ViewGroup.MarginLayoutParams)?.SetMargins(5, 5, 5, 10.dip2px())
+            (holder.cardview.layoutParams as? ViewGroup.MarginLayoutParams)?.SetMargins(5, 5, 5, 5.dip2px())
         }
-        holder.setCelebrity(mListCelebrity[pos], pos)
+        val cele = mListCelebrity[pos]
+        holder.setCelebrity(cele, pos)
+        holder.itemView.OnClick { FilmDetailActivity.ShowFilmMan(cele.id) }
     }
 
 

@@ -4,44 +4,40 @@ import android.content.Context
 import android.support.v4.view.PagerAdapter
 import android.view.View
 import android.view.ViewGroup
-import douban.FilmDetail
-import douban.subview.*
+import douban.FilmMan
+import douban.subview.FilmCelebritySummary
+import douban.subview.FilmView
+import douban.subview.IFilmView
 
-//电影详情页面
-class FilmDetailAdapter(context: Context, filmDetail: FilmDetail?) : PagerAdapter() {
+class FilmManAdapter(context: Context, filmMan: FilmMan?) : PagerAdapter() {
 
     private val mContext = context
     private val mListRecycler = mutableListOf<IFilmView>()
     private val mListTitle = mutableListOf<String>()
-    private val mFilmDetail: FilmDetail? = filmDetail
+    private val mFilmMan: FilmMan? = filmMan
 
     init {
-        mListTitle.add("简介")
-        mListTitle.add("影人")
-        mListTitle.add("剧照")
-        mListTitle.add("短评")
-        mListTitle.add("影评")
-        mListTitle.add("其他")
+        mListTitle.add("影人简介")
+        mListTitle.add("影人图片")
+        mListTitle.add("影人作品")
 
-        if (mFilmDetail != null) {
-            initUI(mFilmDetail)
+        if (mFilmMan != null) {
+            initUI(mFilmMan)
         } else {
-            //Empty Detail Activity
+            //Empty Film Man Activity
             mListRecycler.clear()
             mListTitle.forEach {
-                mListRecycler.add(FilmView(mContext))
+                mListRecycler.add(FilmView(context))
             }
         }
+
     }
 
-    private fun initUI(filmDetail: FilmDetail) {
+    private fun initUI(filmMan: FilmMan) {
         mListRecycler.clear()
-        mListRecycler.add(FilmViewSummary(mContext, filmDetail))
-        mListRecycler.add(FilmViewCelebrity(mContext, filmDetail))
-        mListRecycler.add(FilmViewPhoto(mContext, filmDetail))
-        mListRecycler.add(FilmViewComment(mContext, filmDetail))
-        mListRecycler.add(FilmViewReview(mContext, filmDetail))
-        mListRecycler.add(FilmViewSummary(mContext, filmDetail))
+        mListRecycler.add(FilmCelebritySummary(mContext, filmMan))
+        mListRecycler.add(FilmView(mContext))
+        mListRecycler.add(FilmView(mContext))
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
@@ -65,6 +61,5 @@ class FilmDetailAdapter(context: Context, filmDetail: FilmDetail?) : PagerAdapte
     override fun getPageTitle(position: Int): CharSequence? {
         return mListTitle[position]
     }
-
 
 }

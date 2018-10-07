@@ -5,7 +5,6 @@ package util
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Looper
@@ -23,13 +22,12 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.IIcon
-import douban.adapter.BriefAdapter
+import douban.adapter.FilmBriefAdapter
 import douban.adapter.FilmListAdapter
 import douban.FilmList
 import douban.SearchBrief
@@ -171,15 +169,15 @@ var RecyclerView.FilmAdapter: FilmList
         return (adapter as FilmListAdapter).getFilmList()
     }
     set(it) {
-        uiThread { adapter = FilmListAdapter(it, context) }
+        uiThread { adapter = FilmListAdapter(context, it) }
     }
 
 var RecyclerView.BriefAdapter: Array<SearchBrief>
     get() {
-        return (adapter as BriefAdapter).getListBrief()
+        return (adapter as FilmBriefAdapter).getListBrief()
     }
     set(it) {
-        uiThread { adapter = BriefAdapter(it, context) }
+        uiThread { adapter = FilmBriefAdapter(it, context) }
     }
 
 
@@ -260,6 +258,13 @@ fun ImageView.setImageUrl(url: String, holder: Int = 0, isCenterCrop: Boolean = 
             })
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(this)
+}
+
+fun String.ReplaceEmpty(): String {
+    return if (isBlank())
+        "无"
+    else
+        this.trim()
 }
 
 fun ImageView.setIcon(icon: IIcon) {

@@ -41,7 +41,7 @@ class FilmCommentAdapter(context: Context, filmDetail: FilmDetail) : RecyclerVie
         val pos = holder.adapterPosition
         holder.setComment(mListComment[pos])
         if (pos == itemCount - 1) {
-            (holder.cardview.layoutParams as? ViewGroup.MarginLayoutParams)?.SetMargins(5, 5, 5, 10.dip2px())
+            (holder.cardview.layoutParams as? ViewGroup.MarginLayoutParams)?.SetMargins(5, 5, 5, 5.dip2px())
         }
     }
 
