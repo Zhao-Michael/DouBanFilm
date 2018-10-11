@@ -55,15 +55,17 @@
 
         <ImageButton android:id="@+id/mBtnClose"
                      android:background="@color/transparent"
-                     android:layout_width="30dp"
-                     android:layout_height="30dp"
+                     android:padding="10dp"
+                     android:layout_width="50dp"
+                     android:layout_height="50dp"
                      android:layout_margin="30dp"
                      android:layout_gravity="bottom"/>
 
         <ImageButton android:id="@+id/mBtnMore"
                      android:background="@color/transparent"
-                     android:layout_width="30dp"
-                     android:layout_height="30dp"
+                     android:padding="10dp"
+                     android:layout_width="50dp"
+                     android:layout_height="50dp"
                      android:layout_margin="30dp"
                      android:layout_gravity="end|bottom"/>
 

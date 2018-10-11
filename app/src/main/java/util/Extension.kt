@@ -6,7 +6,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.os.Looper
 import android.support.design.widget.TabLayout
 import android.support.v7.widget.RecyclerView
@@ -21,12 +20,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.IIcon
+import com.orhanobut.hawk.Hawk
+import com.squareup.picasso.Picasso
 import douban.adapter.FilmBriefAdapter
 import douban.adapter.FilmListAdapter
 import douban.FilmList
@@ -247,16 +245,13 @@ fun TabLayout.setTabStyle(dstDip: Int = 10) {
 
 }
 
-fun ImageView.setImageUrl(url: String, holder: Int = 0, isCenterCrop: Boolean = true) {
-    Glide.with(context)
+fun ImageView.setImageUrl(url: String, holder: Int = 0) {
+    Picasso.get()
             .load(url)
-            .apply(RequestOptions.placeholderOf(holder).apply {
-                if (isCenterCrop) {
-                    scaleType = ImageView.ScaleType.CENTER_CROP
-                    centerCrop()
-                }
-            })
-            .transition(DrawableTransitionOptions.withCrossFade())
+            .apply {
+                if (holder != 0)
+                    placeholder(holder)
+            }
             .into(this)
 }
 
@@ -281,3 +276,14 @@ fun View.SetHeight(height: Int) {
     this.layoutParams = layoutParams
 }
 
+fun <T> HawkPut(id: Int, value: T) {
+    Hawk.put<T>(App.Instance.getString(id), value)
+}
+
+fun <T> HawkGet(id: Int): T {
+    return Hawk.get<T>(App.Instance.getString(id))
+}
+
+fun <T> HawkGet(id: Int, defaultValue: T): T {
+    return Hawk.get<T>(App.Instance.getString(id), defaultValue)
+}

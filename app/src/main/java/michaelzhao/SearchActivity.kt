@@ -47,7 +47,7 @@ class SearchActivity : BaseActivity(), FloatingSearchView.OnSearchListener, Floa
                 DouBanV1.getSearchFilmList(query)
             }.set {
                 mRecyclerView.FilmAdapter = it
-            }.com {
+            }.end {
                 mSwipeLayout.DisEnable()
                 mSwipeLayout.HideRefresh()
             }

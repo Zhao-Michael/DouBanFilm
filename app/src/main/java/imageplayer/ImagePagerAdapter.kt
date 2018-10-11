@@ -24,7 +24,7 @@ class ImagePagerAdapter(context: Context, listUrl: List<String>) : PagerAdapter(
         val view = LayoutInflater.from(mContext).inflate(R.layout.full_image_layout, null)
         view.find<ProgressBar>(R.id.image_progress_bar).indeterminateTintList = ColorStateList.valueOf(BaseActivity.getPrimaryColor())
         val photoView = view.find<PhotoView>(R.id.mPhotoView)
-        photoView.setImageUrl(obj, 0, false)
+        photoView.setImageUrl(obj)
         container.addView(view)
         return view
     }

@@ -13,9 +13,9 @@ import org.jetbrains.anko.textColor
 import util.ReplaceEmpty
 import util.setImageUrl
 
-class FilmCelebritySummary(context: Context, filmMan: FilmMan) : IFilmView(context) {
+class FilmManSummary(context: Context, filmMan: FilmMan) : IFilmView(context) {
 
-    override val mLayout: Int = R.layout.film_celebrity_brief_layout
+    override val mLayout: Int = R.layout.film_man_brief_layout
     private val mFilmMan = filmMan
     private val mImageView by lazy { mView.find<ImageView>(R.id.image) }
     private val mTextTitle by lazy { mView.find<TextView>(R.id.title) }

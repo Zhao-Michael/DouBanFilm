@@ -6,12 +6,11 @@ import android.support.design.widget.Snackbar
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.view.Gravity
+import android.view.View
 import android.widget.ImageView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.github.florent37.glidepalette.BitmapPalette.Profile.MUTED
-import com.github.florent37.glidepalette.GlidePalette
+import com.github.florent37.picassopalette.PicassoPalette
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import com.squareup.picasso.Picasso
 import douban.DouBanV1
 import douban.FilmDetail
 import douban.FilmMan
@@ -19,7 +18,6 @@ import douban.adapter.FilmDetailAdapter
 import douban.adapter.FilmManAdapter
 import org.jetbrains.anko.*
 import util.*
-import java.lang.Exception
 
 class FilmDetailActivity : BaseActivity() {
 
@@ -58,7 +56,9 @@ class FilmDetailActivity : BaseActivity() {
             refreshFilmDetail()
         else
             refreshFilmMan()
-
+        uiThread(100) {
+            println(find<View>(R.id.appbar_layout).measuredHeight)
+        }
     }
 
     private fun initUI() {
@@ -91,7 +91,7 @@ class FilmDetailActivity : BaseActivity() {
             updateFilmMan(it)
         }.err {
             Snackbar.make(mViewPager, "${it.message}", Snackbar.LENGTH_INDEFINITE).show()
-        }.com {
+        }.end {
             mSwipeLayout.DisEnable()
         }
     }
@@ -110,7 +110,7 @@ class FilmDetailActivity : BaseActivity() {
             updateFilmDetail(it)
         }.err {
             Snackbar.make(mViewPager, "${it.message}", Snackbar.LENGTH_INDEFINITE).show()
-        }.com {
+        }.end {
             mSwipeLayout.DisEnable()
         }
     }
@@ -122,19 +122,17 @@ class FilmDetailActivity : BaseActivity() {
     }
 
     private fun updatePosterImage(url: String, name: String) {
-        Glide.with(this).load(url)
-                .listener(GlidePalette.with(url)
-                        .use(MUTED).intoCallBack {
-                            try {
-                                val drawable = Util.CreateRepeatDrawable(name, it?.mutedSwatch?.rgb!!, resources)
-                                mPosterBackground.image = drawable
-                            } catch (ex: Exception) {
-                                ex.printStackTrace()
-                            }
+        Picasso.get()
+                .load(url)
+                .into(mImageView, PicassoPalette
+                        .with(url, mImageView)
+                        .use(PicassoPalette.Profile.MUTED)
+                        .intoCallBack {
+                            val drawable = Util.CreateRepeatDrawable(name, it?.mutedSwatch?.rgb!!, resources)
+                            mPosterBackground.image = drawable
                         }
-                        .crossfade(true))
-                .transition(DrawableTransitionOptions.withCrossFade(400))
-                .into(mImageView)
+                )
+
     }
 
 }

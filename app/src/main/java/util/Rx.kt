@@ -41,7 +41,7 @@ class Rx<T> private constructor() : Observer<T> {
         return this
     }
 
-    fun com(action: () -> Unit): Rx<T> {
+    fun end(action: () -> Unit): Rx<T> {
         onComplete = { action.invoke() }
         return this
     }

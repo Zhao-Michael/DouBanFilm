@@ -2,6 +2,7 @@ package michaelzhao
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.graphics.Point
 import android.os.Bundle
 import android.support.annotation.ColorInt
 import android.support.v4.content.ContextCompat
@@ -13,6 +14,7 @@ import com.orhanobut.hawk.Hawk
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.find
 import util.VerticalSwipeRefreshLayout
+import util.*
 
 @SuppressLint("Registered")
 abstract class BaseActivity : AppCompatActivity() {
@@ -21,7 +23,7 @@ abstract class BaseActivity : AppCompatActivity() {
         private var primaryColor: Int = 0
         private var accentColor: Int = 0
         private var textColorPrimary: Int = 0
-
+        private var ScreenSize = Point(0, 0)
         fun getPrimaryColor(): Int {
             return primaryColor
         }
@@ -33,6 +35,8 @@ abstract class BaseActivity : AppCompatActivity() {
         fun getTextColorPrimary(): Int {
             return textColorPrimary
         }
+
+        fun getScreenSize() = ScreenSize
     }
 
     protected val mToolBar by lazy { find<Toolbar>(R.id.toolbar) }
@@ -49,6 +53,21 @@ abstract class BaseActivity : AppCompatActivity() {
         setStatusBarColor()
         setNavBarColor()
         setToolBarColor()
+        initScreenSize()
+    }
+
+    private fun initScreenSize() {
+        if (ScreenSize.x == 0) {
+            val wid = HawkGet(R.string.preference_screen_width, 0)
+            if (wid == 0) {
+                windowManager.defaultDisplay.getSize(ScreenSize)
+                HawkPut(R.string.preference_screen_width, ScreenSize.x)
+                HawkPut(R.string.preference_screen_height, ScreenSize.y)
+            } else {
+                ScreenSize.x = HawkGet(R.string.preference_screen_width)
+                ScreenSize.y = HawkGet(R.string.preference_screen_height)
+            }
+        }
     }
 
     fun setNavBarColor() {

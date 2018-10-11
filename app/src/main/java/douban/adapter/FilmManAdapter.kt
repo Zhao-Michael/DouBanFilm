@@ -5,7 +5,8 @@ import android.support.v4.view.PagerAdapter
 import android.view.View
 import android.view.ViewGroup
 import douban.FilmMan
-import douban.subview.FilmCelebritySummary
+import douban.subview.FilmManPhotos
+import douban.subview.FilmManSummary
 import douban.subview.FilmView
 import douban.subview.IFilmView
 
@@ -35,8 +36,8 @@ class FilmManAdapter(context: Context, filmMan: FilmMan?) : PagerAdapter() {
 
     private fun initUI(filmMan: FilmMan) {
         mListRecycler.clear()
-        mListRecycler.add(FilmCelebritySummary(mContext, filmMan))
-        mListRecycler.add(FilmView(mContext))
+        mListRecycler.add(FilmManSummary(mContext, filmMan))
+        mListRecycler.add(FilmManPhotos(mContext, filmMan))
         mListRecycler.add(FilmView(mContext))
     }
 

@@ -69,13 +69,13 @@ class FilmListAdapter(context: Context, listViews: FilmList) : RecyclerView.Adap
         val more_layout by lazy { mItemView.find<FrameLayout>(R.id.more_layout) }
 
         fun setFilmItem(film: FilmItem) {
-            title.text = film.title
-            year.text = film.year
-            rate.text = film.rating.average.toString()
+            title.text = film.title.ReplaceEmpty()
+            year.text = film.year.ReplaceEmpty()
+            rate.text = film.rating.average.toString().ReplaceEmpty()
             genres.text = film.genres.joinToString("/")
-            org_name.text = film.original_title
-            director.text = film.directors.joinToString("/") { it.name }
-            actor.text = film.casts.joinToString("/") { it.name }
+            org_name.text = film.original_title.ReplaceEmpty()
+            director.text = film.directors.joinToString("/") { it.name }.ReplaceEmpty()
+            actor.text = film.casts.joinToString("/") { it.name }.ReplaceEmpty()
             ratingbar.setStar((film.rating.stars.toInt() / 10.0).toFloat())
             if (film.rating.stars.toInt() == 0) {
                 ratingbar.visibility = View.GONE
@@ -88,13 +88,13 @@ class FilmListAdapter(context: Context, listViews: FilmList) : RecyclerView.Adap
 
 
         fun setFilmDetail(film: FilmDetail) {
-            title.text = film.title
-            year.text = film.year
-            rate.text = film.rating.average.toString()
-            genres.text = film.genres.joinToString("/")
-            org_name.text = film.original_title
-            director.text = film.directors.joinToString("/") { it.name }
-            actor.text = film.casts.joinToString("/") { it.name }
+            title.text = film.title.ReplaceEmpty()
+            year.text = film.year.ReplaceEmpty()
+            rate.text = film.rating.average.toString().ReplaceEmpty()
+            genres.text = film.genres.joinToString("/").ReplaceEmpty()
+            org_name.text = film.original_title.ReplaceEmpty()
+            director.text = film.directors.joinToString("/") { it.name }.ReplaceEmpty()
+            actor.text = film.casts.joinToString("/") { it.name }.ReplaceEmpty()
             ratingbar.setStar((film.rating.stars.toInt() / 10.0).toFloat())
             if (film.rating.stars.toInt() == 0) {
                 ratingbar.visibility = View.GONE
@@ -106,24 +106,23 @@ class FilmListAdapter(context: Context, listViews: FilmList) : RecyclerView.Adap
             switch_btn.setIcon(GoogleMaterial.Icon.gmd_keyboard_arrow_down, Color.GRAY, 10)
             switch_btn.OnClick { switch_BtnClick(film) }
             cardview.OnClick { switch_btn.callOnClick() }
-            other_name.text = film.aka.joinToString("\n")
-            durations.text = film.durations.joinToString("/")
-            pubdate.text = film.pubdates.joinToString("\n")
-            if (pubdate.text.isBlank()) pubdate.text = "无"
-            country.text = film.countries.joinToString("/")
-            language.text = film.languages.joinToString("/")
+            other_name.text = film.aka.joinToString("\n").ReplaceEmpty()
+            durations.text = film.durations.joinToString("/").ReplaceEmpty()
+            pubdate.text = film.pubdates.joinToString("\n").ReplaceEmpty()
+            country.text = film.countries.joinToString("/").ReplaceEmpty()
+            language.text = film.languages.joinToString("/").ReplaceEmpty()
         }
 
         private fun switch_BtnClick(film: FilmDetail) {
             val isExpand = switch_btn.tag as Boolean
             if (isExpand) {// in collapsed
                 switch_btn.setIcon(GoogleMaterial.Icon.gmd_keyboard_arrow_down, Color.GRAY, 10)
-                actor.text = film.casts.joinToString("/") { it.name }
+                actor.text = film.casts.joinToString("/") { it.name }.ReplaceEmpty()
                 actor.setLines(1)
             } else { // in expand
                 switch_btn.setIcon(GoogleMaterial.Icon.gmd_keyboard_arrow_up, Color.GRAY, 10)
                 val too_long = film.casts.joinToString("") { it.name }.length > 15
-                actor.text = film.casts.joinToString(if (too_long) "\n" else "/") { it.name }
+                actor.text = film.casts.joinToString(if (too_long) "\n" else "/") { it.name }.ReplaceEmpty()
                 actor.setLines(if (too_long) film.casts.size else 1)
             }
             switch_btn.tag = !isExpand

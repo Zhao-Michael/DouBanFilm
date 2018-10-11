@@ -2,8 +2,12 @@ package michaelzhao
 
 import android.app.Activity
 import android.app.Application
+import android.content.Context
 import android.content.Intent
 import com.orhanobut.hawk.Hawk
+import com.squareup.picasso.LruCache
+import com.squareup.picasso.Picasso
+import java.util.concurrent.Executors
 
 class App : Application() {
     companion object {
@@ -15,6 +19,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         Instance = this
+        Init_Picasso(this)
         //mCrashHandler.init()
         Hawk.init(this).build()
     }
@@ -36,6 +41,14 @@ class App : Application() {
             Thread.setDefaultUncaughtExceptionHandler(this)
         }
 
+    }
+
+    private fun Init_Picasso(context: Context) {
+        val builder = Picasso.Builder(context)
+        val cache = LruCache(5 * 1024 * 1024)
+        builder.memoryCache(cache)
+        val picasso = builder.build()
+        Picasso.setSingletonInstance(picasso)
     }
 
 

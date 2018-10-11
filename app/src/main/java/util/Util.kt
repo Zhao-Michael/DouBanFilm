@@ -11,6 +11,9 @@ import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import java.io.ByteArrayOutputStream
+import android.graphics.Bitmap
+import android.widget.ImageView
+
 
 object Util {
     fun Bitmap2Byte(bitmap: Bitmap): ByteArray {
@@ -71,5 +74,15 @@ object Util {
         }
     }
 
+    fun ReleaseImageViewResouce(imageView: ImageView?) {
+        if (imageView == null) return
+        val drawable = imageView.drawable
+        if (drawable != null && drawable is BitmapDrawable) {
+            val bitmap = drawable.bitmap
+            if (bitmap != null && !bitmap.isRecycled) {
+                bitmap.recycle()
+            }
+        }
+    }
 
 }

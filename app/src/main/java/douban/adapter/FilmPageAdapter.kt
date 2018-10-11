@@ -84,7 +84,7 @@ class FilmPageAdapter(context: Context, show_loading: (b: Boolean) -> Unit) : Pa
             mListRecycler[position].FilmAdapter = it
         }.err {
             mContext.toast(it.message.toString())
-        }.com {
+        }.end {
             mShowLoading.invoke(false)
         }
     }

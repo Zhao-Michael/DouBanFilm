@@ -20,21 +20,21 @@ object DouBanV1 {
     }
 
     //获取电影剧照
-    fun getFilmPhoto(id: String, start: Int = 0, count: Int = 50): FilmPhoto {
+    fun getFilmPhoto(id: String, start: Int = 0, count: Int = 30): FilmPhoto {
         val url = "${mBaseUrl}subject/$id/photos?$mApiKey&start=$start&count=$count"
         val html = GetUrlContent(url)
         return Gson().fromJson(html)
     }
 
     //获取电影短评
-    fun getFilmComment(id: String, start: Int = 0, count: Int = 50): FilmComment {
+    fun getFilmComment(id: String, start: Int = 0, count: Int = 30): FilmComment {
         val url = "${mBaseUrl}subject/$id/comments?$mApiKey&start=$start&count=$count"
         val html = GetUrlContent(url)
         return Gson().fromJson(html)
     }
 
     //获取电影影评
-    fun getFilmReview(id: String, start: Int = 0, count: Int = 50): FilmReview {
+    fun getFilmReview(id: String, start: Int = 0, count: Int = 30): FilmReview {
         val url = "${mBaseUrl}subject/$id/reviews?$mApiKey&start=$start&count=$count"
         val html = GetUrlContent(url)
         return Gson().fromJson(html)
@@ -63,14 +63,14 @@ object DouBanV1 {
     }
 
     //获取电影搜索列表
-    fun getSearchFilmList(key: String, start: Int = 0, count: Int = 20): FilmList {
+    fun getSearchFilmList(key: String, start: Int = 0, count: Int = 30): FilmList {
         val url = "${mBaseUrl}search?q=$key&start=$start&count=$count"
         val html = GetUrlContent(url)
         return Gson().fromJson(html)
     }
 
     //获取指定标记相关的电影列表
-    fun getTagFilmList(tag: String, start: Int = 0, count: Int = 20): FilmList {
+    fun getTagFilmList(tag: String, start: Int = 0, count: Int = 30): FilmList {
         val url = "${mBaseUrl}search?tag=$tag&start=$start&count=$count"
         val html = GetUrlContent(url)
         return Gson().fromJson(html)

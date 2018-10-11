@@ -25,4 +25,7 @@
     <string name="preference_internal_uri_extsdcard_photos">uri_extsdcard_photos</string>
     <string name="preference_show_fab">show_fab</string>
     <string name="preference_sub_scaling">use_sub_scaling</string>
+
+    <string name="preference_screen_width">preference_screen_width</string>
+    <string name="preference_screen_height">preference_screen_height</string>
 </resources>
