@@ -47,7 +47,7 @@ object Util {
 
         val paint = Paint()
         paint.color = Color.WHITE
-        paint.alpha = 20
+        paint.alpha = 25
         paint.isAntiAlias = true
         paint.textAlign = Paint.Align.LEFT
         paint.textSize = 40f

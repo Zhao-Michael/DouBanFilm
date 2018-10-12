@@ -128,8 +128,15 @@ class FilmDetailActivity : BaseActivity() {
                         .with(url, mImageView)
                         .use(PicassoPalette.Profile.MUTED)
                         .intoCallBack {
-                            val drawable = Util.CreateRepeatDrawable(name, it?.mutedSwatch?.rgb!!, resources)
-                            mPosterBackground.image = drawable
+                            try {
+                                var swatch = it.mutedSwatch
+                                if (swatch == null) swatch = it.vibrantSwatch
+                                if (swatch == null) swatch = it.dominantSwatch
+                                val drawable = Util.CreateRepeatDrawable(name, swatch?.rgb!!, resources)
+                                mPosterBackground.image = drawable
+                            } catch (ex: Exception) {
+                                ex.printStackTrace()
+                            }
                         }
                 )
 

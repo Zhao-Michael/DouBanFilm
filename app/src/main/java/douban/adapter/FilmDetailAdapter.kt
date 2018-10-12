@@ -21,7 +21,7 @@ class FilmDetailAdapter(context: Context, filmDetail: FilmDetail?) : PagerAdapte
         mListTitle.add("剧照")
         mListTitle.add("短评")
         mListTitle.add("影评")
-        mListTitle.add("其他")
+        mListTitle.add("下载")
 
         if (mFilmDetail != null) {
             initUI(mFilmDetail)
@@ -38,9 +38,9 @@ class FilmDetailAdapter(context: Context, filmDetail: FilmDetail?) : PagerAdapte
         mListRecycler.clear()
         mListRecycler.add(FilmViewSummary(mContext, filmDetail))
         mListRecycler.add(FilmViewCelebrity(mContext, filmDetail))
-        mListRecycler.add(FilmViewPhoto(mContext, filmDetail))
-        mListRecycler.add(FilmViewComment(mContext, filmDetail))
-        mListRecycler.add(FilmViewReview(mContext, filmDetail))
+        mListRecycler.add(FilmPhotoView(mContext, filmDetail))
+        mListRecycler.add(FilmCommentView(mContext, filmDetail))
+        mListRecycler.add(FilmReviewView(mContext, filmDetail))
         mListRecycler.add(FilmViewSummary(mContext, filmDetail))
     }
 

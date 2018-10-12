@@ -27,6 +27,8 @@ abstract class IFilmView(context: Context) {
 
     protected abstract val mLayout: Int
 
+    protected var mItemCount = 30
+
     protected val mView: View by lazy { LayoutInflater.from(context).inflate(mLayout, null) }
     protected val mRecyclerView by lazy { mView.find<RecyclerView>(R.id.mRecyclerView) }
     protected val mSwipeLayout by lazy { mView.find<VerticalSwipeRefreshLayout>(R.id.mSwipeLayout) }
@@ -107,13 +109,15 @@ abstract class IFilmView(context: Context) {
     }
 
     protected fun initPageSwitch() {
+        mTextPrevious.textColor = BaseActivity.getPrimaryColor()
         mTextPrevious.OnClick {
-            if (allPage == 1) return@OnClick
+            if (currPage == 1) return@OnClick
             currPage--
             onSwitchPage(currPage)
         }
+        mTextNext.textColor = BaseActivity.getPrimaryColor()
         mTextNext.OnClick {
-            if (allPage == 1) return@OnClick
+            if (allPage == currPage) return@OnClick
             currPage++
             onSwitchPage(currPage)
         }
