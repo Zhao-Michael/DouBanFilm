@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <util.VerticalSwipeRefreshLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/mSwipeLayout"
         android:orientation="vertical"
         android:scrollbars="vertical"
@@ -19,11 +18,12 @@
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content">
 
+            <View android:layout_width="match_parent" android:layout_height="3dp"/>
+
             <include layout="@layout/common_header_layout"/>
 
             <android.support.v7.widget.RecyclerView
                     android:id="@+id/mRecyclerView"
-                    android:layout_marginTop="2dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
 

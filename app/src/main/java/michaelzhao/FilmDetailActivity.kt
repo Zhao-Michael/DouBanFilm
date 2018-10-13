@@ -16,6 +16,7 @@ import douban.FilmDetail
 import douban.FilmMan
 import douban.adapter.FilmDetailAdapter
 import douban.adapter.FilmManAdapter
+import org.apache.commons.lang3.NotImplementedException
 import org.jetbrains.anko.*
 import util.*
 
@@ -117,7 +118,12 @@ class FilmDetailActivity : BaseActivity() {
 
     private fun updateFilmDetail(film: FilmDetail) {
         updatePosterImage(film.images.large, film.title)
-        setToolBarTitle("电影：" + film.title)
+        val type = when (film.subtype) {
+            "tv" -> "电视剧"
+            "movie" -> "电影"
+            else -> throw NotImplementedException(film.subtype)
+        }
+        setToolBarTitle("$type：" + film.title)
         mViewPager.adapter = FilmDetailAdapter(this, film)
     }
 

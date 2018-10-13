@@ -16,7 +16,7 @@ class FilmPhotoView(context: Context, filmDetail: FilmDetail) : IFilmView(contex
     private val mFilmDetail = filmDetail
 
     init {
-        initRecyclerView(3)
+        initRecyclerView(2)
         initSwipeLayout()
         initSwitchBtn()
         initPageSwitch()
@@ -24,6 +24,7 @@ class FilmPhotoView(context: Context, filmDetail: FilmDetail) : IFilmView(contex
 
     override fun onNormalClick() {
         ShowPageSwitch(false)
+        initRecyclerView(2)
         mRecyclerView.adapter = FilmPhotoAdapter(mContext, mFilmDetail)
     }
 
@@ -39,6 +40,7 @@ class FilmPhotoView(context: Context, filmDetail: FilmDetail) : IFilmView(contex
             DouBanV1.getFilmPhoto(mFilmDetail.id, abs(page - 1) * mItemCount)
         }.set {
             setTotalPage(max(it.total / mItemCount + 1, 1))
+            initRecyclerView(3)
             mRecyclerView.adapter = FilmPhotoAdapter(mRecyclerView, it)
         }.end {
             EnablePageSwitch()

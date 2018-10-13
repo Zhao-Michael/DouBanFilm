@@ -10,6 +10,7 @@
     <LinearLayout android:layout_width="match_parent"
                   android:orientation="vertical"
                   android:paddingTop="5dp"
+                  android:focusableInTouchMode="true"
                   android:layout_height="wrap_content">
 
         <include layout="@layout/listitem_film_cardview"/>
