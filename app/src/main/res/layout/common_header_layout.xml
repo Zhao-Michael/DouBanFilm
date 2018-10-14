@@ -25,6 +25,11 @@
                       android:id="@+id/text_normal"
                       android:layout_height="wrap_content"/>
 
+            <ImageView android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:id="@+id/image_direction"
+                       android:layout_gravity="center"/>
+
             <TextView android:layout_width="wrap_content"
                       android:text="更多"
                       android:padding="5dp"
@@ -48,33 +53,38 @@
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content">
 
-            <TextView android:layout_width="wrap_content"
-                      android:text="上一页"
-                      android:padding="5dp"
-                      android:id="@+id/text_previous"
-                      android:layout_height="wrap_content"/>
+            <ImageView android:layout_width="wrap_content"
+                       android:text="上一页"
+                       android:padding="5dp"
+                       android:layout_gravity="center"
+                       android:id="@+id/image_previous"
+                       android:layout_height="wrap_content"/>
 
             <TextView android:layout_width="wrap_content"
                       android:text="1"
-                      android:padding="5dp"
+                      android:padding="4dp"
                       android:id="@+id/text_curr_pages"
+                      android:layout_gravity="center"
                       android:layout_height="wrap_content"/>
 
             <TextView android:layout_width="wrap_content"
                       android:text=" / "
+                      android:layout_gravity="center"
                       android:layout_height="wrap_content"/>
 
             <TextView android:layout_width="wrap_content"
                       android:text="1"
-                      android:padding="5dp"
+                      android:padding="4dp"
                       android:id="@+id/text_total_pages"
+                      android:layout_gravity="center"
                       android:layout_height="wrap_content"/>
 
-            <TextView android:layout_width="wrap_content"
-                      android:text="下一页"
-                      android:padding="5dp"
-                      android:id="@+id/text_next"
-                      android:layout_height="match_parent"/>
+            <ImageView android:layout_width="wrap_content"
+                       android:text="下一页"
+                       android:padding="5dp"
+                       android:id="@+id/image_next"
+                       android:layout_gravity="center"
+                       android:layout_height="match_parent"/>
 
         </LinearLayout>
 

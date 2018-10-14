@@ -1,6 +1,7 @@
 package util
 
 import android.app.Activity
+import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.res.Resources
 import android.graphics.*
@@ -13,9 +14,16 @@ import android.view.inputmethod.InputMethodManager
 import java.io.ByteArrayOutputStream
 import android.graphics.Bitmap
 import android.widget.ImageView
+import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import com.mikepenz.iconics.IconicsDrawable
+import michaelzhao.BaseActivity
+import java.util.*
 
 
 object Util {
+
+    val NowDate get() = Date(System.currentTimeMillis())
+
     fun Bitmap2Byte(bitmap: Bitmap): ByteArray {
         val stream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
@@ -83,6 +91,10 @@ object Util {
                 bitmap.recycle()
             }
         }
+    }
+
+    fun CreateIcon(context: Context, icon: GoogleMaterial.Icon, size: Int): IconicsDrawable {
+        return IconicsDrawable(context).icon(icon).color(BaseActivity.getPrimaryColor()).sizeDp(size)
     }
 
 }

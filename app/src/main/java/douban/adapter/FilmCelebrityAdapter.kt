@@ -9,11 +9,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import douban.Celebrity
 import douban.FilmDetail
-import michaelzhao.App
 import michaelzhao.FilmDetailActivity
 import org.jetbrains.anko.find
 import michaelzhao.R
-import michaelzhao.WebActivity
 import util.*
 
 class FilmCelebrityAdapter(context: Context, filmDetail: FilmDetail) : RecyclerView.Adapter<FilmCelebrityAdapter.ViewHolder>() {
@@ -43,7 +41,7 @@ class FilmCelebrityAdapter(context: Context, filmDetail: FilmDetail) : RecyclerV
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = mContext.inflate(R.layout.listitem_celebrity_cardview, parent)
+        val view = mContext.inflate(R.layout.listitem_man_cardview, parent)
         return ViewHolder(view)
     }
 

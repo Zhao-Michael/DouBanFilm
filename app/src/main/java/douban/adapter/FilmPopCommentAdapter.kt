@@ -19,6 +19,7 @@ import michaelzhao.R
 import org.jetbrains.anko.find
 import org.jetbrains.anko.image
 import util.SetMargins
+import util.Util.CreateIcon
 import util.dip2px
 import util.inflate
 import util.setImageUrl
@@ -63,7 +64,7 @@ class FilmPopCommentAdapter(context: Context, filmDetail: FilmDetail) : Recycler
             text_date.text = comment.created_at
             text_comment.text = comment.content
             text_like.text = comment.useful_count.toString()
-            image_like.image = IconicsDrawable(image_like.context).icon(GoogleMaterial.Icon.gmd_thumb_up).color(BaseActivity.getPrimaryColor()).sizeDp(14)
+            image_like.image = CreateIcon(image_like.context, GoogleMaterial.Icon.gmd_thumb_up, 14)
             if (comment.rating.stars != null)
                 ratingbar.setStar((comment.rating.stars.toInt() / 10.0).toFloat())
         }
@@ -74,7 +75,7 @@ class FilmPopCommentAdapter(context: Context, filmDetail: FilmDetail) : Recycler
             text_date.text = comment.created_at
             text_comment.text = comment.content
             text_like.text = comment.useful_count.toString()
-            image_like.image = IconicsDrawable(image_like.context).icon(GoogleMaterial.Icon.gmd_thumb_up).color(BaseActivity.getPrimaryColor()).sizeDp(14)
+            image_like.image = CreateIcon(image_like.context, GoogleMaterial.Icon.gmd_thumb_up, 14)
             if (comment.rating.stars != null)
                 ratingbar.setStar((comment.rating.stars.toInt() / 10.0).toFloat())
         }

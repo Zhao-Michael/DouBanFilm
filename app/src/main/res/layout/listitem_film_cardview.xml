@@ -27,7 +27,7 @@
             <ImageView
                     android:id="@+id/image"
                     android:layout_margin="5dp"
-                    android:background="@color/md_grey_300"
+                    android:background="@drawable/loading_large"
                     android:scaleType="centerCrop"
                     android:layout_width="89dp"
                     android:layout_height="135dp"/>

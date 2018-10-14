@@ -7,7 +7,6 @@ import android.content.Intent
 import com.orhanobut.hawk.Hawk
 import com.squareup.picasso.LruCache
 import com.squareup.picasso.Picasso
-import java.util.concurrent.Executors
 
 class App : Application() {
     companion object {
