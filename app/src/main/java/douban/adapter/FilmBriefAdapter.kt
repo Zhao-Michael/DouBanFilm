@@ -14,7 +14,8 @@ import util.setImageUrl
 import michaelzhao.FilmDetailActivity
 import michaelzhao.R
 
-class FilmBriefAdapter(listViews: Array<SearchBrief>, context: Context) : RecyclerView.Adapter<FilmBriefAdapter.ViewHolder>() {
+//brief search result adapter
+class FilmBriefAdapter(listViews: Array<SearchBrief>, context: Context) : RecyclerViewAdapter<FilmBriefAdapter.ViewHolder>() {
 
     private val mListBrief = listOf(*listViews)
     private val mContext = context

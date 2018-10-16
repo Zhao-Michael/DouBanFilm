@@ -17,22 +17,27 @@ class ManPhotoView(context: Context, filmMan: FilmMan) : IFilmView(context) {
 
     init {
         initRecyclerView(3)
-        onSwitchPage(1)
-        ShowSwitcherLayout(false)
-        ShowPageSwitch(true)
-        initPageSwitch()
+        initAdapter()
     }
 
-    override fun onSwitchPage(page: Int) {
-        EnablePageSwitch(false)
+    override fun initAdapter() {
         ShowSwipe()
         Rx.get {
-            DouBanV1.getFilmManPhoto(mFilmMan.id, abs(page - 1) * mItemCount)
+            DouBanV1.getFilmManPhoto(mFilmMan.id, 1)
         }.set {
-            setTotalPage(max(it.total / mItemCount + 1, 1))
             mRecyclerView.adapter = FilmPhotoAdapter(mRecyclerView, it)
         }.end {
-            EnablePageSwitch()
+            ShowSwipe(false)
+        }
+    }
+
+    override fun onLoadMore() {
+        ShowSwipe()
+        Rx.get {
+            DouBanV1.getFilmManPhoto(mFilmMan.id, 1)
+        }.set {
+            mRecyclerView.adapter = FilmPhotoAdapter(mRecyclerView, it)
+        }.end {
             ShowSwipe(false)
         }
     }

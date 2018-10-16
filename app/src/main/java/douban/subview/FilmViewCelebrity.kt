@@ -12,22 +12,12 @@ class FilmViewCelebrity(context: Context, filmDetail: FilmDetail) : IFilmView(co
 
     init {
         initRecyclerView()
-        initSwipeLayout()
-        initSwitchBtn()
-        showFilmDetail()
+        initAdapter()
     }
 
-    private fun showFilmDetail() {
+    override fun initAdapter() {
         mRecyclerView.adapter = FilmCelebrityAdapter(mContext, mFilmDetail)
-    }
-
-    override fun onNormalClick() {
-        showFilmDetail()
-    }
-
-    override fun onMoreClick() {
-        ShowSwipe()
-        HideSwipe()
+        ShowSwipe(false)
     }
 
 }

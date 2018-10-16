@@ -7,9 +7,6 @@ import android.support.v4.view.ViewPager
 import android.support.v4.widget.DrawerLayout
 import android.view.Menu
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
-import database.NetRequestType
-import database.NetWorkCache
-import database.NetWorkRequest
 import douban.adapter.FilmPageAdapter
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -18,7 +15,6 @@ import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.onRefresh
 import util.*
-import java.util.*
 
 
 class MainActivity : BaseActivity() {

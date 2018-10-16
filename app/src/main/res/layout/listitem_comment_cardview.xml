@@ -6,8 +6,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:foreground="?attr/selectableItemBackground"
         android:id="@+id/cardview"
-        android:layout_margin="4dp"
-        app:cardElevation="2dp"
+        android:layout_margin="5dp"
+        app:cardElevation="5dp"
         android:clickable="true"
         android:focusable="true"
         app:cardPreventCornerOverlap="true">

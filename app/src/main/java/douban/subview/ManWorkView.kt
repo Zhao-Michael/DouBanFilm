@@ -17,26 +17,25 @@ class ManWorkView(context: Context, filmMan: FilmMan) : IFilmView(context) {
 
     init {
         initRecyclerView()
-        onSwitchPage(1)
-        ShowSwitcherLayout(false)
-        initPageSwitch()
-        ShowPageSwitch(true)
+        initAdapter()
     }
 
-    override fun onSwitchPage(page: Int) {
-        EnablePageSwitch(false)
+
+    override fun initAdapter() {
         ShowSwipe()
         Rx.get {
-            DouBanV1.getFilmManWork(mFilmMan.id, abs(page - 1) * mItemCount)
+            DouBanV1.getFilmManWork(mFilmMan.id, 1)
         }.set {
             it.works.map { it.subject }
             val filmList = FilmList(it.count, it.start, it.total, it.works.map { it.subject }, "")
-            setTotalPage(max(it.total / mItemCount + 1, 1))
             mRecyclerView.adapter = FilmListAdapter(mContext, filmList)
         }.end {
-            EnablePageSwitch()
             ShowSwipe(false)
         }
+    }
+
+    override fun onLoadMore() {
+
     }
 
 }

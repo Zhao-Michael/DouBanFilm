@@ -13,7 +13,7 @@ import org.jetbrains.anko.textColor
 import util.ReplaceEmpty
 import util.setImageUrl
 
-class FilmManSummary(context: Context, filmMan: FilmMan) : IFilmView(context) {
+class ManSummary(context: Context, filmMan: FilmMan) : IFilmView(context) {
 
     override val mLayout: Int = R.layout.film_man_brief_layout
     private val mFilmMan = filmMan

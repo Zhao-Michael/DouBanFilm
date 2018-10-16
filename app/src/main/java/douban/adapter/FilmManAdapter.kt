@@ -33,7 +33,7 @@ class FilmManAdapter(context: Context, filmMan: FilmMan?) : PagerAdapter() {
 
     private fun initUI(filmMan: FilmMan) {
         mListRecycler.clear()
-        mListRecycler.add(FilmManSummary(mContext, filmMan))
+        mListRecycler.add(ManSummary(mContext, filmMan))
         mListRecycler.add(ManPhotoView(mContext, filmMan))
         mListRecycler.add(ManWorkView(mContext, filmMan))
     }

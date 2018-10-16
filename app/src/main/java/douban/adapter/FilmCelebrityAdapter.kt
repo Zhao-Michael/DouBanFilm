@@ -14,7 +14,7 @@ import org.jetbrains.anko.find
 import michaelzhao.R
 import util.*
 
-class FilmCelebrityAdapter(context: Context, filmDetail: FilmDetail) : RecyclerView.Adapter<FilmCelebrityAdapter.ViewHolder>() {
+class FilmCelebrityAdapter(context: Context, filmDetail: FilmDetail) : RecyclerViewAdapter<FilmCelebrityAdapter.ViewHolder>() {
 
     private val mContext = context
     private val mFilmDetail = filmDetail
@@ -50,10 +50,8 @@ class FilmCelebrityAdapter(context: Context, filmDetail: FilmDetail) : RecyclerV
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        super.onBindViewHolder(holder, position)
         val pos = holder.adapterPosition
-        if (pos == itemCount - 1) {
-            (holder.cardview.layoutParams as? ViewGroup.MarginLayoutParams)?.SetMargins(5, 5, 5, 5.dip2px())
-        }
         val cele = mListCelebrity[pos]
         holder.setCelebrity(cele, pos)
         holder.itemView.OnClick { FilmDetailActivity.ShowFilmMan(cele.id) }

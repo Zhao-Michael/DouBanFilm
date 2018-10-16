@@ -4,11 +4,8 @@ import android.content.Context
 import douban.DouBanV1
 import douban.FilmDetail
 import douban.adapter.FilmCommentAdapter
-import douban.adapter.FilmPopCommentAdapter
 import michaelzhao.R
 import util.Rx
-import kotlin.math.abs
-import kotlin.math.max
 
 class FilmCommentView(context: Context, filmDetail: FilmDetail) : IFilmView(context) {
 
@@ -17,33 +14,22 @@ class FilmCommentView(context: Context, filmDetail: FilmDetail) : IFilmView(cont
 
     init {
         initRecyclerView()
-        initSwipeLayout()
-        initSwitchBtn()
-        initPageSwitch()
+        initAdapter()
     }
 
-    override fun onNormalClick() {
-        ShowPageSwitch(false)
-        mRecyclerView.adapter = FilmPopCommentAdapter(mContext, mFilmDetail)
-    }
-
-    override fun onMoreClick() {
-        ShowPageSwitch()
-        onSwitchPage(currPage)
-    }
-
-    override fun onSwitchPage(page: Int) {
-        EnablePageSwitch(false)
+    override fun initAdapter() {
         ShowSwipe()
         Rx.get {
-            DouBanV1.getFilmComment(mFilmDetail.id, abs(page - 1) * mItemCount)
+            DouBanV1.getFilmComment(mFilmDetail.id)
         }.set {
-            setTotalPage(max(it.total / mItemCount + 1, 1))
             mRecyclerView.adapter = FilmCommentAdapter(mContext, it)
         }.end {
-            EnablePageSwitch()
             ShowSwipe(false)
         }
+    }
+
+    override fun onLoadMore() {
+
     }
 
 }

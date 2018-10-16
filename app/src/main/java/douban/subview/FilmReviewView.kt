@@ -3,12 +3,9 @@ package douban.subview
 import android.content.Context
 import douban.DouBanV1
 import douban.FilmDetail
-import douban.adapter.FilmPopReviewAdapter
 import douban.adapter.FilmReviewAdapter
 import michaelzhao.R
 import util.Rx
-import kotlin.math.abs
-import kotlin.math.max
 
 class FilmReviewView(context: Context, filmDetail: FilmDetail) : IFilmView(context) {
 
@@ -17,33 +14,22 @@ class FilmReviewView(context: Context, filmDetail: FilmDetail) : IFilmView(conte
 
     init {
         initRecyclerView()
-        initSwipeLayout()
-        initSwitchBtn()
-        initPageSwitch()
+        initAdapter()
     }
 
-    override fun onNormalClick() {
-        ShowPageSwitch(false)
-        mRecyclerView.adapter = FilmPopReviewAdapter(mContext, mFilmDetail)
-    }
-
-    override fun onMoreClick() {
-        ShowPageSwitch()
-        onSwitchPage(currPage)
-    }
-
-    override fun onSwitchPage(page: Int) {
-        EnablePageSwitch(false)
+    override fun initAdapter() {
         ShowSwipe()
         Rx.get {
-            DouBanV1.getFilmReview(mFilmDetail.id, abs(page - 1) * mItemCount)
+            DouBanV1.getFilmReview(mFilmDetail.id, 1)
         }.set {
-            setTotalPage(max(it.total / mItemCount + 1, 1))
             mRecyclerView.adapter = FilmReviewAdapter(mContext, it)
         }.end {
-            EnablePageSwitch()
             ShowSwipe(false)
         }
+    }
+
+    override fun onLoadMore() {
+
     }
 
 

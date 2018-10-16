@@ -1,24 +1,19 @@
 package michaelzhao
 
 import android.os.Bundle
-import android.support.design.widget.CollapsingToolbarLayout
 import android.support.design.widget.Snackbar
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
-import android.view.Gravity
-import android.view.View
-import android.widget.ImageView
-import com.github.florent37.picassopalette.PicassoPalette
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
-import com.squareup.picasso.Picasso
 import douban.DouBanV1
 import douban.FilmDetail
 import douban.FilmMan
 import douban.adapter.FilmDetailAdapter
 import douban.adapter.FilmManAdapter
 import org.apache.commons.lang3.NotImplementedException
-import org.jetbrains.anko.*
-import util.*
+import org.jetbrains.anko.find
+import util.Rx
+import util.setTabStyle
 
 class FilmDetailActivity : BaseActivity() {
 
@@ -41,12 +36,8 @@ class FilmDetailActivity : BaseActivity() {
 
     override val mLayout: Int = R.layout.activity_filmdetail
 
-    private val mCollapseLayout by lazy { find<CollapsingToolbarLayout>(R.id.collapse_layout) }
-    private val mImageView by lazy { find<ImageView>(R.id.img_activity_info) }
     private val mViewPager by lazy { find<ViewPager>(R.id.mViewPager) }
     private val mTableLayout by lazy { find<TabLayout>(R.id.mTabLayout) }
-    private val mPosterBackground by lazy { find<ImageView>(R.id.image_poster_bg) }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,25 +48,13 @@ class FilmDetailActivity : BaseActivity() {
             refreshFilmDetail()
         else
             refreshFilmMan()
-        uiThread(100) {
-            println(find<View>(R.id.appbar_layout).measuredHeight)
-        }
     }
 
     private fun initUI() {
         setToolBarIcon(GoogleMaterial.Icon.gmd_arrow_back)
-        setToolBarTitle()
+        setToolBarTitle("Loading...")
         mToolBar.setNavigationOnClickListener { finish() }
-        window.statusBarColor = getColorValue(R.color.transparent)
-        mToolBar.backgroundColor = getColorValue(R.color.transparent)
         mSwipeLayout.setColorSchemeColors(getPrimaryColor())
-        mCollapseLayout.setContentScrimColor(getPrimaryColor())
-        mCollapseLayout.setStatusBarScrimColor(getPrimaryColor())
-        mCollapseLayout.setCollapsedTitleTextColor(getColorValue(R.color.accent_white))
-        mCollapseLayout.setExpandedTitleColor(getColorValue(R.color.transparent))
-        mCollapseLayout.expandedTitleGravity = Gravity.TOP or Gravity.START
-        mCollapseLayout.setExpandedTitleTextAppearance(R.style.collapsing_toolbarTitle)
-        mCollapseLayout.setExpandedTitleMargin(75.dip2px(), (-20).dip2px(), 0, 0)
         mTableLayout.setupWithViewPager(mViewPager)
         mTableLayout.tabMode = TabLayout.MODE_FIXED
         mTableLayout.setSelectedTabIndicatorColor(getPrimaryColor())
@@ -98,7 +77,6 @@ class FilmDetailActivity : BaseActivity() {
     }
 
     private fun updateFilmMan(film: FilmMan) {
-        updatePosterImage(film.avatars.large, film.name)
         setToolBarTitle("影人：" + film.name)
         mViewPager.adapter = FilmManAdapter(this, film)
     }
@@ -117,7 +95,6 @@ class FilmDetailActivity : BaseActivity() {
     }
 
     private fun updateFilmDetail(film: FilmDetail) {
-        updatePosterImage(film.images.large, film.title)
         val type = when (film.subtype) {
             "tv" -> "电视剧"
             "movie" -> "电影"
@@ -125,27 +102,6 @@ class FilmDetailActivity : BaseActivity() {
         }
         setToolBarTitle("$type：" + film.title)
         mViewPager.adapter = FilmDetailAdapter(this, film)
-    }
-
-    private fun updatePosterImage(url: String, name: String) {
-        Picasso.get()
-                .load(url)
-                .into(mImageView, PicassoPalette
-                        .with(url, mImageView)
-                        .use(PicassoPalette.Profile.MUTED)
-                        .intoCallBack {
-                            try {
-                                var swatch = it.mutedSwatch
-                                if (swatch == null) swatch = it.vibrantSwatch
-                                if (swatch == null) swatch = it.dominantSwatch
-                                val drawable = Util.CreateRepeatDrawable(name, swatch?.rgb!!, resources)
-                                mPosterBackground.image = drawable
-                            } catch (ex: Exception) {
-                                ex.printStackTrace()
-                            }
-                        }
-                )
-
     }
 
 }

@@ -11,26 +11,18 @@ import imageplayer.ImageViewActivity
 import michaelzhao.BaseActivity
 import michaelzhao.R
 import org.jetbrains.anko.find
-import org.jetbrains.anko.toast
 import util.*
 
 //Film Photo, Film Man Photo, Auto Load More
-class FilmPhotoAdapter(context: Context) : RecyclerView.Adapter<FilmPhotoAdapter.ViewHolder>() {
+class FilmPhotoAdapter(context: Context) : RecyclerViewAdapter<FilmPhotoAdapter.ViewHolder>() {
 
     private val mContext = context
     private val mListPhoto = mutableListOf<Photo>()
 
     private var mFilmPhoto: FilmPhoto? = null   //所有电影剧照
-    private var mFilmDetail: FilmDetail? = null //少量剧照
     private var mManPhoto: FilmManPhoto? = null      //影人所有照片
 
-    var mImageHieght: Int? = null
-
-    //少量剧照
-    constructor(context: Context, filmDetail: FilmDetail) : this(context) {
-        mListPhoto.addAll(filmDetail.photos)
-        mFilmDetail = filmDetail
-    }
+    private var mImageHeight: Int? = null
 
     //所有剧照
     constructor(recycler: RecyclerView, filmPhoto: FilmPhoto) : this(recycler.context) {
@@ -49,13 +41,13 @@ class FilmPhotoAdapter(context: Context) : RecyclerView.Adapter<FilmPhotoAdapter
     private fun setImageHeight(recycler: RecyclerView) {
         val sc = (recycler.layoutManager as? GridLayoutManager)?.spanCount
         if (sc != null) {
-            mImageHieght = BaseActivity.getScreenSize().x / sc
+            mImageHeight = BaseActivity.getScreenSize().x / sc
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmPhotoAdapter.ViewHolder {
         val view = mContext.inflate(R.layout.listitem_photo_cardview, parent)
-        return FilmPhotoAdapter.ViewHolder(view, mImageHieght)
+        return FilmPhotoAdapter.ViewHolder(view, mImageHeight)
     }
 
     override fun getItemCount(): Int {

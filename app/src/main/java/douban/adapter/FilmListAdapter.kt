@@ -19,8 +19,8 @@ import michaelzhao.FilmDetailActivity
 import michaelzhao.R
 import util.*
 
-//电影列表
-class FilmListAdapter(context: Context, listViews: FilmList) : RecyclerView.Adapter<FilmListAdapter.ViewHolder>() {
+//主页电影列表
+class FilmListAdapter(context: Context, listViews: FilmList) : RecyclerViewAdapter<FilmListAdapter.ViewHolder>() {
     private val mContext = context
     private var mFilmList: FilmList = listViews
 
@@ -37,12 +37,10 @@ class FilmListAdapter(context: Context, listViews: FilmList) : RecyclerView.Adap
         return mFilmList
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, pos: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        super.onBindViewHolder(holder, position)
         val film = mFilmList.subjects[holder.adapterPosition]
         holder.setFilmItem(film)
-        if (pos == itemCount - 1) {
-            (holder.cardview.layoutParams as? ViewGroup.MarginLayoutParams)?.SetMargins(5, 5, 5, 5.dip2px())
-        }
     }
 
     class ViewHolder(mItemView: View) : RecyclerView.ViewHolder(mItemView) {

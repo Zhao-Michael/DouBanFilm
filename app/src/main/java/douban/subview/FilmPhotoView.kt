@@ -17,35 +17,23 @@ class FilmPhotoView(context: Context, filmDetail: FilmDetail) : IFilmView(contex
 
     init {
         initRecyclerView(2)
-        initSwipeLayout()
-        initSwitchBtn()
-        initPageSwitch()
+        initAdapter()
     }
 
-    override fun onNormalClick() {
-        ShowPageSwitch(false)
-        initRecyclerView(2)
-        mRecyclerView.adapter = FilmPhotoAdapter(mContext, mFilmDetail)
-    }
-
-    override fun onMoreClick() {
-        ShowPageSwitch()
-        onSwitchPage(currPage)
-    }
-
-    override fun onSwitchPage(page: Int) {
-        EnablePageSwitch(false)
+    override fun initAdapter() {
         ShowSwipe()
         Rx.get {
-            DouBanV1.getFilmPhoto(mFilmDetail.id, abs(page - 1) * mItemCount)
+            DouBanV1.getFilmPhoto(mFilmDetail.id, 1)
         }.set {
-            setTotalPage(max(it.total / mItemCount + 1, 1))
             initRecyclerView(3)
             mRecyclerView.adapter = FilmPhotoAdapter(mRecyclerView, it)
         }.end {
-            EnablePageSwitch()
             ShowSwipe(false)
         }
+    }
+
+    override fun onLoadMore() {
+
     }
 
 
