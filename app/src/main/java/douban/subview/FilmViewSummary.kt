@@ -2,6 +2,9 @@ package douban.subview
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.support.v7.widget.CardView
 import android.view.MotionEvent
 import android.view.View
@@ -9,10 +12,10 @@ import android.widget.TextView
 import co.lujun.androidtagview.TagContainerLayout
 import co.lujun.androidtagview.TagView
 import com.daimajia.numberprogressbar.NumberProgressBar
-import com.hedgehog.ratingbar.RatingBar
 import douban.DouBanV1
 import douban.FilmDetail
 import douban.adapter.FilmListAdapter
+import me.zhanghai.android.materialratingbar.MaterialRatingBar
 import michaelzhao.R
 import org.jetbrains.anko.find
 import util.Rx
@@ -48,8 +51,12 @@ class FilmViewSummary(context: Context, filmDetail: FilmDetail) : IFilmView(cont
         val film = mFilmDetail
         getTextView(R.id.text_rate).text = film.rating.average.toString()
         getTextView(R.id.text_rate_descript).text = "${film.ratings_count}" + " 人评分"
-        mView.find<RatingBar>(R.id.rate_bar).setStar((film.rating.stars.toInt() / 10.0).toFloat())
-
+        val bar = mView.find<MaterialRatingBar>(R.id.rate_bar)
+        bar.max = 100
+        bar.progress =Math.round(film.rating.average.toFloat() * 10)
+        bar.setIsIndicator(true)
+        val color = ColorStateList.valueOf(Color.rgb(0xFF, 0xBB, 0x33))
+        bar.supportProgressTintList = color
         fun getProgressBar(id: Int): NumberProgressBar = mView.find(id)
         val sum = film.rating.details.sum()
         getProgressBar(R.id.rate_progress_1).progress = (film.rating.details.star1 / sum * 100).toInt()

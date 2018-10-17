@@ -130,21 +130,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
 
-                    <com.hedgehog.ratingbar.RatingBar
+                    <me.zhanghai.android.materialratingbar.MaterialRatingBar
                             android:id="@+id/ratingbar"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            hedgehog:clickable="false"
-                            hedgehog:halfstart="true"
-                            android:layout_margin="1dp"
-                            hedgehog:starEmpty="@mipmap/ic_star_empty"
-                            hedgehog:starFill="@mipmap/ic_star_fill"
-                            hedgehog:starHalf="@drawable/ic_star_half"
-                            hedgehog:starCount="5"
-                            hedgehog:starImageHeight="16dp"
-                            hedgehog:starImageWidth="16dp"
-                            android:paddingStart="5dp"
-                            tools:ignore="RtlSymmetry"/>
+                            android:layout_width="90dp"
+                            android:isIndicator="true"
+                            android:layout_height="match_parent"
+                            android:maxHeight="14dp"
+                            android:stepSize="0.01"
+                            android:layout_margin="1dp"/>
 
                 </LinearLayout>
 

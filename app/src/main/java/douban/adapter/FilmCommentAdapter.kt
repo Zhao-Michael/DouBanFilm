@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.hedgehog.ratingbar.RatingBar
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import douban.Comment
 import douban.FilmComment
@@ -44,7 +43,6 @@ class FilmCommentAdapter(context: Context, filmComment: FilmComment) : RecyclerV
         val text_name by lazy { mItemView.find<TextView>(R.id.text_name) }
         val text_date by lazy { mItemView.find<TextView>(R.id.text_date) }
         val text_comment by lazy { mItemView.find<TextView>(R.id.text_comment) }
-        val ratingbar by lazy { mItemView.find<RatingBar>(R.id.ratingbar) }
         val text_like by lazy { mItemView.find<TextView>(R.id.text_like) }
         val image_like by lazy { mItemView.find<ImageView>(R.id.image_like) }
 
@@ -55,8 +53,6 @@ class FilmCommentAdapter(context: Context, filmComment: FilmComment) : RecyclerV
             text_comment.text = comment.content
             text_like.text = comment.useful_count.toString()
             image_like.image = Util.CreateIcon(image_like.context, GoogleMaterial.Icon.gmd_thumb_up, 14)
-            if (comment.rating.stars != null)
-                ratingbar.setStar((comment.rating.stars.toInt() / 10.0).toFloat())
         }
 
     }

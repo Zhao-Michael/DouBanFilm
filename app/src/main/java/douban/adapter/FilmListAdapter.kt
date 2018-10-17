@@ -1,6 +1,7 @@
 package douban.adapter
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
@@ -9,14 +10,14 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
-import com.hedgehog.ratingbar.RatingBar
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import douban.FilmDetail
 import douban.FilmItem
 import douban.FilmList
-import org.jetbrains.anko.find
+import me.zhanghai.android.materialratingbar.MaterialRatingBar
 import michaelzhao.FilmDetailActivity
 import michaelzhao.R
+import org.jetbrains.anko.find
 import util.*
 
 //主页电影列表
@@ -52,7 +53,7 @@ class FilmListAdapter(context: Context, listViews: FilmList) : RecyclerViewAdapt
         val actor by lazy { mItemView.find<TextView>(R.id.actor) }
         val director by lazy { mItemView.find<TextView>(R.id.director) }
         val rate by lazy { mItemView.find<TextView>(R.id.rate) }
-        val ratingbar by lazy { mItemView.find<RatingBar>(R.id.ratingbar) }
+        val ratingbar by lazy { mItemView.find<MaterialRatingBar>(R.id.ratingbar) }
         val page by lazy { mItemView.find<TextView>(R.id.page) }
         val genres by lazy { mItemView.find<TextView>(R.id.genres) }
         val org_name by lazy { mItemView.find<TextView>(R.id.org_name) }
@@ -74,7 +75,10 @@ class FilmListAdapter(context: Context, listViews: FilmList) : RecyclerViewAdapt
             org_name.text = film.original_title.ReplaceEmpty()
             director.text = film.directors.joinToString("/") { it.name }.ReplaceEmpty()
             actor.text = film.casts.joinToString("/") { it.name }.ReplaceEmpty()
-            ratingbar.setStar((film.rating.stars.toInt() / 10.0).toFloat())
+            ratingbar.max = 100
+            ratingbar.progress = Math.round(film.rating.average.toFloat() * 10)
+            val color = ColorStateList.valueOf(Color.rgb(0xFF, 0xBB, 0x33))
+            ratingbar.supportProgressTintList = color
             if (film.rating.stars.toInt() == 0) {
                 ratingbar.visibility = View.GONE
                 rate.text = "暂无评分"
@@ -93,7 +97,10 @@ class FilmListAdapter(context: Context, listViews: FilmList) : RecyclerViewAdapt
             org_name.text = film.original_title.ReplaceEmpty()
             director.text = film.directors.joinToString("/") { it.name }.ReplaceEmpty()
             actor.text = film.casts.joinToString("/") { it.name }.ReplaceEmpty()
-            ratingbar.setStar((film.rating.stars.toInt() / 10.0).toFloat())
+            ratingbar.max = 100
+            ratingbar.progress = Math.round(film.rating.average.toFloat() * 10)
+            val color = ColorStateList.valueOf(Color.rgb(0xFF, 0xBB, 0x33))
+            ratingbar.supportProgressTintList = color
             if (film.rating.stars.toInt() == 0) {
                 ratingbar.visibility = View.GONE
                 rate.text = "暂无评分"

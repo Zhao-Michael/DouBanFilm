@@ -154,44 +154,38 @@
                         android:textSize="28sp"
                         android:layout_width="wrap_content"
                         android:layout_height="41dp"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginTop="10dp"
                         custom_view:layout_constraintTop_toTopOf="parent"
                         custom_view:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
                         custom_view:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
 
-                <com.hedgehog.ratingbar.RatingBar
+                <me.zhanghai.android.materialratingbar.MaterialRatingBar
                         android:id="@+id/rate_bar"
                         android:layout_width="wrap_content"
-                        android:layout_height="16dp"
-                        custom_view:clickable="false"
-                        custom_view:halfstart="true"
-                        android:layout_margin="1dp"
-                        custom_view:starEmpty="@mipmap/ic_star_empty"
-                        custom_view:starFill="@mipmap/ic_star_fill"
-                        custom_view:starHalf="@drawable/ic_star_half"
-                        custom_view:starCount="5"
-                        custom_view:starImageHeight="16dp"
-                        custom_view:starImageWidth="16dp"
-                        android:paddingStart="5dp"
-                        tools:ignore="RtlSymmetry"
-                        android:layout_marginTop="4dp"
-                        custom_view:layout_constraintTop_toBottomOf="@+id/text_rate"
+                        android:layout_height="36dp"
+                        android:maxHeight="18dp"
+                        android:stepSize="0.01"
+                        android:isIndicator="true"
                         custom_view:layout_constraintStart_toStartOf="parent"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
-                        custom_view:layout_constraintEnd_toEndOf="parent"/>
+                        custom_view:layout_constraintEnd_toEndOf="parent"
+                        style="@style/Widget.MaterialRatingBar.RatingBar"
+                        custom_view:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginBottom="8dp"
+                        custom_view:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="24dp"/>
 
                 <TextView android:id="@+id/text_rate_descript"
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:textSize="10sp"
-                          custom_view:layout_constraintTop_toBottomOf="@+id/rate_bar"
+                          custom_view:layout_constraintTop_toBottomOf="@+id/text_rate"
                           custom_view:layout_constraintStart_toStartOf="parent"
                           android:layout_marginEnd="8dp"
                           custom_view:layout_constraintEnd_toEndOf="parent"
                           custom_view:layout_constraintHorizontal_bias="0.5"
-                          android:layout_marginTop="4dp"
-                          android:layout_marginStart="8dp"/>
+                          android:layout_marginStart="8dp" android:layout_marginTop="20dp"/>
 
             </android.support.constraint.ConstraintLayout>
 
