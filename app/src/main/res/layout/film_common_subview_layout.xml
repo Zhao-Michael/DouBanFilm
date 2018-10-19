@@ -7,10 +7,39 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <android.support.v7.widget.RecyclerView
-            android:id="@+id/mRecyclerView"
-            android:scrollbars="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+    <FrameLayout android:layout_width="match_parent"
+                 android:layout_height="wrap_content">
+
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/mRecyclerView"
+                android:scrollbars="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        <LinearLayout android:layout_width="wrap_content"
+                      android:orientation="vertical"
+                      android:visibility="gone"
+                      android:layout_marginBottom="20dp"
+                      android:layout_gravity="center"
+                      android:id="@+id/layout_none"
+                      android:layout_height="wrap_content">
+
+            <ImageView android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:id="@+id/imgae_none"
+                       android:layout_gravity="center_horizontal"/>
+
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_margin="10dp"
+                      android:id="@+id/text_none"
+                      android:textStyle="bold"
+                      android:text="空空如也~"
+                      android:layout_gravity="center_horizontal"/>
+
+        </LinearLayout>
+
+
+    </FrameLayout>
 
 </util.VerticalSwipeRefreshLayout>

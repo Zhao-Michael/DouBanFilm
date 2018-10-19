@@ -29,6 +29,7 @@ class ManWorkView(context: Context, filmMan: FilmMan) : IFilmView(context) {
             it.works.map { it.subject }
             val filmList = FilmList(it.count, it.start, it.total, it.works.map { it.subject }, "")
             mRecyclerView.adapter = FilmListAdapter(mContext, filmList)
+            checkEmptyAdapter()
         }.end {
             ShowSwipe(false)
         }

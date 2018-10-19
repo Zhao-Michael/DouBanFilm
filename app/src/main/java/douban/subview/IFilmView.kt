@@ -14,14 +14,11 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.onRefresh
 import org.jetbrains.anko.textColor
-import util.OnClick
-import util.VerticalSwipeRefreshLayout
 import michaelzhao.BaseActivity
 import michaelzhao.R
 import org.jetbrains.anko.image
-import util.Hide
+import util.*
 import util.Util.CreateIcon
-import util.uiThread
 import kotlin.math.max
 import kotlin.math.min
 
@@ -36,6 +33,9 @@ abstract class IFilmView(context: Context) {
     protected val mView: View by lazy { LayoutInflater.from(context).inflate(mLayout, null) }
     protected val mRecyclerView by lazy { mView.find<RecyclerView>(R.id.mRecyclerView) }
     protected val mSwipeLayout by lazy { mView.find<VerticalSwipeRefreshLayout>(R.id.mSwipeLayout) }
+    private val mImageNone by lazy { mView.find<ImageView>(R.id.imgae_none) }
+    private val mTextone by lazy { mView.find<TextView>(R.id.text_none) }
+    protected val mLayoutNone by lazy { mView.find<View>(R.id.layout_none) }
 
     protected fun initRecyclerView(span: Int = 1) {
         mRecyclerView.setHasFixedSize(true)
@@ -64,6 +64,18 @@ abstract class IFilmView(context: Context) {
             mSwipeLayout.ShowRefresh(b)
         }
     }
+
+    fun checkEmptyAdapter() {
+        val bShow = mRecyclerView.adapter == null || mRecyclerView.adapter.itemCount == 0
+        if (!bShow) {
+            mLayoutNone.Hide()
+        } else {
+            mImageNone.image = CreateIcon(mContext, GoogleMaterial.Icon.gmd_sentiment_very_dissatisfied, 40)
+            mTextone.textColor = BaseActivity.getPrimaryColor()
+            mLayoutNone.Show()
+        }
+    }
+
 }
 
 class FilmView(context: Context) : IFilmView(context) {

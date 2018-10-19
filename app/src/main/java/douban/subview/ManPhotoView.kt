@@ -26,6 +26,7 @@ class ManPhotoView(context: Context, filmMan: FilmMan) : IFilmView(context) {
             DouBanV1.getFilmManPhoto(mFilmMan.id, 1)
         }.set {
             mRecyclerView.adapter = FilmPhotoAdapter(mRecyclerView, it)
+            checkEmptyAdapter()
         }.end {
             ShowSwipe(false)
         }
@@ -37,6 +38,7 @@ class ManPhotoView(context: Context, filmMan: FilmMan) : IFilmView(context) {
             DouBanV1.getFilmManPhoto(mFilmMan.id, 1)
         }.set {
             mRecyclerView.adapter = FilmPhotoAdapter(mRecyclerView, it)
+            checkEmptyAdapter()
         }.end {
             ShowSwipe(false)
         }

@@ -28,4 +28,6 @@
 
     <string name="preference_screen_width">preference_screen_width</string>
     <string name="preference_screen_height">preference_screen_height</string>
+
+    <string name="preference_search_query">preference_search_query</string>
 </resources>

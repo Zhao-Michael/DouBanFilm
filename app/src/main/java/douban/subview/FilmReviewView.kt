@@ -23,6 +23,7 @@ class FilmReviewView(context: Context, filmDetail: FilmDetail) : IFilmView(conte
             DouBanV1.getFilmReview(mFilmDetail.id, 1)
         }.set {
             mRecyclerView.adapter = FilmReviewAdapter(mContext, it)
+            checkEmptyAdapter()
         }.end {
             ShowSwipe(false)
         }

@@ -2,9 +2,11 @@ package douban.subview
 
 import android.content.Context
 import douban.DouBanV1
+import douban.DouBanV2
 import douban.FilmDetail
 import douban.adapter.FilmPhotoAdapter
 import michaelzhao.R
+import org.jetbrains.anko.doAsync
 import util.Rx
 import kotlin.math.abs
 import kotlin.math.max
@@ -27,6 +29,7 @@ class FilmPhotoView(context: Context, filmDetail: FilmDetail) : IFilmView(contex
         }.set {
             initRecyclerView(3)
             mRecyclerView.adapter = FilmPhotoAdapter(mRecyclerView, it)
+            checkEmptyAdapter()
         }.end {
             ShowSwipe(false)
         }
