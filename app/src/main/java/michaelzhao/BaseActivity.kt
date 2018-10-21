@@ -13,7 +13,7 @@ import com.mikepenz.iconics.typeface.IIcon
 import com.orhanobut.hawk.Hawk
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.find
-import util.VerticalSwipeRefreshLayout
+import util.VerSwipeLayout
 import util.*
 
 @SuppressLint("Registered")
@@ -40,7 +40,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     protected val mToolBar by lazy { find<Toolbar>(R.id.toolbar) }
-    protected val mSwipeLayout by lazy { find<VerticalSwipeRefreshLayout>(R.id.mSwipeLayout) }
+    protected val mSwipeLayout by lazy { find<VerSwipeLayout>(R.id.mSwipeLayout) }
 
     abstract val mLayout: Int
 

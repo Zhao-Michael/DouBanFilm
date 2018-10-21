@@ -34,12 +34,11 @@ class MainActivity : BaseActivity() {
         setToolBarIcon(GoogleMaterial.Icon.gmd_menu)
         mToolBar.setNavigationOnClickListener { mDrawerLayout.openDrawer(GravityCompat.START) }
         setToolBarTitle(R.string.app_name)
-        mSwipeLayout.onRefresh { onSwipeRefresh() }
         mTableLayout.setupWithViewPager(mViewPager)
         mTableLayout.tabMode = TabLayout.MODE_SCROLLABLE
         mTableLayout.setSelectedTabIndicatorColor(getPrimaryColor())
         mTableLayout.setTabTextColors(getColorValue(R.color.divider_color), getPrimaryColor())
-        mViewPager.adapter = FilmMainPageAdapter(this, mSwipeLayout)
+        mViewPager.adapter = FilmMainPageAdapter(this)
         mTableLayout.setTabStyle()
     }
 
@@ -67,9 +66,6 @@ class MainActivity : BaseActivity() {
         recreate()
     }
 
-    private fun onSwipeRefresh() {
-        (mViewPager.adapter as FilmMainPageAdapter).updatePageFromNet(mTableLayout.selectedTabPosition)
-    }
 
     private fun searchMenu_Click() {
         startActivity<SearchActivity>()

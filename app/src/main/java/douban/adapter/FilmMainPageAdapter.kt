@@ -9,18 +9,21 @@ import android.view.ViewGroup
 import com.orhanobut.hawk.Hawk
 import douban.DouBanV1
 import douban.FilmList
+import michaelzhao.R
+import org.jetbrains.anko.find
 import org.jetbrains.anko.toast
 import util.FilmAdapter
 import util.Rx
-import util.VerticalSwipeRefreshLayout
+import util.VerSwipeLayout
+import util.inflate
 
 //电影列表 切换
-class FilmMainPageAdapter(context: Context, swipeLayout: VerticalSwipeRefreshLayout) : PagerAdapter() {
+class FilmMainPageAdapter(context: Context) : PagerAdapter() {
 
     private val mContext = context
     private val mListRecycler = mutableListOf<RecyclerView>()
+    private val mListSwipeLayout = mutableListOf<VerSwipeLayout>()
     private val mListTitle = mutableListOf<String>()
-    private val mSwipeLayout = swipeLayout
 
     init {
         mListTitle.add("首页")
@@ -30,19 +33,23 @@ class FilmMainPageAdapter(context: Context, swipeLayout: VerticalSwipeRefreshLay
         mListTitle.add("新片榜")
         mListTitle.add("北美榜")
         mListTitle.add("Top 250")
-
         mListTitle.forEach {
-            val view = RecyclerView(mContext)
-            view.layoutManager = GridLayoutManager(mContext, 1)
-            mListRecycler.add(view)
+            mListSwipeLayout.add(VerSwipeLayout(mContext, null))
+            mListRecycler.add(RecyclerView(mContext))
         }
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val recycler = mListRecycler[position]
+        val view = mContext.inflate(R.layout.main_page_item_layout, container)
+        mListSwipeLayout[position] = view.find<VerSwipeLayout>(R.id.mSwipeLayout).apply {
+            setOnRefreshListener { updatePageFromNet(position) }
+        }
+        val recycler = view.find<RecyclerView>(R.id.mRecyclerView)
+        recycler.layoutManager = GridLayoutManager(mContext, 1)
+        mListRecycler[position] = recycler
         if (recycler.adapter == null) {
             if (position == 0) {
-                mSwipeLayout.DisEnable()
+                mListSwipeLayout[0].DisEnable()
                 recycler.adapter = FilmHomeAdapter(recycler)
             } else {
                 val list = Hawk.get<Any?>(mListTitle[position])
@@ -53,8 +60,8 @@ class FilmMainPageAdapter(context: Context, swipeLayout: VerticalSwipeRefreshLay
                 }
             }
         }
-        container.addView(recycler)
-        return recycler
+        container.addView(view)
+        return view
     }
 
     override fun destroyItem(container: ViewGroup, position: Int, obj: Any) {
@@ -73,31 +80,30 @@ class FilmMainPageAdapter(context: Context, swipeLayout: VerticalSwipeRefreshLay
         return mListTitle.size
     }
 
-    fun updatePageFromNet(position: Int) {
-        if (position == 0) {
-            mSwipeLayout.DisEnable()
-            mListRecycler[0].adapter = FilmHomeAdapter(mListRecycler[0])
-            return
-        }
-        Rx.get {
-            mSwipeLayout.Enable()
-            mSwipeLayout.ShowRefresh()
-            return@get when (position) {
-                0 -> DouBanV1.getTheaterFilms("上海")
-                1 -> DouBanV1.getComingFilm()
-                2 -> DouBanV1.getWeeklyRank().convetToFilmList()
-                3 -> DouBanV1.getNewFilmRank()
-                4 -> DouBanV1.getUSFilmRank().convetToFilmList()
-                5 -> DouBanV1.getTop250Film()
-                else -> throw NotImplementedError()
+    private fun updatePageFromNet(pos: Int) {
+        if (pos == 0) {
+            mListSwipeLayout[pos].DisEnable()
+            mListRecycler[pos].adapter = FilmHomeAdapter(mListRecycler[pos])
+        } else {
+            Rx.get {
+                mListSwipeLayout[pos].ShowRefresh()
+                return@get when (pos) {
+                    1 -> DouBanV1.getTheaterFilms("上海")
+                    2 -> DouBanV1.getComingFilm()
+                    3 -> DouBanV1.getWeeklyRank().convetToFilmList()
+                    4 -> DouBanV1.getNewFilmRank()
+                    5 -> DouBanV1.getUSFilmRank().convetToFilmList()
+                    6 -> DouBanV1.getTop250Film()
+                    else -> throw NotImplementedError("updatePageFromNet : index out of range")
+                }
+            }.set {
+                Hawk.put(mListTitle[pos], it)
+                mListRecycler[pos].FilmAdapter = it
+            }.err {
+                mContext.toast(it.message.toString())
+            }.end {
+                mListSwipeLayout[pos].HideRefresh()
             }
-        }.set {
-            Hawk.put(mListTitle[position], it)
-            mListRecycler[position].FilmAdapter = it
-        }.err {
-            mContext.toast(it.message.toString())
-        }.end {
-            mSwipeLayout.HideRefresh()
         }
     }
 

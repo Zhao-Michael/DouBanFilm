@@ -35,7 +35,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <util.VerticalSwipeRefreshLayout
+    <util.VerSwipeLayout
             android:id="@+id/mSwipeLayout"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
@@ -117,7 +117,7 @@
 
         </LinearLayout>
 
-    </util.VerticalSwipeRefreshLayout>
+    </util.VerSwipeLayout>
 
 </android.support.design.widget.CoordinatorLayout>
 

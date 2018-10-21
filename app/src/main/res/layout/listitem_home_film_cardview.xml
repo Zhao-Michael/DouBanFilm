@@ -24,7 +24,7 @@
                   android:textSize="14sp"
                   android:id="@+id/text_title"/>
 
-        <util.VerticalSwipeRefreshLayout
+        <util.VerSwipeLayout
                 android:id="@+id/mSwipeLayout"
                 android:minHeight="100dp"
                 android:focusableInTouchMode="true"
@@ -40,7 +40,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
 
-        </util.VerticalSwipeRefreshLayout>
+        </util.VerSwipeLayout>
 
     </LinearLayout>
 

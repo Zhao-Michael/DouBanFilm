@@ -33,19 +33,11 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <util.VerticalSwipeRefreshLayout
-                android:id="@+id/mSwipeLayout"
+        <android.support.v4.view.ViewPager
+                android:id="@+id/mViewPager"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 android:layout_width="match_parent"
-                android:focusableInTouchMode="true"
-                android:layout_height="match_parent">
-
-            <android.support.v4.view.ViewPager
-                    android:id="@+id/mViewPager"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-
-        </util.VerticalSwipeRefreshLayout>
+                android:layout_height="match_parent"/>
 
     </android.support.design.widget.CoordinatorLayout>
 

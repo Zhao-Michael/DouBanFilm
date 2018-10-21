@@ -7,7 +7,7 @@ import android.view.MotionEvent
 import android.view.ViewConfiguration
 import michaelzhao.BaseActivity.Companion.getPrimaryColor
 
-class VerticalSwipeRefreshLayout(context: Context, attrs: AttributeSet) : SwipeRefreshLayout(context, attrs) {
+class VerSwipeLayout(context: Context, attrs: AttributeSet?) : SwipeRefreshLayout(context, attrs) {
 
     private val mTouchSlop: Int = ViewConfiguration.get(context).scaledTouchSlop
 

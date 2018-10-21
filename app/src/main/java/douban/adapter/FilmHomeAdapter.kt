@@ -3,7 +3,6 @@ package douban.adapter
 import android.content.Context
 import android.support.v7.widget.CardView
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
@@ -45,7 +44,7 @@ class FilmHomeAdapter(recycler: RecyclerView) : IRecyclerViewAdapter<FilmHomeAda
         private val title by lazy { mItemView.find<TextView>(R.id.text_title) }
         private val page by lazy { mItemView.find<TextView>(R.id.page) }
         private val recyclerView by lazy { mItemView.find<RecyclerView>(R.id.mRecyclerView) }
-        private val swipeLayout by lazy { mItemView.find<VerticalSwipeRefreshLayout>(R.id.mSwipeLayout) }
+        private val swipeLayout by lazy { mItemView.find<VerSwipeLayout>(R.id.mSwipeLayout) }
 
         init {
             if (wid != null)
