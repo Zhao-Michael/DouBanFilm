@@ -276,6 +276,12 @@ fun View.SetHeight(height: Int) {
     this.layoutParams = layoutParams
 }
 
+fun View.SetWidth(height: Int) {
+    val layoutParams = this.layoutParams
+    layoutParams.width = height
+    this.layoutParams = layoutParams
+}
+
 fun <T> HawkPut(id: Int, value: T) {
     Hawk.put<T>(App.Instance.getString(id), value)
 }

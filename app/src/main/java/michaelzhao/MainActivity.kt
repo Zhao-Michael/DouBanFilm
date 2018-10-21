@@ -7,7 +7,7 @@ import android.support.v4.view.ViewPager
 import android.support.v4.widget.DrawerLayout
 import android.view.Menu
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
-import douban.adapter.FilmPageAdapter
+import douban.adapter.FilmMainPageAdapter
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.jetbrains.anko.doAsync
@@ -39,7 +39,7 @@ class MainActivity : BaseActivity() {
         mTableLayout.tabMode = TabLayout.MODE_SCROLLABLE
         mTableLayout.setSelectedTabIndicatorColor(getPrimaryColor())
         mTableLayout.setTabTextColors(getColorValue(R.color.divider_color), getPrimaryColor())
-        mViewPager.adapter = FilmPageAdapter(this, mSwipeLayout.mShowSwipe)
+        mViewPager.adapter = FilmMainPageAdapter(this, mSwipeLayout)
         mTableLayout.setTabStyle()
     }
 
@@ -68,7 +68,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun onSwipeRefresh() {
-        (mViewPager.adapter as FilmPageAdapter).updatePageFromNet(mTableLayout.selectedTabPosition)
+        (mViewPager.adapter as FilmMainPageAdapter).updatePageFromNet(mTableLayout.selectedTabPosition)
     }
 
     private fun searchMenu_Click() {

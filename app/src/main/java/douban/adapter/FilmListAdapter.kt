@@ -21,7 +21,7 @@ import org.jetbrains.anko.find
 import util.*
 
 //主页电影列表
-class FilmListAdapter(context: Context, listViews: FilmList) : RecyclerViewAdapter<FilmListAdapter.ViewHolder>() {
+class FilmListAdapter(context: Context, listViews: FilmList) : IRecyclerViewAdapter<FilmListAdapter.ViewHolder>() {
     private val mContext = context
     private var mFilmList: FilmList = listViews
 

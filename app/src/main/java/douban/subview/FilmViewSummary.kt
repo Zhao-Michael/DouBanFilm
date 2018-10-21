@@ -40,6 +40,7 @@ class FilmViewSummary(context: Context, filmDetail: FilmDetail) : IFilmView(cont
     }
 
     private fun initSummary() {
+        mTextBrief.isSelected = true
         mTextBrief.text = "电影：${mFilmDetail.summary.trim()}"
     }
 
@@ -53,7 +54,7 @@ class FilmViewSummary(context: Context, filmDetail: FilmDetail) : IFilmView(cont
         getTextView(R.id.text_rate_descript).text = "${film.ratings_count}" + " 人评分"
         val bar = mView.find<MaterialRatingBar>(R.id.rate_bar)
         bar.max = 100
-        bar.progress =Math.round(film.rating.average.toFloat() * 10)
+        bar.progress = Math.round(film.rating.average.toFloat() * 10)
         bar.setIsIndicator(true)
         val color = ColorStateList.valueOf(Color.rgb(0xFF, 0xBB, 0x33))
         bar.supportProgressTintList = color

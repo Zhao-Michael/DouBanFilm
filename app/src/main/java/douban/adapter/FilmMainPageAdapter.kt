@@ -12,21 +12,23 @@ import douban.FilmList
 import org.jetbrains.anko.toast
 import util.FilmAdapter
 import util.Rx
+import util.VerticalSwipeRefreshLayout
 
 //电影列表 切换
-class FilmPageAdapter(context: Context, show_loading: (b: Boolean) -> Unit) : PagerAdapter() {
+class FilmMainPageAdapter(context: Context, swipeLayout: VerticalSwipeRefreshLayout) : PagerAdapter() {
 
     private val mContext = context
     private val mListRecycler = mutableListOf<RecyclerView>()
     private val mListTitle = mutableListOf<String>()
-    private val mShowLoading = show_loading
+    private val mSwipeLayout = swipeLayout
 
     init {
+        mListTitle.add("首页")
         mListTitle.add("院线电影")
         mListTitle.add("即将上映")
         mListTitle.add("周榜")
         mListTitle.add("新片榜")
-        mListTitle.add("北美票房榜")
+        mListTitle.add("北美榜")
         mListTitle.add("Top 250")
 
         mListTitle.forEach {
@@ -36,19 +38,23 @@ class FilmPageAdapter(context: Context, show_loading: (b: Boolean) -> Unit) : Pa
         }
     }
 
-
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val view = mListRecycler[position]
-        if (view.adapter == null) {
-            val list = Hawk.get<Any?>(mListTitle[position])
-            if (list is FilmList) {
-                view.FilmAdapter = list
+        val recycler = mListRecycler[position]
+        if (recycler.adapter == null) {
+            if (position == 0) {
+                mSwipeLayout.DisEnable()
+                recycler.adapter = FilmHomeAdapter(recycler)
             } else {
-                updatePageFromNet(position)
+                val list = Hawk.get<Any?>(mListTitle[position])
+                if (list is FilmList) {
+                    recycler.FilmAdapter = list
+                } else {
+                    updatePageFromNet(position)
+                }
             }
         }
-        container.addView(view)
-        return view
+        container.addView(recycler)
+        return recycler
     }
 
     override fun destroyItem(container: ViewGroup, position: Int, obj: Any) {
@@ -68,8 +74,14 @@ class FilmPageAdapter(context: Context, show_loading: (b: Boolean) -> Unit) : Pa
     }
 
     fun updatePageFromNet(position: Int) {
+        if (position == 0) {
+            mSwipeLayout.DisEnable()
+            mListRecycler[0].adapter = FilmHomeAdapter(mListRecycler[0])
+            return
+        }
         Rx.get {
-            mShowLoading.invoke(true)
+            mSwipeLayout.Enable()
+            mSwipeLayout.ShowRefresh()
             return@get when (position) {
                 0 -> DouBanV1.getTheaterFilms("上海")
                 1 -> DouBanV1.getComingFilm()
@@ -85,7 +97,7 @@ class FilmPageAdapter(context: Context, show_loading: (b: Boolean) -> Unit) : Pa
         }.err {
             mContext.toast(it.message.toString())
         }.end {
-            mShowLoading.invoke(false)
+            mSwipeLayout.HideRefresh()
         }
     }
 

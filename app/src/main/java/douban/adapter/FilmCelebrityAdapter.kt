@@ -14,7 +14,8 @@ import org.jetbrains.anko.find
 import michaelzhao.R
 import util.*
 
-class FilmCelebrityAdapter(context: Context, filmDetail: FilmDetail) : RecyclerViewAdapter<FilmCelebrityAdapter.ViewHolder>() {
+//电影 Cast
+class FilmCelebrityAdapter(context: Context, filmDetail: FilmDetail) : IRecyclerViewAdapter<FilmCelebrityAdapter.ViewHolder>() {
 
     private val mContext = context
     private val mFilmDetail = filmDetail

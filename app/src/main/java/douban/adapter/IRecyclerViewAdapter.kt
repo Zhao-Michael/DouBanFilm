@@ -1,11 +1,15 @@
 package douban.adapter
 
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
+import michaelzhao.BaseActivity
+import util.dip2px
 
-abstract class RecyclerViewAdapter<T : RecyclerView.ViewHolder?> : RecyclerView.Adapter<T>() {
+abstract class IRecyclerViewAdapter<T : RecyclerView.ViewHolder?> : RecyclerView.Adapter<T>() {
 
     private var mMargin: Int? = null
+    protected var mImageWidth: Int? = null
 
     override fun onBindViewHolder(holder: T, position: Int) {
         if (holder != null) {
@@ -23,6 +27,13 @@ abstract class RecyclerViewAdapter<T : RecyclerView.ViewHolder?> : RecyclerView.
                     lp.bottomMargin = mMargin!!
                 }
             }
+        }
+    }
+
+    protected fun setImageHeight(recycler: RecyclerView, offsetWid: Int = 0) {
+        val sc = (recycler.layoutManager as? GridLayoutManager)?.spanCount
+        if (sc != null) {
+            mImageWidth = BaseActivity.getScreenSize().x / sc - offsetWid.dip2px()
         }
     }
 

@@ -12,6 +12,8 @@ import java.security.KeyPair
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+const val UNIT_TEST = false
+
 enum class TimeType {
     Second,
     Minute,
@@ -59,6 +61,8 @@ private fun downLoadString(url: String, userAgent: String = UserAge, type: NetRe
 }
 
 fun GetUrlContent(url: String, type: NetRequestType = NetRequestType.Day, userAgent: String = UserAge): String {
+    if (UNIT_TEST) return GetUrlContentForTest(url)
+
     return Util.TimeElapse("Get Url Content") {
         println("Create Net Request: $url")
         val data = isNeedNewRequest(url, type)
@@ -84,4 +88,23 @@ private fun isNeedNewRequest(url: String, type: NetRequestType): Pair<Boolean, S
     return Pair(true, "")
 }
 
-
+fun GetUrlContentForTest(url: String): String {
+    var result = ""
+    try {
+        val real_url = url.replace(Regex("\\s+"), "+")
+        val request = Request.Builder().url(real_url).build()
+        val response = okhttp.newCall(request).execute()
+        val body = response.body()
+        if (body != null) {
+            result = body.string()
+            println("From Net Response [${result.length}] : " + result.trim().take(100) + "...")
+        } else {
+            println("From Net Error: Empty Response Body  $url")
+        }
+        response.close()
+        return result
+    } catch (ex: Exception) {
+        println("From Net Error: $ex  $url")
+    }
+    return result
+}

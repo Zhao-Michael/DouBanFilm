@@ -17,7 +17,7 @@ import util.Util
 import util.inflate
 import util.setImageUrl
 
-class FilmCommentAdapter(context: Context, filmComment: FilmComment) : RecyclerViewAdapter<FilmCommentAdapter.ViewHolder>() {
+class FilmCommentAdapter(context: Context, filmComment: FilmComment) : IRecyclerViewAdapter<FilmCommentAdapter.ViewHolder>() {
 
     private val mContext = context
     private val mFilmComment = filmComment

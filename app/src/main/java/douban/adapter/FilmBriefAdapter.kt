@@ -15,7 +15,7 @@ import michaelzhao.FilmDetailActivity
 import michaelzhao.R
 
 //brief search result adapter
-class FilmBriefAdapter(listViews: Array<SearchBrief>, context: Context) : RecyclerViewAdapter<FilmBriefAdapter.ViewHolder>() {
+class FilmBriefAdapter(listViews: Array<SearchBrief>, context: Context) : IRecyclerViewAdapter<FilmBriefAdapter.ViewHolder>() {
 
     private val mListBrief = listOf(*listViews)
     private val mContext = context

@@ -1,28 +1,24 @@
 package douban.adapter
 
 import android.content.Context
-import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import douban.*
 import imageplayer.ImageViewActivity
-import michaelzhao.BaseActivity
 import michaelzhao.R
 import org.jetbrains.anko.find
 import util.*
 
 //Film Photo, Film Man Photo, Auto Load More
-class FilmPhotoAdapter(context: Context) : RecyclerViewAdapter<FilmPhotoAdapter.ViewHolder>() {
+class FilmPhotoAdapter(context: Context) : IRecyclerViewAdapter<FilmPhotoAdapter.ViewHolder>() {
 
     private val mContext = context
     private val mListPhoto = mutableListOf<Photo>()
 
     private var mFilmPhoto: FilmPhoto? = null   //所有电影剧照
     private var mManPhoto: FilmManPhoto? = null      //影人所有照片
-
-    private var mImageHeight: Int? = null
 
     //所有剧照
     constructor(recycler: RecyclerView, filmPhoto: FilmPhoto) : this(recycler.context) {
@@ -38,16 +34,9 @@ class FilmPhotoAdapter(context: Context) : RecyclerViewAdapter<FilmPhotoAdapter.
         setImageHeight(recycler)
     }
 
-    private fun setImageHeight(recycler: RecyclerView) {
-        val sc = (recycler.layoutManager as? GridLayoutManager)?.spanCount
-        if (sc != null) {
-            mImageHeight = BaseActivity.getScreenSize().x / sc
-        }
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmPhotoAdapter.ViewHolder {
         val view = mContext.inflate(R.layout.listitem_photo_cardview, parent)
-        return FilmPhotoAdapter.ViewHolder(view, mImageHeight)
+        return FilmPhotoAdapter.ViewHolder(view, mImageWidth)
     }
 
     override fun getItemCount(): Int {
@@ -66,7 +55,7 @@ class FilmPhotoAdapter(context: Context) : RecyclerViewAdapter<FilmPhotoAdapter.
 
         init {
             if (hei != null)
-                mImageView.SetHeight(hei)
+                mImageView.SetWidth(hei)
         }
 
         internal fun setPhoto(photo: Photo) {

@@ -16,7 +16,7 @@ import util.OnClick
 import util.inflate
 import util.setImageUrl
 
-class FilmReviewAdapter(context: Context, filmReview: FilmReview) : RecyclerViewAdapter<FilmReviewAdapter.ViewHolder>() {
+class FilmReviewAdapter(context: Context, filmReview: FilmReview) : IRecyclerViewAdapter<FilmReviewAdapter.ViewHolder>() {
 
     private val mContext = context
     private var mFilmReview = filmReview
