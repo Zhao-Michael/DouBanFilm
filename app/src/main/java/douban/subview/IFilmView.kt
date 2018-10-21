@@ -22,14 +22,12 @@ abstract class IFilmView(context: Context) {
 
     protected abstract val mLayout: Int
 
-    protected var mItemCount = 30
-
     protected val mView: View by lazy { LayoutInflater.from(context).inflate(mLayout, null) }
     protected val mRecyclerView by lazy { mView.find<RecyclerView>(R.id.mRecyclerView) }
     protected val mSwipeLayout by lazy { mView.find<VerSwipeLayout>(R.id.mSwipeLayout) }
     private val mImageNone by lazy { mView.find<ImageView>(R.id.imgae_none) }
     private val mTextone by lazy { mView.find<TextView>(R.id.text_none) }
-    protected val mLayoutNone by lazy { mView.find<View>(R.id.layout_none) }
+    private val mLayoutNone by lazy { mView.find<View>(R.id.layout_none) }
 
     protected fun initRecyclerView(span: Int = 1) {
         mRecyclerView.setHasFixedSize(true)

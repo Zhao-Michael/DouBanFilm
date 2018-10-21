@@ -17,6 +17,7 @@ import douban.FilmDetail
 import douban.adapter.FilmListAdapter
 import me.zhanghai.android.materialratingbar.MaterialRatingBar
 import michaelzhao.R
+import michaelzhao.TagFilmActivity
 import org.jetbrains.anko.find
 import util.Rx
 
@@ -80,12 +81,7 @@ class FilmViewSummary(context: Context, filmDetail: FilmDetail) : IFilmView(cont
             override fun onTagCrossClick(position: Int) = Unit
 
             override fun onTagClick(position: Int, text: String?) {
-                Rx.get {
-                    DouBanV1.getTagFilmList(text.toString())
-                }.set {
-                    println(it)
-                    //TODO
-                }
+                TagFilmActivity.ShowTagFilmList(text.toString())
             }
         })
 

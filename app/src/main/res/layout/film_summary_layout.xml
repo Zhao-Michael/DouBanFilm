@@ -71,6 +71,8 @@
                               android:lineSpacingMultiplier="1.2"
                               android:paddingStart="5dp"
                               android:paddingEnd="5dp"
+                              android:textIsSelectable="true"
+                              android:focusable="true"
                               android:layout_width="match_parent"
                               android:layout_height="wrap_content"/>
 

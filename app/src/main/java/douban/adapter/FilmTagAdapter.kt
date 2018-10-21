@@ -8,9 +8,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import douban.Subject
 import douban.TagFilmList
+import michaelzhao.BaseActivity
 import michaelzhao.FilmDetailActivity
 import michaelzhao.R
 import org.jetbrains.anko.find
+import org.jetbrains.anko.textColor
 import util.*
 
 class FilmTagAdapter(recycler: RecyclerView, filmTag: TagFilmList) : IRecyclerViewAdapter<FilmTagAdapter.ViewHolder>() {
@@ -19,7 +21,7 @@ class FilmTagAdapter(recycler: RecyclerView, filmTag: TagFilmList) : IRecyclerVi
     private val mContext = recycler.context
 
     init {
-        setImageHeight(recycler, 13)
+        setImageHeight(recycler, 13, 3)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmTagAdapter.ViewHolder {
@@ -39,6 +41,7 @@ class FilmTagAdapter(recycler: RecyclerView, filmTag: TagFilmList) : IRecyclerVi
         private val cardview by lazy { mItemView.find<CardView>(R.id.cardview) }
         private val title by lazy { mItemView.find<TextView>(R.id.text_title) }
         private val image by lazy { mItemView.find<ImageView>(R.id.image_photo) }
+        private val rate by lazy { mItemView.find<TextView>(R.id.text_rate) }
 
         init {
             if (wid != null) {
@@ -50,6 +53,8 @@ class FilmTagAdapter(recycler: RecyclerView, filmTag: TagFilmList) : IRecyclerVi
 
         fun setTagItem(sub: Subject) {
             title.text = sub.title
+            rate.text = sub.rate
+            rate.textColor = BaseActivity.getPrimaryColor()
             image.setImageUrl(sub.cover, R.drawable.loading_large)
             cardview.OnClick { FilmDetailActivity.ShowFilmDetail(sub.id) }
         }

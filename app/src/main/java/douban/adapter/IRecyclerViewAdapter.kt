@@ -30,10 +30,10 @@ abstract class IRecyclerViewAdapter<T : RecyclerView.ViewHolder?> : RecyclerView
         }
     }
 
-    protected fun setImageHeight(recycler: RecyclerView, offsetWid: Int = 0) {
-        val sc = (recycler.layoutManager as? GridLayoutManager)?.spanCount
+    protected fun setImageHeight(recycler: RecyclerView, offsetWid: Int = 0, spCount: Int? = null) {
+        val sc = spCount ?: (recycler.layoutManager as? GridLayoutManager)?.spanCount
         if (sc != null) {
-            mImageWidth = BaseActivity.getScreenSize().x / sc - offsetWid.dip2px()
+            mImageWidth = BaseActivity.getScreenSize().x / sc - offsetWid.dip2px() - 1
         }
     }
 

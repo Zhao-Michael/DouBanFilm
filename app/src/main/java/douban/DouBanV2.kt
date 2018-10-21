@@ -1,6 +1,7 @@
 package douban
 
 import com.google.gson.Gson
+import database.NetRequestType
 import util.GetUrlContent
 import util.fromJson
 
@@ -38,7 +39,13 @@ object DouBanV2 {
 
     fun getTagFilm(tag: TagType, start: Int = 0, count: Int = 30): TagFilmList {
         val url = "$mBaseUrl$mSearchTag?type=movie&tag=${getTagString(tag)}&sort=time&page_limit=$count&page_start=$start"
-        val html = GetUrlContent(url)
+        val html = GetUrlContent(url, NetRequestType.Second)
+        return Gson().fromJson(html)
+    }
+
+    fun getTagFilm(tag: String, start: Int = 0, count: Int = 30): TagFilmList {
+        val url = "$mBaseUrl$mSearchTag?type=movie&tag=$tag&sort=time&page_limit=$count&page_start=$start"
+        val html = GetUrlContent(url, NetRequestType.Second)
         return Gson().fromJson(html)
     }
 

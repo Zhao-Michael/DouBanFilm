@@ -36,6 +36,7 @@
 
         <activity android:name="michaelzhao.FilmDetailActivity"/>
         <activity android:name=".WebActivity"/>
+        <activity android:name=".TagFilmActivity"/>
 
     </application>
 

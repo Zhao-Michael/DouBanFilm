@@ -11,6 +11,7 @@ import douban.DouBanV1
 import douban.FilmList
 import michaelzhao.R
 import org.jetbrains.anko.find
+import org.jetbrains.anko.support.v4.onRefresh
 import org.jetbrains.anko.toast
 import util.FilmAdapter
 import util.Rx
@@ -42,23 +43,13 @@ class FilmMainPageAdapter(context: Context) : PagerAdapter() {
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view = mContext.inflate(R.layout.main_page_item_layout, container)
         mListSwipeLayout[position] = view.find<VerSwipeLayout>(R.id.mSwipeLayout).apply {
-            setOnRefreshListener { updatePageFromNet(position) }
+            onRefresh { updatePageFromNet(position) }
         }
         val recycler = view.find<RecyclerView>(R.id.mRecyclerView)
         recycler.layoutManager = GridLayoutManager(mContext, 1)
         mListRecycler[position] = recycler
         if (recycler.adapter == null) {
-            if (position == 0) {
-                mListSwipeLayout[0].DisEnable()
-                recycler.adapter = FilmHomeAdapter(recycler)
-            } else {
-                val list = Hawk.get<Any?>(mListTitle[position])
-                if (list is FilmList) {
-                    recycler.FilmAdapter = list
-                } else {
-                    updatePageFromNet(position)
-                }
-            }
+            updatePageFromNet(position)
         }
         container.addView(view)
         return view
@@ -97,7 +88,6 @@ class FilmMainPageAdapter(context: Context) : PagerAdapter() {
                     else -> throw NotImplementedError("updatePageFromNet : index out of range")
                 }
             }.set {
-                Hawk.put(mListTitle[pos], it)
                 mListRecycler[pos].FilmAdapter = it
             }.err {
                 mContext.toast(it.message.toString())

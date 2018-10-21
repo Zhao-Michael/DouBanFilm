@@ -2,6 +2,7 @@ package michaelzhao
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.MotionEvent
@@ -28,10 +29,10 @@ class SearchActivity : BaseActivity(), FloatingSearchView.OnSearchListener, Floa
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initNoneLayout()
         mSwipeLayout.setColorSchemeColors(getPrimaryColor())
         mSwipeLayout.DisEnable()
         mSearchView.setSearchFocused(true)
-        mRecyclerView.layoutManager = GridLayoutManager(this, 1)
         mSearchView.setOnQueryChangeListener(this)
         mSearchView.setOnSearchListener(this)
         mSearchView.setOnHomeActionClickListener { finish() }
@@ -96,10 +97,18 @@ class SearchActivity : BaseActivity(), FloatingSearchView.OnSearchListener, Floa
             Rx.get {
                 DouBanV1.getSearchFilmList(query)
             }.set {
-                mRecyclerView.FilmAdapter = it
+                if (it.subjects.isNotEmpty()) {
+                    find<View>(R.id.layout_none).Hide()
+                    mRecyclerView.layoutManager = GridLayoutManager(this, 1)
+                    mRecyclerView.FilmAdapter = it
+                } else {
+                    find<View>(R.id.layout_none).Show()
+                }
             }.end {
                 mSwipeLayout.DisEnable()
                 mSwipeLayout.HideRefresh()
+            }.err {
+                Snackbar.make(mRecyclerView, "${it.message}", Snackbar.LENGTH_INDEFINITE).show()
             }
         }
     }
@@ -111,8 +120,12 @@ class SearchActivity : BaseActivity(), FloatingSearchView.OnSearchListener, Floa
             Rx.get {
                 DouBanV1.getSearchBrief(newQuery)
             }.set {
-                if (newQuery == mSearchView.query)
+                if (newQuery == mSearchView.query) {
+                    mRecyclerView.layoutManager = GridLayoutManager(this, 2)
                     mRecyclerView.BriefAdapter = it
+                }
+            }.err {
+                Snackbar.make(mRecyclerView, "${it.message}", Snackbar.LENGTH_INDEFINITE).show()
             }
         }
     }

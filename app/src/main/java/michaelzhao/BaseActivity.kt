@@ -8,13 +8,19 @@ import android.support.annotation.ColorInt
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.widget.ImageView
+import android.widget.TextView
+import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.IIcon
 import com.orhanobut.hawk.Hawk
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.find
+import org.jetbrains.anko.image
+import org.jetbrains.anko.textColor
 import util.VerSwipeLayout
 import util.*
+import util.Util.CreateIcon
 
 @SuppressLint("Registered")
 abstract class BaseActivity : AppCompatActivity() {
@@ -125,6 +131,14 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun getDrawableIcon(icon: IIcon): IconicsDrawable {
         return IconicsDrawable(this).icon(icon).color(Color.WHITE).sizeDp(18)
+    }
+
+    //init Find Nothing Layout
+    protected fun initNoneLayout() {
+        val mImageNone = find<ImageView>(R.id.imgae_none)
+        val mTextone = find<TextView>(R.id.text_none)
+        mImageNone.image = CreateIcon(this, GoogleMaterial.Icon.gmd_sentiment_very_dissatisfied, 40)
+        mTextone.textColor = BaseActivity.getPrimaryColor()
     }
 
 }
