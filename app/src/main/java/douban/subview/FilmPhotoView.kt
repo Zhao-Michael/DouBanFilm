@@ -28,16 +28,11 @@ class FilmPhotoView(context: Context, filmDetail: FilmDetail) : IFilmView(contex
             DouBanV1.getFilmPhoto(mFilmDetail.id, 1)
         }.set {
             initRecyclerView(3)
-            mRecyclerView.adapter = FilmPhotoAdapter(mRecyclerView, it)
+            mRecyclerView.adapter = FilmPhotoAdapter(mRecyclerView, it, this)
             checkEmptyAdapter()
         }.end {
             ShowSwipe(false)
         }
     }
-
-    override fun onLoadMore() {
-
-    }
-
 
 }

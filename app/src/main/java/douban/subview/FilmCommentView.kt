@@ -22,15 +22,11 @@ class FilmCommentView(context: Context, filmDetail: FilmDetail) : IFilmView(cont
         Rx.get {
             DouBanV1.getFilmComment(mFilmDetail.id)
         }.set {
-            mRecyclerView.adapter = FilmCommentAdapter(mContext, it)
+            mRecyclerView.adapter = FilmCommentAdapter(mContext, it, this)
             checkEmptyAdapter()
         }.end {
             ShowSwipe(false)
         }
-    }
-
-    override fun onLoadMore() {
-
     }
 
 }

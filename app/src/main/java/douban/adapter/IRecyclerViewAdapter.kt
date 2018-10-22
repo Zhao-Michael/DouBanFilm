@@ -3,13 +3,16 @@ package douban.adapter
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
+import douban.subview.IFilmView
 import michaelzhao.BaseActivity
 import util.dip2px
 
-abstract class IRecyclerViewAdapter<T : RecyclerView.ViewHolder?> : RecyclerView.Adapter<T>() {
+abstract class IRecyclerViewAdapter<T : RecyclerView.ViewHolder?>(filmView: IFilmView) : RecyclerView.Adapter<T>() {
 
     private var mMargin: Int? = null
     protected var mImageWidth: Int? = null
+    private val mIFilmView = filmView
+    private var mLoadingMore = false
 
     override fun onBindViewHolder(holder: T, position: Int) {
         if (holder != null) {
@@ -35,6 +38,15 @@ abstract class IRecyclerViewAdapter<T : RecyclerView.ViewHolder?> : RecyclerView
         if (sc != null) {
             mImageWidth = BaseActivity.getScreenSize().x / sc - offsetWid.dip2px() - 1
         }
+    }
+
+    protected fun checkToEnd(pos: Int) {
+        if (mLoadingMore) return
+        mIFilmView.LoadMore(pos == itemCount - 1, this)
+    }
+
+    fun LoadMoreFinish() {
+        mLoadingMore = false
     }
 
 }

@@ -8,6 +8,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import douban.Subject
 import douban.TagFilmList
+import douban.subview.FilmView
+import douban.subview.IFilmView
 import michaelzhao.BaseActivity
 import michaelzhao.FilmDetailActivity
 import michaelzhao.R
@@ -15,7 +17,11 @@ import org.jetbrains.anko.find
 import org.jetbrains.anko.textColor
 import util.*
 
-class FilmTagAdapter(recycler: RecyclerView, filmTag: TagFilmList) : IRecyclerViewAdapter<FilmTagAdapter.ViewHolder>() {
+class FilmTagAdapter(
+        recycler: RecyclerView,
+        filmTag: TagFilmList,
+        filmView: IFilmView)
+    : IRecyclerViewAdapter<FilmTagAdapter.ViewHolder>(filmView) {
 
     private val mFilmTagList = filmTag
     private val mContext = recycler.context

@@ -29,6 +29,7 @@ import douban.adapter.FilmBriefAdapter
 import douban.adapter.FilmListAdapter
 import douban.FilmList
 import douban.SearchBrief
+import douban.subview.FilmView
 import org.apache.commons.lang3.StringEscapeUtils
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.image
@@ -167,7 +168,7 @@ var RecyclerView.FilmAdapter: FilmList
         return (adapter as FilmListAdapter).getFilmList()
     }
     set(it) {
-        uiThread { adapter = FilmListAdapter(context, it) }
+        uiThread { adapter = FilmListAdapter(context, it, FilmView(context)) }
     }
 
 var RecyclerView.BriefAdapter: Array<SearchBrief>
@@ -175,7 +176,7 @@ var RecyclerView.BriefAdapter: Array<SearchBrief>
         return (adapter as FilmBriefAdapter).getListBrief()
     }
     set(it) {
-        uiThread { adapter = FilmBriefAdapter(it, context) }
+        uiThread { adapter = FilmBriefAdapter(it, context, FilmView(context)) }
     }
 
 

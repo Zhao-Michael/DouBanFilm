@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import com.orhanobut.hawk.Hawk
 import douban.DouBanV1
 import douban.FilmList
+import douban.subview.FilmView
 import michaelzhao.R
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.onRefresh
@@ -74,7 +75,7 @@ class FilmMainPageAdapter(context: Context) : PagerAdapter() {
     private fun updatePageFromNet(pos: Int) {
         if (pos == 0) {
             mListSwipeLayout[pos].DisEnable()
-            mListRecycler[pos].adapter = FilmHomeAdapter(mListRecycler[pos])
+            mListRecycler[pos].adapter = FilmHomeAdapter(mListRecycler[pos], FilmView(mListRecycler[pos].context))
         } else {
             Rx.get {
                 mListSwipeLayout[pos].ShowRefresh()

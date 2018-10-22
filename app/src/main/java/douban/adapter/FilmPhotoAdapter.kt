@@ -1,36 +1,42 @@
 package douban.adapter
 
 import android.content.Context
+import android.support.design.widget.CoordinatorLayout
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import douban.*
+import douban.subview.IFilmView
 import imageplayer.ImageViewActivity
 import michaelzhao.R
 import org.jetbrains.anko.find
 import util.*
 
 //Film Photo, Film Man Photo, Auto Load More
-class FilmPhotoAdapter(context: Context) : IRecyclerViewAdapter<FilmPhotoAdapter.ViewHolder>() {
+class FilmPhotoAdapter(context: Context, filmView: IFilmView) : IRecyclerViewAdapter<FilmPhotoAdapter.ViewHolder>(filmView) {
 
     private val mContext = context
     private val mListPhoto = mutableListOf<Photo>()
 
-    private var mFilmPhoto: FilmPhoto? = null   //所有电影剧照
-    private var mManPhoto: FilmManPhoto? = null      //影人所有照片
+    init {
+        setHasStableIds(true)
+    }
 
     //所有剧照
-    constructor(recycler: RecyclerView, filmPhoto: FilmPhoto) : this(recycler.context) {
-        mFilmPhoto = filmPhoto
+    constructor(recycler: RecyclerView, filmPhoto: FilmPhoto, filmView: IFilmView) : this(recycler.context, filmView) {
         setImageHeight(recycler)
         mListPhoto.addAll(filmPhoto.photos)
     }
 
+    override fun getItemId(position: Int): Long {
+        return mListPhoto[position].hashCode().toLong()
+    }
+
     //所有影人图片
-    constructor(recycler: RecyclerView, manPhoto: FilmManPhoto) : this(recycler.context) {
+    constructor(recycler: RecyclerView, manPhoto: FilmManPhoto, filmView: IFilmView) : this(recycler.context, filmView) {
         mListPhoto.addAll(manPhoto.photos)
-        mManPhoto = manPhoto
         setImageHeight(recycler)
     }
 
@@ -46,8 +52,17 @@ class FilmPhotoAdapter(context: Context) : IRecyclerViewAdapter<FilmPhotoAdapter
     override fun onBindViewHolder(holder: FilmPhotoAdapter.ViewHolder, position: Int) {
         val pos = holder.adapterPosition
         holder.setPhoto(mListPhoto[pos])
-        holder.itemView.OnClick { ImageViewActivity.ShowImages(mContext, mListPhoto.map { it.image }, pos) }
+        holder.itemView.OnClick {
+            ImageViewActivity.ShowImages(mContext, mListPhoto.map { it.image }, pos)
+        }
+        checkToEnd(pos)
     }
+
+    fun addListPhotos(list: List<Photo>) {
+        mListPhoto.addAll(list)
+    }
+
+    fun getListPhotos() = mListPhoto.toList()
 
     class ViewHolder(mItemView: View, hei: Int?) : RecyclerView.ViewHolder(mItemView) {
 
@@ -59,7 +74,7 @@ class FilmPhotoAdapter(context: Context) : IRecyclerViewAdapter<FilmPhotoAdapter
         }
 
         internal fun setPhoto(photo: Photo) {
-            mImageView.setImageUrl(photo.thumb, R.drawable.loading_large)
+            mImageView.setImageUrl(photo.cover, R.drawable.loading_large)
         }
 
     }

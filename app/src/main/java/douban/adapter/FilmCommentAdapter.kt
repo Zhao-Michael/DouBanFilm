@@ -10,6 +10,7 @@ import android.widget.TextView
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import douban.Comment
 import douban.FilmComment
+import douban.subview.IFilmView
 import michaelzhao.R
 import org.jetbrains.anko.find
 import org.jetbrains.anko.image
@@ -17,7 +18,7 @@ import util.Util
 import util.inflate
 import util.setImageUrl
 
-class FilmCommentAdapter(context: Context, filmComment: FilmComment) : IRecyclerViewAdapter<FilmCommentAdapter.ViewHolder>() {
+class FilmCommentAdapter(context: Context, filmComment: FilmComment, filmView: IFilmView) : IRecyclerViewAdapter<FilmCommentAdapter.ViewHolder>(filmView) {
 
     private val mContext = context
     private val mFilmComment = filmComment

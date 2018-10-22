@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import douban.SearchBrief
+import douban.subview.IFilmView
 import org.jetbrains.anko.find
 import util.OnClick
 import util.inflate
@@ -15,7 +16,7 @@ import michaelzhao.FilmDetailActivity
 import michaelzhao.R
 
 //brief search result adapter
-class FilmBriefAdapter(listViews: Array<SearchBrief>, context: Context) : IRecyclerViewAdapter<FilmBriefAdapter.ViewHolder>() {
+class FilmBriefAdapter(listViews: Array<SearchBrief>, context: Context, filmView: IFilmView) : IRecyclerViewAdapter<FilmBriefAdapter.ViewHolder>(filmView) {
 
     private val mListBrief = listOf(*listViews)
     private val mContext = context

@@ -9,13 +9,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import douban.Celebrity
 import douban.FilmDetail
+import douban.subview.IFilmView
 import michaelzhao.FilmDetailActivity
 import org.jetbrains.anko.find
 import michaelzhao.R
 import util.*
 
 //电影 Cast
-class FilmCelebrityAdapter(context: Context, filmDetail: FilmDetail) : IRecyclerViewAdapter<FilmCelebrityAdapter.ViewHolder>() {
+class FilmCelebrityAdapter(context: Context, filmDetail: FilmDetail, filmView: IFilmView) : IRecyclerViewAdapter<FilmCelebrityAdapter.ViewHolder>(filmView) {
 
     private val mContext = context
     private val mFilmDetail = filmDetail

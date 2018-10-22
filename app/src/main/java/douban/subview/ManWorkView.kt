@@ -28,15 +28,11 @@ class ManWorkView(context: Context, filmMan: FilmMan) : IFilmView(context) {
         }.set {
             it.works.map { it.subject }
             val filmList = FilmList(it.count, it.start, it.total, it.works.map { it.subject }, "")
-            mRecyclerView.adapter = FilmListAdapter(mContext, filmList)
+            mRecyclerView.adapter = FilmListAdapter(mContext, filmList, this)
             checkEmptyAdapter()
         }.end {
             ShowSwipe(false)
         }
-    }
-
-    override fun onLoadMore() {
-
     }
 
 }

@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import douban.adapter.IRecyclerViewAdapter
 import org.jetbrains.anko.find
 import org.jetbrains.anko.textColor
 import michaelzhao.BaseActivity
@@ -39,7 +40,11 @@ abstract class IFilmView(context: Context) {
 
     }
 
-    open fun onLoadMore() {
+    fun <T : RecyclerView.ViewHolder?> LoadMore(b: Boolean, adapter: IRecyclerViewAdapter<T>) {
+        if (b) onLoadMore(adapter)
+    }
+
+    protected open fun <T : RecyclerView.ViewHolder?> onLoadMore(adapter: IRecyclerViewAdapter<T>) {
 
     }
 
@@ -58,7 +63,7 @@ abstract class IFilmView(context: Context) {
     }
 
     fun checkEmptyAdapter() {
-        val bShow = mRecyclerView.adapter == null || mRecyclerView.adapter.itemCount == 0
+        val bShow = mRecyclerView.adapter?.itemCount == 0
         if (!bShow) {
             mLayoutNone.Hide()
         } else {

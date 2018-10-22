@@ -14,6 +14,7 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import douban.FilmDetail
 import douban.FilmItem
 import douban.FilmList
+import douban.subview.IFilmView
 import me.zhanghai.android.materialratingbar.MaterialRatingBar
 import michaelzhao.FilmDetailActivity
 import michaelzhao.R
@@ -21,7 +22,7 @@ import org.jetbrains.anko.find
 import util.*
 
 //主页电影列表
-class FilmListAdapter(context: Context, listViews: FilmList) : IRecyclerViewAdapter<FilmListAdapter.ViewHolder>() {
+class FilmListAdapter(context: Context, listViews: FilmList, filmView: IFilmView) : IRecyclerViewAdapter<FilmListAdapter.ViewHolder>(filmView) {
     private val mContext = context
     private var mFilmList: FilmList = listViews
 

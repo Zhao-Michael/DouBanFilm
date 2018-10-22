@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import douban.FilmReview
 import douban.Review
+import douban.subview.IFilmView
 import michaelzhao.R
 import michaelzhao.WebActivity
 import org.jetbrains.anko.find
@@ -16,7 +17,7 @@ import util.OnClick
 import util.inflate
 import util.setImageUrl
 
-class FilmReviewAdapter(context: Context, filmReview: FilmReview) : IRecyclerViewAdapter<FilmReviewAdapter.ViewHolder>() {
+class FilmReviewAdapter(context: Context, filmReview: FilmReview, filmView: IFilmView) : IRecyclerViewAdapter<FilmReviewAdapter.ViewHolder>(filmView) {
 
     private val mContext = context
     private var mFilmReview = filmReview

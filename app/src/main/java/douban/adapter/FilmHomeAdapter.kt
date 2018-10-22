@@ -9,6 +9,8 @@ import android.widget.TextView
 import douban.DouBanV2
 import douban.DouBanV2.getTagString
 import douban.TagFilmList
+import douban.subview.FilmView
+import douban.subview.IFilmView
 import michaelzhao.BaseActivity
 import michaelzhao.R
 import michaelzhao.TagFilmActivity.Companion.ShowTagFilmList
@@ -16,12 +18,16 @@ import org.jetbrains.anko.find
 import org.jetbrains.anko.textColor
 import util.*
 
-class FilmHomeAdapter(recycler: RecyclerView) : IRecyclerViewAdapter<FilmHomeAdapter.ViewHolder>() {
+class FilmHomeAdapter(
+        recycler: RecyclerView,
+        filmView: IFilmView)
+    : IRecyclerViewAdapter<FilmHomeAdapter.ViewHolder>(filmView) {
 
     private val mContext = recycler.context
     private val listTag = DouBanV2.TagType.values().toList()
 
     init {
+        recycler.setItemViewCacheSize(listTag.size)
         setImageHeight(recycler)
     }
 
@@ -58,6 +64,7 @@ class FilmHomeAdapter(recycler: RecyclerView) : IRecyclerViewAdapter<FilmHomeAda
             }
             val manager = GridLayoutManager(mItemView.context, 2).apply { orientation = RecyclerView.HORIZONTAL }
             recyclerView.layoutManager = manager
+            recyclerView.setHasFixedSize(true)
         }
 
         fun setTagItem(tag: DouBanV2.TagType, index: Int) {
@@ -66,15 +73,16 @@ class FilmHomeAdapter(recycler: RecyclerView) : IRecyclerViewAdapter<FilmHomeAda
             title.text = getTagString(tag)
             swipeLayout.Enable()
             swipeLayout.ShowRefresh()
+
             if (mMapTagFilm.contains(tag)) {
-                recyclerView.adapter = FilmTagAdapter(recyclerView, mMapTagFilm[tag]!!)
+                recyclerView.adapter = FilmTagAdapter(recyclerView, mMapTagFilm[tag]!!, FilmView(recyclerView.context))
                 swipeLayout.HideRefresh()
                 swipeLayout.DisEnable()
             } else {
                 Rx.get {
                     DouBanV2.getTagFilm(tag)
                 }.set {
-                    recyclerView.adapter = FilmTagAdapter(recyclerView, it)
+                    recyclerView.adapter = FilmTagAdapter(recyclerView, it, FilmView(recyclerView.context))
                     mMapTagFilm[DouBanV2.TagType.Action] = it
                 }.end {
                     swipeLayout.HideRefresh()
