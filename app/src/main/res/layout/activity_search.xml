@@ -11,6 +11,7 @@
             android:layout_height="wrap_content">
 
         <FrameLayout android:layout_width="match_parent"
+                     app:layout_scrollFlags="scroll|enterAlways"
                      android:layout_height="wrap_content">
 
             <!--suppress AndroidDomInspection -->
@@ -25,24 +26,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="?actionBarSize"
                     app:floatingSearch_searchHint="Search..."
-                    app:floatingSearch_suggestionsListAnimDuration="250"
                     app:floatingSearch_leftActionMode="showHome"
                     app:floatingSearch_close_search_on_keyboard_dismiss="true"/>
 
         </FrameLayout>
 
-    </android.support.design.widget.AppBarLayout>
-
-    <util.VerSwipeLayout
-            android:id="@+id/mSwipeLayout"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
         <LinearLayout android:layout_width="match_parent"
+                      android:background="#FFF"
                       android:layout_height="wrap_content"
+                      app:layout_scrollFlags="scroll|enterAlways"
                       android:orientation="vertical">
-
 
             <FrameLayout android:layout_width="match_parent"
                          android:layout_height="wrap_content">
@@ -95,34 +88,29 @@
 
             </FrameLayout>
 
-            <View android:layout_width="match_parent"
-                  android:layout_height="10dp"
-                  android:background="@color/light_gray"/>
-
-            <TextView android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_gravity="start"
-                      android:layout_margin="10dp"
-                      android:text="搜索结果"/>
-
-            <View android:layout_width="match_parent"
-                  android:layout_height="1dp"
-                  android:background="@color/light_gray"/>
-
-            <FrameLayout android:layout_width="match_parent"
-                         android:layout_height="match_parent">
-
-                <android.support.v7.widget.RecyclerView
-                        android:id="@+id/mRecyclerView"
-                        android:scrollbars="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
-                <include layout="@layout/common_empty_layout"/>
-
-            </FrameLayout>
 
         </LinearLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <util.VerSwipeLayout
+            android:id="@+id/mSwipeLayout"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <FrameLayout android:layout_width="match_parent"
+                     android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                    android:id="@+id/mRecyclerView"
+                    android:scrollbars="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            <include layout="@layout/common_empty_layout"/>
+
+        </FrameLayout>
 
     </util.VerSwipeLayout>
 

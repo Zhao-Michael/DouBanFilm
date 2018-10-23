@@ -54,6 +54,7 @@ class SearchActivity : BaseActivity(), FloatingSearchView.OnSearchListener, Floa
             override fun onTagCrossClick(position: Int) = Unit
 
             override fun onTagClick(position: Int, text: String?) {
+                mSearchView.setSearchFocused(true)
                 mSearchView.setSearchText(text)
             }
         })

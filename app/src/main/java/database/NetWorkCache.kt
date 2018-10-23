@@ -26,30 +26,36 @@ class NetWorkCache : SQLiteOpenHelper(App.Instance, DATABASE_FILENAME, null, 1) 
         val Instance by lazy { NetWorkCache() }
     }
 
+    private val mLock = Any()
+
     override fun onCreate(db: SQLiteDatabase?) {
-        try {
-            db?.execSQL(CREATE_NETWORK_DATABASE_CACHE)
-        } catch (ex: Exception) {
-            ex.printStackTrace()
+        synchronized(mLock) {
+            try {
+                db?.execSQL(CREATE_NETWORK_DATABASE_CACHE)
+            } catch (ex: Exception) {
+                ex.printStackTrace()
+            }
         }
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) = Unit
 
-    fun addNetRequest(request: NetWorkRequest) {
-        val db = writableDatabase
-        try {
-            if (existUrl(request.url)) {
-                db.update(TABLE_REQUEST, request.toSqlData(), "$URL=?", arrayOf(request.url))
-                println("DateBase[$TABLE_REQUEST] : update ${request.url} into cache database")
-            } else {
-                db.insert(TABLE_REQUEST, null, request.toSqlData())
-                println("DateBase[$TABLE_REQUEST] : insert ${request.url} into cache database")
+    private fun addNetRequest(request: NetWorkRequest) {
+        synchronized(mLock) {
+            val db = writableDatabase
+            try {
+                if (existUrl(request.url)) {
+                    db.update(TABLE_REQUEST, request.toSqlData(), "$URL=?", arrayOf(request.url))
+                    println("DateBase[$TABLE_REQUEST] : update ${request.url} into cache database")
+                } else {
+                    db.insert(TABLE_REQUEST, null, request.toSqlData())
+                    println("DateBase[$TABLE_REQUEST] : insert ${request.url} into cache database")
+                }
+            } catch (ex: Exception) {
+                ex.printStackTrace()
+            } finally {
+                db.close()
             }
-        } catch (ex: Exception) {
-            ex.printStackTrace()
-        } finally {
-            db.close()
         }
     }
 
@@ -57,35 +63,39 @@ class NetWorkCache : SQLiteOpenHelper(App.Instance, DATABASE_FILENAME, null, 1) 
         addNetRequest(NetWorkRequest(url, content, NowDate, type))
     }
 
-    fun existUrl(url: String): Boolean {
-        val db = writableDatabase
-        return try {
-            val cursor = db.query(TABLE_REQUEST, arrayOf(URL), "$URL=?", arrayOf(url), null, null, null)
-            val cnt = cursor.count
-            cursor.close()
-            cnt > 0
-        } catch (ex: Exception) {
-            ex.printStackTrace()
-            false
+    private fun existUrl(url: String): Boolean {
+        synchronized(mLock) {
+            val db = writableDatabase
+            return try {
+                val cursor = db.query(TABLE_REQUEST, arrayOf(URL), "$URL=?", arrayOf(url), null, null, null)
+                val cnt = cursor.count
+                cursor.close()
+                cnt > 0
+            } catch (ex: Exception) {
+                ex.printStackTrace()
+                false
+            }
         }
     }
 
     fun findUrl(url: String): NetWorkRequest {
-        val db = writableDatabase
-        return try {
-            val cursor = db.query(TABLE_REQUEST, arrayOf(URL, CONTENT, TIME, TYPE), "$URL=?", arrayOf(url), null, null, null)
-            if (cursor.moveToFirst()) {
-                val request = getValueFromCursor(cursor)
-                cursor.close()
-                request
-            } else {
+        synchronized(mLock) {
+            val db = writableDatabase
+            return try {
+                val cursor = db.query(TABLE_REQUEST, arrayOf(URL, CONTENT, TIME, TYPE), "$URL=?", arrayOf(url), null, null, null)
+                if (cursor.moveToFirst()) {
+                    val request = getValueFromCursor(cursor)
+                    cursor.close()
+                    request
+                } else {
+                    NetWorkRequest.NULL
+                }
+            } catch (ex: Exception) {
+                ex.printStackTrace()
                 NetWorkRequest.NULL
+            } finally {
+                db.close()
             }
-        } catch (ex: Exception) {
-            ex.printStackTrace()
-            NetWorkRequest.NULL
-        } finally {
-            db.close()
         }
     }
 

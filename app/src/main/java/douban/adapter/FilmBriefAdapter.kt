@@ -9,14 +9,15 @@ import android.widget.TextView
 import douban.SearchBrief
 import douban.subview.IFilmView
 import org.jetbrains.anko.find
-import util.OnClick
-import util.inflate
-import util.setImageUrl
 import michaelzhao.FilmDetailActivity
 import michaelzhao.R
+import util.*
 
 //brief search result adapter
-class FilmBriefAdapter(listViews: Array<SearchBrief>, context: Context, filmView: IFilmView) : IRecyclerViewAdapter<FilmBriefAdapter.ViewHolder>(filmView) {
+class FilmBriefAdapter(listViews: Array<SearchBrief>,
+                       context: Context,
+                       filmView: IFilmView) :
+        IRecyclerViewAdapter<FilmBriefAdapter.ViewHolder>(filmView) {
 
     private val mListBrief = listOf(*listViews)
     private val mContext = context
@@ -38,19 +39,23 @@ class FilmBriefAdapter(listViews: Array<SearchBrief>, context: Context, filmView
 
     @Suppress("SENSELESS_COMPARISON")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val sb = mListBrief[position]
+        val pos = holder.adapterPosition
+        val sb = mListBrief[pos]
         holder.image.setImageUrl(sb.img)
         holder.title.text = sb.title
         if (sb.year != null && sb.year.isNotBlank())
             holder.year.text = sb.year
         else
             holder.year.visibility = View.GONE
-        holder.page.text = (holder.adapterPosition + 1).toString()
+        holder.page.text = (pos + 1).toString()
         holder.view.OnClick {
             when (sb.type) {
                 "celebrity" -> FilmDetailActivity.ShowFilmMan(sb.id)
                 "movie" -> FilmDetailActivity.ShowFilmDetail(sb.id)
             }
+        }
+        if (pos < 2) {
+            (holder.itemView?.layoutParams as? ViewGroup.MarginLayoutParams)?.SetMargins(0, 5, 0, 0)
         }
     }
 

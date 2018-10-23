@@ -5,21 +5,27 @@ import android.support.design.widget.Snackbar
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import com.arlib.floatingsearchview.FloatingSearchView
+import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import com.orhanobut.hawk.Hawk
 import douban.DouBanV2
 import douban.adapter.FilmTagAdapter
 import douban.subview.FilmView
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.onRefresh
+import util.Hide
 import util.Rx
 import util.Show
 
-class TagFilmActivity : BaseActivity() {
+class TagFilmActivity : BaseActivity(), FloatingSearchView.OnSearchListener {
 
     companion object {
-        private var mTag = ""
+        private val TAG_NAME = TagFilmActivity::javaClass.name + "_Tag"
+        private val mTag get() = Hawk.get<String>(TAG_NAME)
+
         fun ShowTagFilmList(tag: String) {
-            mTag = tag
+            Hawk.put(TAG_NAME, tag)
             App.Instance.StartActivity(TagFilmActivity::class.java)
         }
     }
@@ -27,34 +33,76 @@ class TagFilmActivity : BaseActivity() {
     override val mLayout: Int = R.layout.activity_tagfilm
 
     private val mRecyclerView by lazy { find<RecyclerView>(R.id.mRecyclerView) }
+    private val mSearchView by lazy { find<FloatingSearchView>(R.id.floating_search_view) }
+    private val mEmptyLayout by lazy { find<View>(R.id.layout_none) }
+    private var mFilmTagAdapter: FilmTagAdapter? = null
+    private val mFilmView = FilmView(this)
+    private val mStep = 30
+    private var mCurrPageIndex = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mSearchView.setSearchText(mTag)
         initNoneLayout()
         setToolBarIcon(GoogleMaterial.Icon.gmd_arrow_back)
         mToolBar.setNavigationOnClickListener { finish() }
         setToolBarTitle("分类：$mTag")
+        mSearchView.setOnSearchListener(this)
+        mSearchView.setOnHomeActionClickListener { finish() }
         mRecyclerView.layoutManager = GridLayoutManager(this, 3)
-        mSwipeLayout.onRefresh { updateList() }
-        updateList()
+        setLoadMore()
+        updateList(mTag, 0, true)
     }
 
-    private fun updateList() {
+    private fun updateList(tag: String, index: Int, isNew: Boolean = false) {
         mSwipeLayout.ShowRefresh()
         Rx.get {
-            DouBanV2.getTagFilm(mTag)
+            DouBanV2.getTagFilm(tag, index, mStep)
         }.set {
-            if (it.subjects.isNotEmpty())
-                mRecyclerView.adapter = FilmTagAdapter(mRecyclerView, it, FilmView(this))
-            else {
-                find<View>(R.id.layout_none).Show()
+            if (it.subjects.isNotEmpty()) {
+                mEmptyLayout.Hide()
+                if (mFilmTagAdapter == null || isNew) {
+                    mFilmTagAdapter = FilmTagAdapter(mRecyclerView, it, mFilmView)
+                    mRecyclerView.adapter = mFilmTagAdapter
+                } else {
+                    val cnt = mFilmTagAdapter?.itemCount
+                    if (cnt == null || cnt > 0) {
+                        mFilmTagAdapter?.addTagList(it.subjects)
+                        mFilmTagAdapter?.notifyItemInserted(cnt!!)
+                    }
+                }
+            } else if (index == 0) {
+                mRecyclerView.adapter = null
+                mEmptyLayout.Show()
+            } else {
+                mCurrPageIndex -= mStep
+                Snackbar.make(mRecyclerView, "没有更多了~", Snackbar.LENGTH_LONG).show()
             }
         }.end {
             mSwipeLayout.HideRefresh()
+            mSwipeLayout.DisEnable()
+            mFilmTagAdapter?.LoadMoreFinish()
         }.err {
-            find<View>(R.id.layout_none).Show()
+            mRecyclerView.adapter = null
+            mEmptyLayout.Show()
             Snackbar.make(mRecyclerView, "${it.message}", Snackbar.LENGTH_INDEFINITE).show()
             it.printStackTrace()
+        }
+    }
+
+    private fun setLoadMore() {
+        mFilmView.SetLoadMore {
+            mCurrPageIndex += mStep
+            updateList(mTag, mCurrPageIndex)
+        }
+    }
+
+    override fun onSuggestionClicked(searchSuggestion: SearchSuggestion?) = Unit
+
+    override fun onSearchAction(currentQuery: String?) {
+        if (currentQuery != null) {
+            Hawk.put(TAG_NAME, currentQuery)
+            updateList(currentQuery, 0, true)
         }
     }
 

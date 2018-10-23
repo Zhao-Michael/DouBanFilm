@@ -23,10 +23,11 @@ class FilmTagAdapter(
         filmView: IFilmView)
     : IRecyclerViewAdapter<FilmTagAdapter.ViewHolder>(filmView) {
 
-    private val mFilmTagList = filmTag
+    private var mTagList = mutableListOf<Subject>()
     private val mContext = recycler.context
 
     init {
+        mTagList.addAll(filmTag.subjects)
         setImageHeight(recycler, 13, 3)
     }
 
@@ -36,11 +37,17 @@ class FilmTagAdapter(
     }
 
     override fun onBindViewHolder(holder: FilmTagAdapter.ViewHolder, position: Int) {
-        holder.setTagItem(mFilmTagList.subjects[holder.adapterPosition])
+        val pos = holder.adapterPosition
+        holder.setTagItem(mTagList[pos])
+        checkToEnd(pos)
     }
 
     override fun getItemCount(): Int {
-        return mFilmTagList.subjects.size
+        return mTagList.size
+    }
+
+    fun addTagList(list: List<Subject>) {
+        mTagList.addAll(list)
     }
 
     class ViewHolder(mItemView: View, wid: Int?) : RecyclerView.ViewHolder(mItemView) {
@@ -48,6 +55,7 @@ class FilmTagAdapter(
         private val title by lazy { mItemView.find<TextView>(R.id.text_title) }
         private val image by lazy { mItemView.find<ImageView>(R.id.image_photo) }
         private val rate by lazy { mItemView.find<TextView>(R.id.text_rate) }
+        private val layout_rate by lazy { mItemView.find<View>(R.id.layout_rate) }
 
         init {
             if (wid != null) {
@@ -61,6 +69,10 @@ class FilmTagAdapter(
             title.text = sub.title
             rate.text = sub.rate
             rate.textColor = BaseActivity.getPrimaryColor()
+            if (sub.rate.isBlank())
+                layout_rate.Hide()
+            else
+                layout_rate.Show()
             image.setImageUrl(sub.cover, R.drawable.loading_large)
             cardview.OnClick { FilmDetailActivity.ShowFilmDetail(sub.id) }
         }

@@ -1,6 +1,7 @@
 package douban.subview
 
 import android.content.Context
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.RecyclerView
 import douban.DouBanV1
 import douban.FilmMan
@@ -14,7 +15,7 @@ class ManPhotoView(context: Context, filmMan: FilmMan) : IFilmView(context) {
 
     override val mLayout: Int = R.layout.film_common_subview_layout
     private val mFilmMan = filmMan
-    private var mCurrPageIndex = 1
+    private var mCurrPageIndex = 0
     private var mAdapter: FilmPhotoAdapter? = null
     private val mStep = 30
 
@@ -48,6 +49,7 @@ class ManPhotoView(context: Context, filmMan: FilmMan) : IFilmView(context) {
                 mAdapter?.notifyItemInserted(cnt)
             } else {
                 mCurrPageIndex -= mStep
+                Snackbar.make(mRecyclerView, "没有更多了~", Snackbar.LENGTH_LONG).show()
             }
         }.end {
             ShowSwipe(false)

@@ -8,18 +8,26 @@
 
     <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            app:layout_scrollFlags="scroll|enterAlways"
             android:layout_height="wrap_content">
 
         <FrameLayout android:layout_width="match_parent"
-                     app:layout_scrollFlags="scroll|enterAlways"
                      android:layout_height="wrap_content">
 
             <!--suppress AndroidDomInspection -->
             <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
+                    app:layout_scrollFlags="scroll|enterAlways"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"/>
+
+            <!--suppress AndroidDomInspection -->
+            <com.arlib.floatingsearchview.FloatingSearchView
+                    android:id="@+id/floating_search_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="?actionBarSize"
+                    app:floatingSearch_searchHint="Search Tag..."
+                    app:floatingSearch_leftActionMode="showHome"
+                    app:floatingSearch_close_search_on_keyboard_dismiss="true"/>
 
         </FrameLayout>
 

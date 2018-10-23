@@ -17,10 +17,15 @@ import org.jetbrains.anko.image
 import util.*
 import util.Util.CreateIcon
 
-abstract class IFilmView(context: Context) {
+
+interface ILoadMore {
+    fun <T : RecyclerView.ViewHolder?> onLoadMore(adapter: IRecyclerViewAdapter<T>)
+}
+
+abstract class IFilmView(context: Context) : ILoadMore {
 
     protected val mContext = context
-
+    private var mLoadMore: (() -> Unit)? = null
     protected abstract val mLayout: Int
 
     protected val mView: View by lazy { LayoutInflater.from(context).inflate(mLayout, null) }
@@ -40,11 +45,18 @@ abstract class IFilmView(context: Context) {
 
     }
 
-    fun <T : RecyclerView.ViewHolder?> LoadMore(b: Boolean, adapter: IRecyclerViewAdapter<T>) {
-        if (b) onLoadMore(adapter)
+    fun SetLoadMore(loadMore: (() -> Unit)?) {
+        mLoadMore = loadMore
     }
 
-    protected open fun <T : RecyclerView.ViewHolder?> onLoadMore(adapter: IRecyclerViewAdapter<T>) {
+    fun <T : RecyclerView.ViewHolder?> LoadMore(b: Boolean, adapter: IRecyclerViewAdapter<T>) {
+        if (b) {
+            onLoadMore(adapter)
+            mLoadMore?.invoke()
+        }
+    }
+
+    override fun <T : RecyclerView.ViewHolder?> onLoadMore(adapter: IRecyclerViewAdapter<T>) {
 
     }
 
