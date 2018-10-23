@@ -170,10 +170,18 @@
                       android:textStyle="bold"
                       android:text="的代表作品"/>
 
-            <android.support.v7.widget.RecyclerView
-                    android:id="@+id/mRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+            <FrameLayout android:layout_width="match_parent"
+                         android:layout_height="wrap_content">
+
+                <android.support.v7.widget.RecyclerView
+                        android:id="@+id/mRecyclerView"
+                        android:scrollbars="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                <include layout="@layout/common_empty_layout"/>
+
+            </FrameLayout>
 
         </LinearLayout>
 

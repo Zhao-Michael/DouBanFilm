@@ -125,11 +125,15 @@ class FilmListAdapter(context: Context, listViews: FilmList, filmView: IFilmView
                 switch_btn.setIcon(GoogleMaterial.Icon.gmd_keyboard_arrow_down, Color.GRAY, 10)
                 actor.text = film.casts.joinToString("/") { it.name }.ReplaceEmpty()
                 actor.setLines(1)
+                title.setLines(1)
+                org_name.setLines(1)
             } else { // in expand
                 switch_btn.setIcon(GoogleMaterial.Icon.gmd_keyboard_arrow_up, Color.GRAY, 10)
                 val too_long = film.casts.joinToString("") { it.name }.length > 15
                 actor.text = film.casts.joinToString(if (too_long) "\n" else "/") { it.name }.ReplaceEmpty()
-                actor.setLines(if (too_long) film.casts.size else 1)
+                actor.maxLines = film.casts.size
+                title.maxLines = 10
+                org_name.maxLines = 10
             }
             switch_btn.tag = !isExpand
             more_layout.visibility = if (isExpand) View.GONE else View.VISIBLE

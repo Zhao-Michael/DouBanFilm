@@ -5,6 +5,7 @@ import android.support.design.widget.Snackbar
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import com.orhanobut.hawk.Hawk
 import douban.DouBanV1
 import douban.FilmDetail
 import douban.FilmMan
@@ -18,17 +19,21 @@ import util.setTabStyle
 class FilmDetailActivity : BaseActivity() {
 
     companion object {
-        private var FILM_ID = ""
-        private var mIsFilmDeatil = true
+        private val THE_ID = FilmDetailActivity::javaClass.name + "_THE_ID"
+        private val mSpecifiedID get() = Hawk.get(THE_ID, "")
+
+        private val IS_FILM = FilmDetailActivity::javaClass.name + "_IS_FILM"
+        private val mIsFilmDeatil get() = Hawk.get(IS_FILM, true)
+
         fun ShowFilmDetail(id: String) {
-            mIsFilmDeatil = true
-            FILM_ID = id
+            Hawk.put(THE_ID, id)
+            Hawk.put(IS_FILM, true)
             App.Instance.StartActivity(FilmDetailActivity::class.java)
         }
 
         fun ShowFilmMan(id: String) {
-            mIsFilmDeatil = false
-            FILM_ID = id
+            Hawk.put(IS_FILM, false)
+            Hawk.put(THE_ID, id)
             App.Instance.StartActivity(FilmDetailActivity::class.java)
         }
 
@@ -66,7 +71,7 @@ class FilmDetailActivity : BaseActivity() {
     private fun refreshFilmMan() {
         mSwipeLayout.ShowRefresh()
         Rx.get {
-            DouBanV1.getFilmManInfo(FILM_ID)
+            DouBanV1.getFilmManInfo(mSpecifiedID)
         }.set {
             updateFilmMan(it)
         }.err {
@@ -84,7 +89,7 @@ class FilmDetailActivity : BaseActivity() {
     private fun refreshFilmDetail() {
         mSwipeLayout.ShowRefresh()
         Rx.get {
-            DouBanV1.getFilmDetail(FILM_ID)
+            DouBanV1.getFilmDetail(mSpecifiedID)
         }.set {
             updateFilmDetail(it)
         }.err {
