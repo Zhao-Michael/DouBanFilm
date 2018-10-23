@@ -37,7 +37,7 @@
                     app:container_border_color="@color/transparent"
                     app:container_background_color="@color/transparent"
                     app:tag_ripple_alpha="250"
-                    app:tag_ripple_duration="600"
+                    app:tag_ripple_duration="200"
                     app:container_enable_drag="false"
                     app:horizontal_interval="10dp"
                     app:vertical_interval="10dp"
