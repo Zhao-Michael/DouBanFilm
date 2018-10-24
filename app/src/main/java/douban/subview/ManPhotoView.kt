@@ -49,11 +49,13 @@ class ManPhotoView(context: Context, filmMan: FilmMan) : IFilmView(context) {
                 mAdapter?.notifyItemInserted(cnt)
             } else {
                 mCurrPageIndex -= mStep
-                Snackbar.make(mRecyclerView, "没有更多了~", Snackbar.LENGTH_LONG).show()
+                showNoMoreMsg()
             }
         }.end {
             ShowSwipe(false)
             adapter.LoadMoreFinish()
+        }.err {
+            showErrMsg(it)
         }
     }
 

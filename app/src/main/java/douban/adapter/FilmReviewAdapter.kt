@@ -20,7 +20,11 @@ import util.setImageUrl
 class FilmReviewAdapter(context: Context, filmReview: FilmReview, filmView: IFilmView) : IRecyclerViewAdapter<FilmReviewAdapter.ViewHolder>(filmView) {
 
     private val mContext = context
-    private var mFilmReview = filmReview
+    private var mListReview = mutableListOf<Review>()
+
+    init {
+        mListReview.addAll(filmReview.reviews)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmReviewAdapter.ViewHolder {
         val view = mContext.inflate(R.layout.listitem_review_cardview, parent)
@@ -28,15 +32,20 @@ class FilmReviewAdapter(context: Context, filmReview: FilmReview, filmView: IFil
     }
 
     override fun getItemCount(): Int {
-        return mFilmReview.reviews.size
+        return mListReview.size
     }
 
     override fun onBindViewHolder(holder: FilmReviewAdapter.ViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
         val pos = holder.adapterPosition
-        val review = mFilmReview.reviews[pos]
+        val review = mListReview[pos]
         holder.setReview(review, pos + 1)
-        holder.cardview.OnClick { WebActivity.ShowWebView(mContext, review.alt, review.author.name + " : " + review.title) }
+        holder.cardview.OnClick { WebActivity.ShowWebView(mContext, review.alt, review.title) }
+        checkToEnd(pos)
+    }
+
+    fun addListReview(revieews: List<Review>) {
+        mListReview.addAll(revieews)
     }
 
     class ViewHolder(mItemView: View) : RecyclerView.ViewHolder(mItemView) {

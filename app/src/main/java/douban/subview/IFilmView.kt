@@ -1,6 +1,7 @@
 package douban.subview
 
 import android.content.Context
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import org.jetbrains.anko.textColor
 import michaelzhao.BaseActivity
 import michaelzhao.R
 import org.jetbrains.anko.image
+import org.jetbrains.anko.longToast
 import util.*
 import util.Util.CreateIcon
 
@@ -83,6 +85,33 @@ abstract class IFilmView(context: Context) : ILoadMore {
             mTextone.textColor = BaseActivity.getPrimaryColor()
             mLayoutNone.Show()
         }
+    }
+
+    fun showNoMoreMsg(view: View? = null) {
+        if (mLayout != 0)
+            showSnackBar(mView, "没有更多了~")
+        else
+            showSnackBar(view, "没有更多了~")
+    }
+
+    private fun showSnackBar(view: View?, str: String) {
+        if (view != null) {
+            val snackbar = Snackbar.make(view, str, Snackbar.LENGTH_LONG)
+            snackbar.setAction("关闭") {
+                snackbar.dismiss()
+            }
+            snackbar.setActionTextColor(BaseActivity.getPrimaryColor())
+            snackbar.show()
+        } else {
+            mContext.longToast(str)
+        }
+    }
+
+    protected fun showErrMsg(it: Throwable) {
+        if (mLayout != 0)
+            showSnackBar(mView, it.message.toString())
+        else
+            showSnackBar(null, it.message.toString())
     }
 
 }

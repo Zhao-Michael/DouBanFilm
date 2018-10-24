@@ -13,6 +13,8 @@ import co.lujun.androidtagview.TagView
 import com.arlib.floatingsearchview.FloatingSearchView
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
 import douban.DouBanV1
+import douban.adapter.FilmListAdapter
+import douban.subview.FilmView
 import org.jetbrains.anko.find
 import org.jetbrains.anko.textColor
 import util.*
@@ -26,6 +28,7 @@ class SearchActivity : BaseActivity(), FloatingSearchView.OnSearchListener, Floa
     private val mTextClear by lazy { find<TextView>(R.id.text_clear) }
     private val mTagContainer by lazy { find<TagContainerLayout>(R.id.layout_tagcontainer) }
     private val mTextNone by lazy { find<TextView>(R.id.text_none) }
+    private val mNoneLayout by lazy { find<View>(R.id.layout_none) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +58,7 @@ class SearchActivity : BaseActivity(), FloatingSearchView.OnSearchListener, Floa
 
             override fun onTagClick(position: Int, text: String?) {
                 mSearchView.setSearchFocused(true)
+                mSearchView.setSearchText("")
                 mSearchView.setSearchText(text)
             }
         })
@@ -87,33 +91,7 @@ class SearchActivity : BaseActivity(), FloatingSearchView.OnSearchListener, Floa
 
     override fun onSuggestionClicked(searchSuggestion: SearchSuggestion?) = Unit
 
-    override fun onSearchAction(currentQuery: String?) {
-        val query = currentQuery.toString()
-        if (query.isBlank()) {
-            mRecyclerView.adapter = null
-        } else {
-            addSearchTag(query)
-            mSwipeLayout.Enable()
-            mSwipeLayout.ShowRefresh()
-            Rx.get {
-                DouBanV1.getSearchFilmList(query)
-            }.set {
-                if (it.subjects.isNotEmpty()) {
-                    find<View>(R.id.layout_none).Hide()
-                    mRecyclerView.layoutManager = GridLayoutManager(this, 1)
-                    mRecyclerView.FilmAdapter = it
-                } else {
-                    find<View>(R.id.layout_none).Show()
-                }
-            }.end {
-                mSwipeLayout.DisEnable()
-                mSwipeLayout.HideRefresh()
-            }.err {
-                Snackbar.make(mRecyclerView, "${it.message}", Snackbar.LENGTH_INDEFINITE).show()
-            }
-        }
-    }
-
+    //Search Brief
     override fun onSearchTextChanged(oldQuery: String?, newQuery: String?) {
         if (newQuery == null || newQuery.isBlank()) {
             mRecyclerView.adapter = null
@@ -126,9 +104,68 @@ class SearchActivity : BaseActivity(), FloatingSearchView.OnSearchListener, Floa
                     mRecyclerView.BriefAdapter = it
                 }
             }.err {
-                Snackbar.make(mRecyclerView, "${it.message}", Snackbar.LENGTH_INDEFINITE).show()
+                showErrMsg(it)
             }
         }
+    }
+
+    override fun onSearchAction(currentQuery: String?) {
+        val query = currentQuery.toString()
+        if (query.isBlank()) {
+            mRecyclerView.adapter = null
+        } else {
+            addSearchTag(query)
+            mSwipeLayout.ShowRefresh()
+            val mStep = 30
+            var mCurrPageIndex = 0
+            var mAdapter: FilmListAdapter?
+            val mFilmView = FilmView(this)
+            Rx.get {
+                DouBanV1.getSearchFilmList(query, 0, mStep)
+            }.set {
+                if (it.subjects.isNotEmpty()) {
+                    mNoneLayout.Hide()
+                    mRecyclerView.layoutManager = GridLayoutManager(this, 1)
+                    mAdapter = FilmListAdapter(this, it.subjects, mFilmView)
+                    mRecyclerView.adapter = mAdapter
+                    mFilmView.apply {
+                        SetLoadMore {
+                            mSwipeLayout.ShowRefresh()
+                            Rx.get {
+                                mCurrPageIndex += mStep
+                                DouBanV1.getSearchFilmList(query, mCurrPageIndex, mStep)
+                            }.set {
+                                val cnt = mAdapter?.itemCount
+                                if (cnt != null && it.subjects.isNotEmpty()) {
+                                    mAdapter?.addFilmList(it.subjects)
+                                    mAdapter?.notifyItemInserted(cnt)
+                                } else {
+                                    mCurrPageIndex -= mStep
+                                    showNoMoreMsg(mRecyclerView)
+                                }
+                            }.end {
+                                mSwipeLayout.DisEnable()
+                                mSwipeLayout.HideRefresh()
+                                mAdapter?.LoadMoreFinish()
+                            }.err {
+                                showErrMsg(it)
+                            }
+                        }
+                    }
+                } else {
+                    mNoneLayout.Show()
+                }
+            }.end {
+                mSwipeLayout.DisEnable()
+                mSwipeLayout.HideRefresh()
+            }.err {
+                showErrMsg(it)
+            }
+        }
+    }
+
+    private fun showErrMsg(it: Throwable) {
+        Snackbar.make(mRecyclerView, "${it.message}", Snackbar.LENGTH_INDEFINITE).show()
     }
 
     override fun onPause() {

@@ -76,7 +76,7 @@ class TagFilmActivity : BaseActivity(), FloatingSearchView.OnSearchListener {
                 mEmptyLayout.Show()
             } else {
                 mCurrPageIndex -= mStep
-                Snackbar.make(mRecyclerView, "没有更多了~", Snackbar.LENGTH_LONG).show()
+                mFilmView.showNoMoreMsg(mRecyclerView)
             }
         }.end {
             mSwipeLayout.HideRefresh()

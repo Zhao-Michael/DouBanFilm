@@ -55,7 +55,7 @@ class FilmBriefAdapter(listViews: Array<SearchBrief>,
             }
         }
         if (pos < 2) {
-            (holder.itemView?.layoutParams as? ViewGroup.MarginLayoutParams)?.SetMargins(0, 5, 0, 0)
+            (holder.itemView?.layoutParams as? ViewGroup.MarginLayoutParams)?.SetMargins(0, 3, 0, 0)
         }
     }
 

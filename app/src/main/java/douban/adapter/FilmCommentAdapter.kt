@@ -14,6 +14,7 @@ import douban.subview.IFilmView
 import michaelzhao.R
 import org.jetbrains.anko.find
 import org.jetbrains.anko.image
+import org.w3c.dom.Text
 import util.Util
 import util.inflate
 import util.setImageUrl
@@ -21,7 +22,15 @@ import util.setImageUrl
 class FilmCommentAdapter(context: Context, filmComment: FilmComment, filmView: IFilmView) : IRecyclerViewAdapter<FilmCommentAdapter.ViewHolder>(filmView) {
 
     private val mContext = context
-    private val mFilmComment = filmComment
+    private val mListComment = mutableListOf<Comment>()
+
+    init {
+        mListComment.addAll(filmComment.comments)
+    }
+
+    fun addListComment(list: List<Comment>) {
+        mListComment.addAll(list)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmCommentAdapter.ViewHolder {
         val view = mContext.inflate(R.layout.listitem_comment_cardview, parent)
@@ -29,13 +38,14 @@ class FilmCommentAdapter(context: Context, filmComment: FilmComment, filmView: I
     }
 
     override fun getItemCount(): Int {
-        return mFilmComment.comments.size
+        return mListComment.size
     }
 
     override fun onBindViewHolder(holder: FilmCommentAdapter.ViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
         val pos = holder.adapterPosition
-        holder.setComment(mFilmComment.comments[pos])
+        holder.setComment(mListComment[pos], pos + 1)
+        checkToEnd(pos)
     }
 
     class ViewHolder(mItemView: View) : RecyclerView.ViewHolder(mItemView) {
@@ -46,14 +56,16 @@ class FilmCommentAdapter(context: Context, filmComment: FilmComment, filmView: I
         val text_comment by lazy { mItemView.find<TextView>(R.id.text_comment) }
         val text_like by lazy { mItemView.find<TextView>(R.id.text_like) }
         val image_like by lazy { mItemView.find<ImageView>(R.id.image_like) }
+        val text_page by lazy { mItemView.find<TextView>(R.id.page) }
 
-        fun setComment(comment: Comment) {
+        fun setComment(comment: Comment, page: Int) {
+            text_page.text = page.toString()
             profile_image.setImageUrl(comment.author.avatar)
             text_name.text = comment.author.name
             text_date.text = comment.created_at
             text_comment.text = comment.content
             text_like.text = comment.useful_count.toString()
-            image_like.image = Util.CreateIcon(image_like.context, GoogleMaterial.Icon.gmd_thumb_up, 14)
+            image_like.image = Util.CreateIcon(image_like.context, GoogleMaterial.Icon.gmd_thumb_up, 12)
         }
 
     }

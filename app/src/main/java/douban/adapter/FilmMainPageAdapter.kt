@@ -6,15 +6,12 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
-import com.orhanobut.hawk.Hawk
 import douban.DouBanV1
-import douban.FilmList
 import douban.subview.FilmView
 import michaelzhao.R
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.onRefresh
 import org.jetbrains.anko.toast
-import util.FilmAdapter
 import util.Rx
 import util.VerSwipeLayout
 import util.inflate
@@ -89,7 +86,7 @@ class FilmMainPageAdapter(context: Context) : PagerAdapter() {
                     else -> throw NotImplementedError("updatePageFromNet : index out of range")
                 }
             }.set {
-                mListRecycler[pos].FilmAdapter = it
+                mListRecycler[pos].adapter = FilmListAdapter(mContext, it.subjects, FilmView(mContext))
             }.err {
                 mContext.toast(it.message.toString())
             }.end {

@@ -83,7 +83,7 @@ class FilmHomeAdapter(
                     DouBanV2.getTagFilm(tag)
                 }.set {
                     recyclerView.adapter = FilmTagAdapter(recyclerView, it, FilmView(recyclerView.context))
-                    mMapTagFilm[DouBanV2.TagType.Action] = it
+                    mMapTagFilm[tag] = it
                 }.end {
                     swipeLayout.HideRefresh()
                     swipeLayout.DisEnable()

@@ -26,8 +26,6 @@ import com.mikepenz.iconics.typeface.IIcon
 import com.orhanobut.hawk.Hawk
 import com.squareup.picasso.Picasso
 import douban.adapter.FilmBriefAdapter
-import douban.adapter.FilmListAdapter
-import douban.FilmList
 import douban.SearchBrief
 import douban.subview.FilmView
 import org.apache.commons.lang3.StringEscapeUtils
@@ -162,14 +160,6 @@ fun Int.dip2px(): Int {
 fun Context.inflate(id: Int, viewGroup: ViewGroup): View {
     return LayoutInflater.from(this).inflate(id, viewGroup, false)
 }
-
-var RecyclerView.FilmAdapter: FilmList
-    get() {
-        return (adapter as FilmListAdapter).getFilmList()
-    }
-    set(it) {
-        uiThread { adapter = FilmListAdapter(context, it, FilmView(context)) }
-    }
 
 var RecyclerView.BriefAdapter: Array<SearchBrief>
     get() {

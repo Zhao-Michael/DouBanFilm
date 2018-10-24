@@ -14,6 +14,7 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import douban.FilmDetail
 import douban.FilmItem
 import douban.FilmList
+import douban.Work
 import douban.subview.IFilmView
 import me.zhanghai.android.materialratingbar.MaterialRatingBar
 import michaelzhao.FilmDetailActivity
@@ -22,9 +23,21 @@ import org.jetbrains.anko.find
 import util.*
 
 //主页电影列表
-class FilmListAdapter(context: Context, listViews: FilmList, filmView: IFilmView) : IRecyclerViewAdapter<FilmListAdapter.ViewHolder>(filmView) {
+class FilmListAdapter(context: Context, filmList: List<FilmItem>, filmView: IFilmView) : IRecyclerViewAdapter<FilmListAdapter.ViewHolder>(filmView) {
     private val mContext = context
-    private var mFilmList: FilmList = listViews
+    private var mFilmList = mutableListOf<FilmItem>()
+
+    init {
+        mFilmList.addAll(filmList)
+    }
+
+    fun addFilmList(list: List<FilmItem>) {
+        mFilmList.addAll(list)
+    }
+
+    fun addWorkList(works: List<Work>) {
+        mFilmList.addAll(works.map { it.subject })
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = mContext.inflate(R.layout.listitem_film_cardview, parent)
@@ -32,17 +45,15 @@ class FilmListAdapter(context: Context, listViews: FilmList, filmView: IFilmView
     }
 
     override fun getItemCount(): Int {
-        return mFilmList.subjects.size
-    }
-
-    fun getFilmList(): FilmList {
-        return mFilmList
+        return mFilmList.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
-        val film = mFilmList.subjects[holder.adapterPosition]
+        val pos = holder.adapterPosition
+        val film = mFilmList[pos]
         holder.setFilmItem(film)
+        checkToEnd(pos)
     }
 
     class ViewHolder(mItemView: View) : RecyclerView.ViewHolder(mItemView) {

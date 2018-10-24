@@ -1,9 +1,12 @@
 package douban.subview
 
 import android.content.Context
+import android.support.v7.widget.RecyclerView
 import douban.DouBanV1
 import douban.FilmDetail
+import douban.adapter.FilmCommentAdapter
 import douban.adapter.FilmReviewAdapter
+import douban.adapter.IRecyclerViewAdapter
 import michaelzhao.R
 import util.Rx
 
@@ -11,6 +14,10 @@ class FilmReviewView(context: Context, filmDetail: FilmDetail) : IFilmView(conte
 
     override val mLayout: Int = R.layout.film_common_subview_layout
     private val mFilmDetail = filmDetail
+
+    private var mAdapter: FilmReviewAdapter? = null
+    private var mCurrPageIndex = 0
+    private val mStep = 30
 
     init {
         initRecyclerView()
@@ -20,12 +27,35 @@ class FilmReviewView(context: Context, filmDetail: FilmDetail) : IFilmView(conte
     override fun initAdapter() {
         ShowSwipe()
         Rx.get {
-            DouBanV1.getFilmReview(mFilmDetail.id, 1)
+            DouBanV1.getFilmReview(mFilmDetail.id, 0, mStep)
         }.set {
-            mRecyclerView.adapter = FilmReviewAdapter(mContext, it, this)
+            mAdapter = FilmReviewAdapter(mContext, it, this)
+            mRecyclerView.adapter = mAdapter
             checkEmptyAdapter()
         }.end {
             ShowSwipe(false)
+        }
+    }
+
+    override fun <T : RecyclerView.ViewHolder?> onLoadMore(adapter: IRecyclerViewAdapter<T>) {
+        ShowSwipe()
+        Rx.get {
+            mCurrPageIndex += mStep
+            DouBanV1.getFilmReview(mFilmDetail.id, mCurrPageIndex, mStep)
+        }.set {
+            val cnt = mAdapter?.itemCount
+            if (cnt != null && it.reviews.isNotEmpty()) {
+                mAdapter?.addListReview(it.reviews)
+                mAdapter?.notifyItemInserted(cnt)
+            } else {
+                mCurrPageIndex -= mStep
+                showNoMoreMsg()
+            }
+        }.end {
+            ShowSwipe(false)
+            adapter.LoadMoreFinish()
+        }.err {
+            showErrMsg(it)
         }
     }
 

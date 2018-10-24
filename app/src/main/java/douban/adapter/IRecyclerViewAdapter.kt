@@ -23,7 +23,8 @@ abstract class IRecyclerViewAdapter<T : RecyclerView.ViewHolder?>(filmView: IFil
                     if (mMargin == null) mMargin = lp.topMargin * 2
                     lp.topMargin = mMargin!!
                 }
-            } else if (position == itemCount - 1) {
+            }
+            if (position == itemCount - 1) {
                 val lp = holder.itemView?.layoutParams as? ViewGroup.MarginLayoutParams
                 if (lp != null) {
                     if (mMargin == null) mMargin = lp.topMargin * 2
@@ -41,7 +42,7 @@ abstract class IRecyclerViewAdapter<T : RecyclerView.ViewHolder?>(filmView: IFil
     }
 
     protected fun checkToEnd(pos: Int) {
-        if (mLoadingMore) return
+        if (mLoadingMore || itemCount < 3 || pos != itemCount - 1) return
         mIFilmView.LoadMore(pos == itemCount - 1, this)
     }
 

@@ -46,8 +46,7 @@ class ManSummary(context: Context, filmMan: FilmMan) : IFilmView(context) {
 
     private fun initFilmList() {
         val listFilm = mFilmMan.works.map { it.subject }
-        val cnt = listFilm.size
-        mRecyclerView.adapter = FilmListAdapter(mContext, FilmList(cnt, 0, cnt, listFilm, mFilmMan.name), this)
+        mRecyclerView.adapter = FilmListAdapter(mContext, listFilm, this)
         checkEmptyAdapter()
     }
 
