@@ -2,7 +2,6 @@ package michaelzhao
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.MotionEvent
@@ -13,6 +12,7 @@ import co.lujun.androidtagview.TagView
 import com.arlib.floatingsearchview.FloatingSearchView
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
 import douban.DouBanV1
+import douban.adapter.FilmBriefAdapter
 import douban.adapter.FilmListAdapter
 import douban.subview.FilmView
 import org.jetbrains.anko.find
@@ -40,7 +40,7 @@ class SearchActivity : BaseActivity(), FloatingSearchView.OnSearchListener, Floa
         mSearchView.setOnSearchListener(this)
         mSearchView.setOnHomeActionClickListener { finish() }
         mTextClear.textColor = getPrimaryColor()
-        mTextClear.OnClick { clearHistory() }
+        mTextClear.onClick { clearHistory() }
         initTagContainer()
     }
 
@@ -65,8 +65,8 @@ class SearchActivity : BaseActivity(), FloatingSearchView.OnSearchListener, Floa
     }
 
     private fun clearHistory() {
-        mTagContainer.Hide()
-        mTextNone.Show()
+        mTagContainer.hide()
+        mTextNone.show()
         mTagContainer.removeAllTags()
         HawkPut(R.string.preference_search_query, "")
     }
@@ -75,8 +75,8 @@ class SearchActivity : BaseActivity(), FloatingSearchView.OnSearchListener, Floa
         if (mTagContainer.tags.contains(query)) return
         if (mTagContainer.tags.size == 10) mTagContainer.removeTag(0)
         mTagContainer.addTag(query)
-        mTagContainer.Show()
-        mTextNone.Hide()
+        mTagContainer.show()
+        mTextNone.hide()
         HawkPut(R.string.preference_search_query, mTagContainer.tags.joinToString("\n"))
     }
 
@@ -84,8 +84,8 @@ class SearchActivity : BaseActivity(), FloatingSearchView.OnSearchListener, Floa
         val list = HawkGet(R.string.preference_search_query, "").split("\n").filter { it.isNotBlank() }
         mTagContainer.tags = list
         if (list.isNotEmpty()) {
-            mTagContainer.Show()
-            mTextNone.Hide()
+            mTagContainer.show()
+            mTextNone.hide()
         }
     }
 
@@ -96,15 +96,16 @@ class SearchActivity : BaseActivity(), FloatingSearchView.OnSearchListener, Floa
         if (newQuery == null || newQuery.isBlank()) {
             mRecyclerView.adapter = null
         } else {
+            val filmView = FilmView(this)
             Rx.get {
                 DouBanV1.getSearchBrief(newQuery)
             }.set {
                 if (newQuery == mSearchView.query) {
                     mRecyclerView.layoutManager = GridLayoutManager(this, 2)
-                    mRecyclerView.BriefAdapter = it
+                    mRecyclerView.adapter = FilmBriefAdapter(it, this, filmView)
                 }
             }.err {
-                showErrMsg(it)
+                filmView.showErrMsg(it, mRecyclerView)
             }
         }
     }
@@ -124,12 +125,12 @@ class SearchActivity : BaseActivity(), FloatingSearchView.OnSearchListener, Floa
                 DouBanV1.getSearchFilmList(query, 0, mStep)
             }.set {
                 if (it.subjects.isNotEmpty()) {
-                    mNoneLayout.Hide()
+                    mNoneLayout.hide()
                     mRecyclerView.layoutManager = GridLayoutManager(this, 1)
                     mAdapter = FilmListAdapter(this, it.subjects, mFilmView)
                     mRecyclerView.adapter = mAdapter
                     mFilmView.apply {
-                        SetLoadMore {
+                        setLoadMore {
                             mSwipeLayout.ShowRefresh()
                             Rx.get {
                                 mCurrPageIndex += mStep
@@ -146,27 +147,24 @@ class SearchActivity : BaseActivity(), FloatingSearchView.OnSearchListener, Floa
                             }.end {
                                 mSwipeLayout.DisEnable()
                                 mSwipeLayout.HideRefresh()
-                                mAdapter?.LoadMoreFinish()
+                                mAdapter?.loadMoreFinish()
                             }.err {
                                 showErrMsg(it)
                             }
                         }
                     }
                 } else {
-                    mNoneLayout.Show()
+                    mNoneLayout.show()
                 }
             }.end {
                 mSwipeLayout.DisEnable()
                 mSwipeLayout.HideRefresh()
             }.err {
-                showErrMsg(it)
+                mFilmView.showErrMsg(it)
             }
         }
     }
 
-    private fun showErrMsg(it: Throwable) {
-        Snackbar.make(mRecyclerView, "${it.message}", Snackbar.LENGTH_INDEFINITE).show()
-    }
 
     override fun onPause() {
         super.onPause()

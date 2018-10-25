@@ -8,12 +8,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import douban.DouBanV2
 import douban.DouBanV2.getTagString
-import douban.TagFilmList
 import douban.subview.FilmView
 import douban.subview.IFilmView
 import michaelzhao.BaseActivity
 import michaelzhao.R
-import michaelzhao.TagFilmActivity.Companion.ShowTagFilmList
+import michaelzhao.TagFilmActivity.Companion.showTagFilmList
 import org.jetbrains.anko.find
 import org.jetbrains.anko.textColor
 import util.*
@@ -47,9 +46,6 @@ class FilmHomeAdapter(
     }
 
     class ViewHolder(mItemView: View, wid: Int?) : RecyclerView.ViewHolder(mItemView) {
-        companion object {
-            private val mMapTagFilm = mutableMapOf<DouBanV2.TagType, TagFilmList>()
-        }
 
         private val cardview by lazy { mItemView.find<CardView>(R.id.cardview) }
         private val title by lazy { mItemView.find<TextView>(R.id.text_title) }
@@ -57,10 +53,9 @@ class FilmHomeAdapter(
         private val recyclerView by lazy { mItemView.find<RecyclerView>(R.id.mRecyclerView) }
         private val swipeLayout by lazy { mItemView.find<VerSwipeLayout>(R.id.mSwipeLayout) }
 
-
         init {
             if (wid != null) {
-                cardview.SetHeight((Math.round(wid / 3 / 0.7f) + 12.dip2px()) * 2 + 40.dip2px())
+                cardview.setHeight((Math.round(wid / 3 / 0.7f) + 12.dip2px()) * 2 + 40.dip2px())
             }
             val manager = GridLayoutManager(mItemView.context, 2).apply { orientation = RecyclerView.HORIZONTAL }
             recyclerView.layoutManager = manager
@@ -73,24 +68,50 @@ class FilmHomeAdapter(
             title.text = getTagString(tag)
             swipeLayout.Enable()
             swipeLayout.ShowRefresh()
+            cardview.onClick { showTagFilmList(DouBanV2.getTagString(tag)) }
 
-            if (mMapTagFilm.contains(tag)) {
-                recyclerView.adapter = FilmTagAdapter(recyclerView, mMapTagFilm[tag]!!, FilmView(recyclerView.context))
-                swipeLayout.HideRefresh()
-                swipeLayout.DisEnable()
-            } else {
+            run {
+                val mStep = 30
+                var mCurrPageIndex = 0
+                var mAdapter: FilmTagAdapter?
+                val mFilmView = FilmView(recyclerView.context)
+
                 Rx.get {
                     DouBanV2.getTagFilm(tag)
                 }.set {
-                    recyclerView.adapter = FilmTagAdapter(recyclerView, it, FilmView(recyclerView.context))
-                    mMapTagFilm[tag] = it
+                    mAdapter = FilmTagAdapter(recyclerView, it, mFilmView)
+                    recyclerView.adapter = mAdapter
+                    mFilmView.apply {
+                        setLoadMore {
+                            swipeLayout.ShowRefresh()
+                            Rx.get {
+                                mCurrPageIndex += mStep
+                                DouBanV2.getTagFilm(tag, mCurrPageIndex, mStep)
+                            }.set {
+                                val cnt = mAdapter?.itemCount
+                                if (cnt != null && it.subjects.isNotEmpty()) {
+                                    mAdapter?.addTagList(it.subjects)
+                                    mAdapter?.notifyItemInserted(cnt)
+                                } else {
+                                    mCurrPageIndex -= mStep
+                                    showNoMoreMsg(recyclerView)
+                                }
+                            }.end {
+                                swipeLayout.DisEnable()
+                                swipeLayout.HideRefresh()
+                                mAdapter?.loadMoreFinish()
+                            }.err {
+                                mFilmView.showErrMsg(it, recyclerView)
+                            }
+                        }
+                    }
                 }.end {
                     swipeLayout.HideRefresh()
                     swipeLayout.DisEnable()
                 }
             }
-            cardview.OnClick { ShowTagFilmList(DouBanV2.getTagString(tag)) }
         }
+
     }
 
 }

@@ -9,12 +9,12 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import kotlinx.android.synthetic.main.activity_imageview.*
 import org.jetbrains.anko.find
 import org.jetbrains.anko.toast
-import util.OnClick
+import util.onClick
 import util.Util.HideStatusBar
 import util.setIcon
 import michaelzhao.BaseActivity
 import michaelzhao.R
-import util.Hide
+import util.hide
 
 
 class ImageViewActivity : BaseActivity() {
@@ -61,10 +61,10 @@ class ImageViewActivity : BaseActivity() {
                 mTextTitle.text = mListUrl[index]
             }
         }
-        mTextTitle.Hide()
+        mTextTitle.hide()
         mImageViewPager.currentItem = mStartIndex
         mBtnMore.setIcon(GoogleMaterial.Icon.gmd_more_vert)
         mBtnClose.setIcon(GoogleMaterial.Icon.gmd_close)
-        mBtnClose.OnClick { finish() }
+        mBtnClose.onClick { finish() }
     }
 }

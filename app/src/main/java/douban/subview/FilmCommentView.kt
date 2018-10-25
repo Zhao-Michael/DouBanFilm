@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView
 import douban.DouBanV1
 import douban.FilmDetail
 import douban.adapter.FilmCommentAdapter
-import douban.adapter.FilmListAdapter
 import douban.adapter.IRecyclerViewAdapter
 import michaelzhao.R
 import util.Rx
@@ -25,7 +24,7 @@ class FilmCommentView(context: Context, filmDetail: FilmDetail) : IFilmView(cont
     }
 
     override fun initAdapter() {
-        ShowSwipe()
+        showSwipe()
         Rx.get {
             DouBanV1.getFilmComment(mFilmDetail.id, 0, mStep)
         }.set {
@@ -33,12 +32,12 @@ class FilmCommentView(context: Context, filmDetail: FilmDetail) : IFilmView(cont
             mRecyclerView.adapter = mAdapter
             checkEmptyAdapter()
         }.end {
-            ShowSwipe(false)
+            showSwipe(false)
         }
     }
 
     override fun <T : RecyclerView.ViewHolder?> onLoadMore(adapter: IRecyclerViewAdapter<T>) {
-        ShowSwipe()
+        showSwipe()
         Rx.get {
             mCurrPageIndex += mStep
             DouBanV1.getFilmComment(mFilmDetail.id, mCurrPageIndex, mStep)
@@ -52,8 +51,8 @@ class FilmCommentView(context: Context, filmDetail: FilmDetail) : IFilmView(cont
                 showNoMoreMsg()
             }
         }.end {
-            ShowSwipe(false)
-            adapter.LoadMoreFinish()
+            showSwipe(false)
+            adapter.loadMoreFinish()
         }.err {
             showErrMsg(it)
         }

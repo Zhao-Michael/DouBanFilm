@@ -13,10 +13,9 @@ import douban.DouBanV2
 import douban.adapter.FilmTagAdapter
 import douban.subview.FilmView
 import org.jetbrains.anko.find
-import org.jetbrains.anko.support.v4.onRefresh
-import util.Hide
+import util.hide
 import util.Rx
-import util.Show
+import util.show
 
 class TagFilmActivity : BaseActivity(), FloatingSearchView.OnSearchListener {
 
@@ -24,9 +23,9 @@ class TagFilmActivity : BaseActivity(), FloatingSearchView.OnSearchListener {
         private val TAG_NAME = TagFilmActivity::javaClass.name + "_Tag"
         private val mTag get() = Hawk.get<String>(TAG_NAME)
 
-        fun ShowTagFilmList(tag: String) {
+        fun showTagFilmList(tag: String) {
             Hawk.put(TAG_NAME, tag)
-            App.Instance.StartActivity(TagFilmActivity::class.java)
+            App.Instance.startActivity(TagFilmActivity::class.java)
         }
     }
 
@@ -60,7 +59,7 @@ class TagFilmActivity : BaseActivity(), FloatingSearchView.OnSearchListener {
             DouBanV2.getTagFilm(tag, index, mStep)
         }.set {
             if (it.subjects.isNotEmpty()) {
-                mEmptyLayout.Hide()
+                mEmptyLayout.hide()
                 if (mFilmTagAdapter == null || isNew) {
                     mFilmTagAdapter = FilmTagAdapter(mRecyclerView, it, mFilmView)
                     mRecyclerView.adapter = mFilmTagAdapter
@@ -73,7 +72,7 @@ class TagFilmActivity : BaseActivity(), FloatingSearchView.OnSearchListener {
                 }
             } else if (index == 0) {
                 mRecyclerView.adapter = null
-                mEmptyLayout.Show()
+                mEmptyLayout.show()
             } else {
                 mCurrPageIndex -= mStep
                 mFilmView.showNoMoreMsg(mRecyclerView)
@@ -81,17 +80,17 @@ class TagFilmActivity : BaseActivity(), FloatingSearchView.OnSearchListener {
         }.end {
             mSwipeLayout.HideRefresh()
             mSwipeLayout.DisEnable()
-            mFilmTagAdapter?.LoadMoreFinish()
+            mFilmTagAdapter?.loadMoreFinish()
         }.err {
             mRecyclerView.adapter = null
-            mEmptyLayout.Show()
+            mEmptyLayout.show()
             Snackbar.make(mRecyclerView, "${it.message}", Snackbar.LENGTH_INDEFINITE).show()
             it.printStackTrace()
         }
     }
 
     private fun setLoadMore() {
-        mFilmView.SetLoadMore {
+        mFilmView.setLoadMore {
             mCurrPageIndex += mStep
             updateList(mTag, mCurrPageIndex)
         }

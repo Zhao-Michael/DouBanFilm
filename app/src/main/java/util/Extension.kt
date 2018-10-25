@@ -8,7 +8,6 @@ import android.content.res.Resources
 import android.graphics.Color
 import android.os.Looper
 import android.support.design.widget.TabLayout
-import android.support.v7.widget.RecyclerView
 import android.util.Base64
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -20,14 +19,15 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
+import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.IIcon
 import com.orhanobut.hawk.Hawk
 import com.squareup.picasso.Picasso
-import douban.adapter.FilmBriefAdapter
-import douban.SearchBrief
-import douban.subview.FilmView
 import org.apache.commons.lang3.StringEscapeUtils
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.image
@@ -103,12 +103,12 @@ fun ViewGroup.DisEnable() {
     uiThread { isEnabled = false }
 }
 
-fun View.Show(): View {
+fun View.show(): View {
     uiThread { visibility = VISIBLE }
     return this
 }
 
-fun View.Hide(): View {
+fun View.hide(): View {
     uiThread { visibility = GONE }
     return this
 }
@@ -117,7 +117,7 @@ fun Activity.GetText(id: Int): String {
     return getText(id).toString()
 }
 
-fun MenuItem.OnItemClick(action: () -> Unit): MenuItem {
+fun MenuItem.onItemClick(action: () -> Unit): MenuItem {
     setOnMenuItemClickListener {
         action.invoke()
         return@setOnMenuItemClickListener true
@@ -129,11 +129,11 @@ fun <T> MutableList<out T>.removeLast() {
     if (size > 1) removeAt(size - 1)
 }
 
-fun View.OnClick(action: () -> Unit) {
+fun View.onClick(action: () -> Unit) {
     setOnClickListener { action.invoke() }
 }
 
-fun View.OnLongClick(action: () -> Unit) {
+fun View.onLongClick(action: () -> Unit) {
     setOnLongClickListener {
         action.invoke()
         return@setOnLongClickListener true
@@ -144,11 +144,11 @@ fun View.IsShown(): Boolean {
     return visibility == VISIBLE
 }
 
-fun Context.GetHeightInPx(): Float {
+fun Context.getHeightInPx(): Float {
     return this.resources.displayMetrics.heightPixels.toFloat()
 }
 
-fun Context.GetWidthInPx(): Float {
+fun Context.getWidthInPx(): Float {
     return this.resources.displayMetrics.widthPixels.toFloat()
 }
 
@@ -160,15 +160,6 @@ fun Int.dip2px(): Int {
 fun Context.inflate(id: Int, viewGroup: ViewGroup): View {
     return LayoutInflater.from(this).inflate(id, viewGroup, false)
 }
-
-var RecyclerView.BriefAdapter: Array<SearchBrief>
-    get() {
-        return (adapter as FilmBriefAdapter).getListBrief()
-    }
-    set(it) {
-        uiThread { adapter = FilmBriefAdapter(it, context, FilmView(context)) }
-    }
-
 
 fun TabLayout.setTabStyle(dstDip: Int = 10) {
     var tabStrip: Field? = null
@@ -237,16 +228,25 @@ fun TabLayout.setTabStyle(dstDip: Int = 10) {
 }
 
 fun ImageView.setImageUrl(url: String, holder: Int = 0) {
-    Picasso.get()
+    Glide.with(this)
             .load(url)
             .apply {
                 if (holder != 0)
-                    placeholder(holder)
+                    apply(RequestOptions.placeholderOf(holder))
             }
+            .transition(withCrossFade())
             .into(this)
+
+//    Picasso.get()
+//            .load(url)
+//            .apply {
+//                if (holder != 0)
+//                    placeholder(holder)
+//            }
+//            .into(this)
 }
 
-fun String.ReplaceEmpty(): String {
+fun String.replaceEmpty(): String {
     return if (isBlank())
         "无"
     else
@@ -261,13 +261,13 @@ fun ImageView.setIcon(icon: IIcon, color: Int, size: Int) {
     image = IconicsDrawable(context).icon(icon).color(color).sizeDp(size)
 }
 
-fun View.SetHeight(height: Int) {
+fun View.setHeight(height: Int) {
     val layoutParams = this.layoutParams
     layoutParams.height = height
     this.layoutParams = layoutParams
 }
 
-fun View.SetWidth(height: Int) {
+fun View.setWidth(height: Int) {
     val layoutParams = this.layoutParams
     layoutParams.width = height
     this.layoutParams = layoutParams

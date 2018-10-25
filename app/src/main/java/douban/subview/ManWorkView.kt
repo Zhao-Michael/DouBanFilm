@@ -1,7 +1,6 @@
 package douban.subview
 
 import android.content.Context
-import android.support.design.widget.Snackbar
 import android.support.v7.widget.RecyclerView
 import douban.DouBanV1
 import douban.FilmMan
@@ -25,7 +24,7 @@ class ManWorkView(context: Context, filmMan: FilmMan) : IFilmView(context) {
 
 
     override fun initAdapter() {
-        ShowSwipe()
+        showSwipe()
         Rx.get {
             DouBanV1.getFilmManWork(mFilmMan.id, mCurrPageIndex, mStep)
         }.set {
@@ -34,12 +33,12 @@ class ManWorkView(context: Context, filmMan: FilmMan) : IFilmView(context) {
             mRecyclerView.adapter = mAdapter
             checkEmptyAdapter()
         }.end {
-            ShowSwipe(false)
+            showSwipe(false)
         }
     }
 
     override fun <T : RecyclerView.ViewHolder?> onLoadMore(adapter: IRecyclerViewAdapter<T>) {
-        ShowSwipe()
+        showSwipe()
         Rx.get {
             mCurrPageIndex += mStep
             DouBanV1.getFilmManWork(mFilmMan.id, mCurrPageIndex, mStep)
@@ -53,8 +52,8 @@ class ManWorkView(context: Context, filmMan: FilmMan) : IFilmView(context) {
                 showNoMoreMsg()
             }
         }.end {
-            ShowSwipe(false)
-            adapter.LoadMoreFinish()
+            showSwipe(false)
+            adapter.loadMoreFinish()
         }.err {
             showErrMsg(it)
         }

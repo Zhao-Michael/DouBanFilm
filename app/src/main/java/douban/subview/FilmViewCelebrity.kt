@@ -18,7 +18,7 @@ class FilmViewCelebrity(context: Context, filmDetail: FilmDetail) : IFilmView(co
     override fun initAdapter() {
         mRecyclerView.adapter = FilmCelebrityAdapter(mContext, mFilmDetail, this)
         checkEmptyAdapter()
-        ShowSwipe(false)
+        showSwipe(false)
     }
 
 }

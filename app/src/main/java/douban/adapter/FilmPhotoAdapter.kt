@@ -1,8 +1,6 @@
 package douban.adapter
 
 import android.content.Context
-import android.support.design.widget.CoordinatorLayout
-import android.support.design.widget.Snackbar
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
@@ -52,7 +50,7 @@ class FilmPhotoAdapter(context: Context, filmView: IFilmView) : IRecyclerViewAda
     override fun onBindViewHolder(holder: FilmPhotoAdapter.ViewHolder, position: Int) {
         val pos = holder.adapterPosition
         holder.setPhoto(mListPhoto[pos])
-        holder.itemView.OnClick {
+        holder.itemView.onClick {
             ImageViewActivity.ShowImages(mContext, mListPhoto.map { it.image }, pos)
         }
         checkToEnd(pos)
@@ -70,7 +68,7 @@ class FilmPhotoAdapter(context: Context, filmView: IFilmView) : IRecyclerViewAda
 
         init {
             if (hei != null)
-                mImageView.SetWidth(hei)
+                mImageView.setWidth(hei)
         }
 
         internal fun setPhoto(photo: Photo) {

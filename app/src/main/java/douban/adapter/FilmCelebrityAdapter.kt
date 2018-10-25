@@ -56,7 +56,7 @@ class FilmCelebrityAdapter(context: Context, filmDetail: FilmDetail, filmView: I
         val pos = holder.adapterPosition
         val cele = mListCelebrity[pos]
         holder.setCelebrity(cele, pos)
-        holder.itemView.OnClick { FilmDetailActivity.ShowFilmMan(cele.id) }
+        holder.itemView.onClick { FilmDetailActivity.showFilmMan(cele.id) }
     }
 
 

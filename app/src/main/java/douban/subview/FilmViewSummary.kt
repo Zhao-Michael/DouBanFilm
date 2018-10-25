@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.PorterDuff
 import android.support.v7.widget.CardView
 import android.view.MotionEvent
 import android.view.View
@@ -12,14 +11,12 @@ import android.widget.TextView
 import co.lujun.androidtagview.TagContainerLayout
 import co.lujun.androidtagview.TagView
 import com.daimajia.numberprogressbar.NumberProgressBar
-import douban.DouBanV1
 import douban.FilmDetail
 import douban.adapter.FilmListAdapter
 import me.zhanghai.android.materialratingbar.MaterialRatingBar
 import michaelzhao.R
 import michaelzhao.TagFilmActivity
 import org.jetbrains.anko.find
-import util.Rx
 
 class FilmViewSummary(context: Context, filmDetail: FilmDetail) : IFilmView(context) {
 
@@ -81,7 +78,7 @@ class FilmViewSummary(context: Context, filmDetail: FilmDetail) : IFilmView(cont
             override fun onTagCrossClick(position: Int) = Unit
 
             override fun onTagClick(position: Int, text: String?) {
-                TagFilmActivity.ShowTagFilmList(text.toString())
+                TagFilmActivity.showTagFilmList(text.toString())
             }
         })
 

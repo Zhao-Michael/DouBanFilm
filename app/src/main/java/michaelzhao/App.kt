@@ -18,12 +18,12 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         Instance = this
-        Init_Picasso(this)
+        initPicasso(this)
         //mCrashHandler.init()
         Hawk.init(this).build()
     }
 
-    fun StartActivity(cl: Class<out Activity>) {
+    fun startActivity(cl: Class<out Activity>) {
         val intent = Intent(this, cl)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
@@ -42,7 +42,7 @@ class App : Application() {
 
     }
 
-    private fun Init_Picasso(context: Context) {
+    private fun initPicasso(context: Context) {
         val builder = Picasso.Builder(context)
         val cache = LruCache(5 * 1024 * 1024)
         builder.memoryCache(cache)

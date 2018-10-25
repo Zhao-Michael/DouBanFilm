@@ -17,7 +17,7 @@ class WebActivity : BaseActivity() {
         private const val WEB_URL = "web_url"
         private const val WEB_TITLE = "web_title"
 
-        fun ShowWebView(context: Context, url: String, title: String) {
+        fun showWebView(context: Context, url: String, title: String) {
             val intent = Intent(context, WebActivity::class.java)
             intent.putExtra(WEB_URL, url)
             intent.putExtra(WEB_TITLE, title)

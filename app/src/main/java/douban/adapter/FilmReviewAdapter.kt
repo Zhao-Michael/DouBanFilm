@@ -13,7 +13,7 @@ import douban.subview.IFilmView
 import michaelzhao.R
 import michaelzhao.WebActivity
 import org.jetbrains.anko.find
-import util.OnClick
+import util.onClick
 import util.inflate
 import util.setImageUrl
 
@@ -40,7 +40,7 @@ class FilmReviewAdapter(context: Context, filmReview: FilmReview, filmView: IFil
         val pos = holder.adapterPosition
         val review = mListReview[pos]
         holder.setReview(review, pos + 1)
-        holder.cardview.OnClick { WebActivity.ShowWebView(mContext, review.alt, review.title) }
+        holder.cardview.onClick { WebActivity.showWebView(mContext, review.alt, review.title) }
         checkToEnd(pos)
     }
 

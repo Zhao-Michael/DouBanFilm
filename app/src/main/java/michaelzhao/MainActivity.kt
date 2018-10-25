@@ -13,7 +13,6 @@ import okhttp3.Request
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.support.v4.onRefresh
 import util.*
 
 
@@ -46,14 +45,14 @@ class MainActivity : BaseActivity() {
         menuInflater.inflate(R.menu.menu_main, menu)
         run {
             val mMenuSearch = menu?.findItem(R.id.search_action)
-            mMenuSearch?.OnItemClick { searchMenu_Click() }
+            mMenuSearch?.onItemClick { searchMenu_Click() }
             mMenuSearch?.icon = getDrawableIcon(GoogleMaterial.Icon.gmd_search)
         }
 
         run {
             val mMenuSetting = menu?.findItem(R.id.settings_action)
             mMenuSetting?.icon = getDrawableIcon(GoogleMaterial.Icon.gmd_settings)
-            mMenuSetting?.OnItemClick { settingMenu_Click() }
+            mMenuSetting?.onItemClick { settingMenu_Click() }
         }
 
         return true

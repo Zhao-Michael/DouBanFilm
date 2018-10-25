@@ -8,7 +8,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import douban.Subject
 import douban.TagFilmList
-import douban.subview.FilmView
 import douban.subview.IFilmView
 import michaelzhao.BaseActivity
 import michaelzhao.FilmDetailActivity
@@ -59,9 +58,9 @@ class FilmTagAdapter(
 
         init {
             if (wid != null) {
-                cardview.SetWidth(wid)
-                image.SetWidth(wid)
-                image.SetHeight(Math.round(wid / 0.7f))
+                cardview.setWidth(wid)
+                image.setWidth(wid)
+                image.setHeight(Math.round(wid / 0.7f))
             }
         }
 
@@ -70,11 +69,11 @@ class FilmTagAdapter(
             rate.text = sub.rate
             rate.textColor = BaseActivity.getPrimaryColor()
             if (sub.rate.isBlank())
-                layout_rate.Hide()
+                layout_rate.hide()
             else
-                layout_rate.Show()
+                layout_rate.show()
             image.setImageUrl(sub.cover, R.drawable.loading_large)
-            cardview.OnClick { FilmDetailActivity.ShowFilmDetail(sub.id) }
+            cardview.onClick { FilmDetailActivity.showFilmDetail(sub.id) }
         }
 
     }

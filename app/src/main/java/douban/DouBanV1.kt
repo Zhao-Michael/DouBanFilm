@@ -98,14 +98,14 @@ object DouBanV1 {
     }
 
     //获取院线电影
-    fun getTheaterFilms(city: String, start: Int = 0, count: Int = 100): FilmList {
+    fun getTheaterFilms(city: String, start: Int = 0, count: Int = 40): FilmList {
         val url = "${mBaseUrl}in_theaters?$mApiKey&city=${city.toURL()}&start=$start&count=$count"
         val html = GetUrlContent(url)
         return Gson().fromJson(html)
     }
 
     //获取豆瓣 Top 250
-    fun getTop250Film(start: Int = 0, count: Int = 250): FilmList {
+    fun getTop250Film(start: Int = 0, count: Int = 30): FilmList {
         val url = "${mBaseUrl}top250?&start=$start&count=$count"
         val html = GetUrlContent(url)
         return Gson().fromJson(html)

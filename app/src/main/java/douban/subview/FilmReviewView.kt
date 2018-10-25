@@ -4,7 +4,6 @@ import android.content.Context
 import android.support.v7.widget.RecyclerView
 import douban.DouBanV1
 import douban.FilmDetail
-import douban.adapter.FilmCommentAdapter
 import douban.adapter.FilmReviewAdapter
 import douban.adapter.IRecyclerViewAdapter
 import michaelzhao.R
@@ -25,7 +24,7 @@ class FilmReviewView(context: Context, filmDetail: FilmDetail) : IFilmView(conte
     }
 
     override fun initAdapter() {
-        ShowSwipe()
+        showSwipe()
         Rx.get {
             DouBanV1.getFilmReview(mFilmDetail.id, 0, mStep)
         }.set {
@@ -33,12 +32,12 @@ class FilmReviewView(context: Context, filmDetail: FilmDetail) : IFilmView(conte
             mRecyclerView.adapter = mAdapter
             checkEmptyAdapter()
         }.end {
-            ShowSwipe(false)
+            showSwipe(false)
         }
     }
 
     override fun <T : RecyclerView.ViewHolder?> onLoadMore(adapter: IRecyclerViewAdapter<T>) {
-        ShowSwipe()
+        showSwipe()
         Rx.get {
             mCurrPageIndex += mStep
             DouBanV1.getFilmReview(mFilmDetail.id, mCurrPageIndex, mStep)
@@ -52,8 +51,8 @@ class FilmReviewView(context: Context, filmDetail: FilmDetail) : IFilmView(conte
                 showNoMoreMsg()
             }
         }.end {
-            ShowSwipe(false)
-            adapter.LoadMoreFinish()
+            showSwipe(false)
+            adapter.loadMoreFinish()
         }.err {
             showErrMsg(it)
         }

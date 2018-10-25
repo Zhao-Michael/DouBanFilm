@@ -13,7 +13,6 @@ import android.widget.TextView
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import douban.FilmDetail
 import douban.FilmItem
-import douban.FilmList
 import douban.Work
 import douban.subview.IFilmView
 import me.zhanghai.android.materialratingbar.MaterialRatingBar
@@ -80,13 +79,13 @@ class FilmListAdapter(context: Context, filmList: List<FilmItem>, filmView: IFil
         val more_layout by lazy { mItemView.find<FrameLayout>(R.id.more_layout) }
 
         fun setFilmItem(film: FilmItem) {
-            title.text = film.title.ReplaceEmpty()
-            year.text = film.year.ReplaceEmpty()
-            rate.text = film.rating.average.toString().ReplaceEmpty()
+            title.text = film.title.replaceEmpty()
+            year.text = film.year.replaceEmpty()
+            rate.text = film.rating.average.toString().replaceEmpty()
             genres.text = film.genres.joinToString("/")
-            org_name.text = film.original_title.ReplaceEmpty()
-            director.text = film.directors.joinToString("/") { it.name }.ReplaceEmpty()
-            actor.text = film.casts.joinToString("/") { it.name }.ReplaceEmpty()
+            org_name.text = film.original_title.replaceEmpty()
+            director.text = film.directors.joinToString("/") { it.name }.replaceEmpty()
+            actor.text = film.casts.joinToString("/") { it.name }.replaceEmpty()
             ratingbar.max = 100
             ratingbar.progress = Math.round(film.rating.average.toFloat() * 10)
             val color = ColorStateList.valueOf(Color.rgb(0xFF, 0xBB, 0x33))
@@ -97,18 +96,18 @@ class FilmListAdapter(context: Context, filmList: List<FilmItem>, filmView: IFil
             }
             page.text = (adapterPosition + 1).toString()
             image.setImageUrl(film.images.small, R.drawable.loading_large)
-            cardview.OnClick { FilmDetailActivity.ShowFilmDetail(film.id) }
+            cardview.onClick { FilmDetailActivity.showFilmDetail(film.id) }
         }
 
 
         fun setFilmDetail(film: FilmDetail) {
-            title.text = film.title.ReplaceEmpty()
-            year.text = film.year.ReplaceEmpty()
-            rate.text = film.rating.average.toString().ReplaceEmpty()
-            genres.text = film.genres.joinToString("/").ReplaceEmpty()
-            org_name.text = film.original_title.ReplaceEmpty()
-            director.text = film.directors.joinToString("/") { it.name }.ReplaceEmpty()
-            actor.text = film.casts.joinToString("/") { it.name }.ReplaceEmpty()
+            title.text = film.title.replaceEmpty()
+            year.text = film.year.replaceEmpty()
+            rate.text = film.rating.average.toString().replaceEmpty()
+            genres.text = film.genres.joinToString("/").replaceEmpty()
+            org_name.text = film.original_title.replaceEmpty()
+            director.text = film.directors.joinToString("/") { it.name }.replaceEmpty()
+            actor.text = film.casts.joinToString("/") { it.name }.replaceEmpty()
             ratingbar.max = 100
             ratingbar.progress = Math.round(film.rating.average.toFloat() * 10)
             val color = ColorStateList.valueOf(Color.rgb(0xFF, 0xBB, 0x33))
@@ -121,27 +120,27 @@ class FilmListAdapter(context: Context, filmList: List<FilmItem>, filmView: IFil
             switch_btn.visibility = View.VISIBLE
             switch_btn.tag = false // IsExpanded
             switch_btn.setIcon(GoogleMaterial.Icon.gmd_keyboard_arrow_down, Color.GRAY, 10)
-            switch_btn.OnClick { switch_BtnClick(film) }
-            cardview.OnClick { switch_btn.callOnClick() }
-            other_name.text = film.aka.joinToString("\n").ReplaceEmpty()
-            durations.text = film.durations.joinToString("/").ReplaceEmpty()
-            pubdate.text = film.pubdates.joinToString("\n").ReplaceEmpty()
-            country.text = film.countries.joinToString("/").ReplaceEmpty()
-            language.text = film.languages.joinToString("/").ReplaceEmpty()
+            switch_btn.onClick { switch_BtnClick(film) }
+            cardview.onClick { switch_btn.callOnClick() }
+            other_name.text = film.aka.joinToString("\n").replaceEmpty()
+            durations.text = film.durations.joinToString("/").replaceEmpty()
+            pubdate.text = film.pubdates.joinToString("\n").replaceEmpty()
+            country.text = film.countries.joinToString("/").replaceEmpty()
+            language.text = film.languages.joinToString("/").replaceEmpty()
         }
 
         private fun switch_BtnClick(film: FilmDetail) {
             val isExpand = switch_btn.tag as Boolean
             if (isExpand) {// in collapsed
                 switch_btn.setIcon(GoogleMaterial.Icon.gmd_keyboard_arrow_down, Color.GRAY, 10)
-                actor.text = film.casts.joinToString("/") { it.name }.ReplaceEmpty()
+                actor.text = film.casts.joinToString("/") { it.name }.replaceEmpty()
                 actor.setLines(1)
                 title.setLines(1)
                 org_name.setLines(1)
             } else { // in expand
                 switch_btn.setIcon(GoogleMaterial.Icon.gmd_keyboard_arrow_up, Color.GRAY, 10)
                 val too_long = film.casts.joinToString("") { it.name }.length > 15
-                actor.text = film.casts.joinToString(if (too_long) "\n" else "/") { it.name }.ReplaceEmpty()
+                actor.text = film.casts.joinToString(if (too_long) "\n" else "/") { it.name }.replaceEmpty()
                 actor.maxLines = film.casts.size
                 title.maxLines = 10
                 org_name.maxLines = 10

@@ -3,14 +3,13 @@ package douban.subview
 import android.content.Context
 import android.widget.ImageView
 import android.widget.TextView
-import douban.FilmList
 import douban.FilmMan
 import douban.adapter.FilmListAdapter
 import michaelzhao.BaseActivity
 import michaelzhao.R
 import org.jetbrains.anko.find
 import org.jetbrains.anko.textColor
-import util.ReplaceEmpty
+import util.replaceEmpty
 import util.setImageUrl
 
 class ManSummary(context: Context, filmMan: FilmMan) : IFilmView(context) {
@@ -33,13 +32,13 @@ class ManSummary(context: Context, filmMan: FilmMan) : IFilmView(context) {
 
     private fun initSummary() {
         mImageView.setImageUrl(mFilmMan.avatars.large)
-        mTextTitle.text = mFilmMan.name.ReplaceEmpty()
+        mTextTitle.text = mFilmMan.name.replaceEmpty()
         val list = mFilmMan.aka.plus(mFilmMan.aka_en)
-        mTextOtherName.text = list.joinToString("\n").ReplaceEmpty()
+        mTextOtherName.text = list.joinToString("\n").replaceEmpty()
         mTextOtherName.setLines(mTextOtherName.text.split("\n").size)
-        mTextNameEn.text = mFilmMan.name_en.ReplaceEmpty()
-        mTextGenres.text = mFilmMan.gender.ReplaceEmpty()
-        mTextLoc.text = mFilmMan.born_place.ReplaceEmpty()
+        mTextNameEn.text = mFilmMan.name_en.replaceEmpty()
+        mTextGenres.text = mFilmMan.gender.replaceEmpty()
+        mTextLoc.text = mFilmMan.born_place.replaceEmpty()
         mTextWorks.textColor = BaseActivity.getPrimaryColor()
         mTextWorks.text = mFilmMan.name.trim() + mTextWorks.text
     }

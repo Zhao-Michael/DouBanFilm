@@ -25,7 +25,7 @@ class FilmBriefAdapter(listViews: Array<SearchBrief>,
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = mContext.inflate(R.layout.listitem_search_brief_layout, parent)
-        view.OnClick { mOnClickListener?.onClick(view) }
+        view.onClick { mOnClickListener?.onClick(view) }
         return ViewHolder(view)
     }
 
@@ -48,10 +48,10 @@ class FilmBriefAdapter(listViews: Array<SearchBrief>,
         else
             holder.year.visibility = View.GONE
         holder.page.text = (pos + 1).toString()
-        holder.view.OnClick {
+        holder.view.onClick {
             when (sb.type) {
-                "celebrity" -> FilmDetailActivity.ShowFilmMan(sb.id)
-                "movie" -> FilmDetailActivity.ShowFilmDetail(sb.id)
+                "celebrity" -> FilmDetailActivity.showFilmMan(sb.id)
+                "movie" -> FilmDetailActivity.showFilmDetail(sb.id)
             }
         }
         if (pos < 2) {

@@ -47,11 +47,11 @@ abstract class IFilmView(context: Context) : ILoadMore {
 
     }
 
-    fun SetLoadMore(loadMore: (() -> Unit)?) {
+    fun setLoadMore(loadMore: (() -> Unit)?) {
         mLoadMore = loadMore
     }
 
-    fun <T : RecyclerView.ViewHolder?> LoadMore(b: Boolean, adapter: IRecyclerViewAdapter<T>) {
+    fun <T : RecyclerView.ViewHolder?> loadMore(b: Boolean, adapter: IRecyclerViewAdapter<T>) {
         if (b) {
             onLoadMore(adapter)
             mLoadMore?.invoke()
@@ -69,7 +69,7 @@ abstract class IFilmView(context: Context) : ILoadMore {
             mView
     }
 
-    fun ShowSwipe(b: Boolean = true) {
+    fun showSwipe(b: Boolean = true) {
         if (mLayout != 0) {
             if (b) mSwipeLayout.Enable() else mSwipeLayout.DisEnable()
             mSwipeLayout.ShowRefresh(b)
@@ -79,11 +79,11 @@ abstract class IFilmView(context: Context) : ILoadMore {
     fun checkEmptyAdapter() {
         val bShow = mRecyclerView.adapter?.itemCount == 0
         if (!bShow) {
-            mLayoutNone.Hide()
+            mLayoutNone.hide()
         } else {
             mImageNone.image = CreateIcon(mContext, GoogleMaterial.Icon.gmd_sentiment_very_dissatisfied, 40)
             mTextone.textColor = BaseActivity.getPrimaryColor()
-            mLayoutNone.Show()
+            mLayoutNone.show()
         }
     }
 
@@ -107,11 +107,11 @@ abstract class IFilmView(context: Context) : ILoadMore {
         }
     }
 
-    protected fun showErrMsg(it: Throwable) {
+    fun showErrMsg(it: Throwable, view: View? = null) {
         if (mLayout != 0)
             showSnackBar(mView, it.message.toString())
         else
-            showSnackBar(null, it.message.toString())
+            showSnackBar(view, it.message.toString())
     }
 
 }

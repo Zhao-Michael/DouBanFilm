@@ -25,16 +25,16 @@ class FilmDetailActivity : BaseActivity() {
         private val IS_FILM = FilmDetailActivity::javaClass.name + "_IS_FILM"
         private val mIsFilmDeatil get() = Hawk.get(IS_FILM, true)
 
-        fun ShowFilmDetail(id: String) {
+        fun showFilmDetail(id: String) {
             Hawk.put(THE_ID, id)
             Hawk.put(IS_FILM, true)
-            App.Instance.StartActivity(FilmDetailActivity::class.java)
+            App.Instance.startActivity(FilmDetailActivity::class.java)
         }
 
-        fun ShowFilmMan(id: String) {
+        fun showFilmMan(id: String) {
             Hawk.put(IS_FILM, false)
             Hawk.put(THE_ID, id)
-            App.Instance.StartActivity(FilmDetailActivity::class.java)
+            App.Instance.startActivity(FilmDetailActivity::class.java)
         }
 
     }

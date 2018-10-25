@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import douban.DouBanV1
+import douban.FilmList
 import douban.subview.FilmView
 import michaelzhao.R
 import org.jetbrains.anko.find
@@ -35,6 +36,42 @@ class FilmMainPageAdapter(context: Context) : PagerAdapter() {
         mListTitle.forEach {
             mListSwipeLayout.add(VerSwipeLayout(mContext, null))
             mListRecycler.add(RecyclerView(mContext))
+        }
+    }
+
+    private fun setTop250Adapter(index: Int, it: FilmList) {
+        val mStep = 30
+        var mCurrPageIndex = 0
+        val mAdapter: FilmListAdapter?
+        val recyclerView = mListRecycler[index]
+        val swipeLayout = mListSwipeLayout[index]
+        val mFilmView = FilmView(recyclerView.context)
+
+        mAdapter = FilmListAdapter(recyclerView.context, it.subjects, mFilmView)
+        recyclerView.adapter = mAdapter
+
+        mFilmView.apply {
+            setLoadMore {
+                swipeLayout.ShowRefresh()
+                Rx.get {
+                    mCurrPageIndex += mStep
+                    DouBanV1.getTop250Film(mCurrPageIndex, mStep)
+                }.set {
+                    val cnt = mAdapter.itemCount
+                    if (it.subjects.isNotEmpty()) {
+                        mAdapter.addFilmList(it.subjects)
+                        mAdapter.notifyItemInserted(cnt)
+                    } else {
+                        mCurrPageIndex -= mStep
+                        showNoMoreMsg(recyclerView)
+                    }
+                }.end {
+                    swipeLayout.HideRefresh()
+                    mAdapter.loadMoreFinish()
+                }.err {
+                    mFilmView.showErrMsg(it, recyclerView)
+                }
+            }
         }
     }
 
@@ -86,7 +123,10 @@ class FilmMainPageAdapter(context: Context) : PagerAdapter() {
                     else -> throw NotImplementedError("updatePageFromNet : index out of range")
                 }
             }.set {
-                mListRecycler[pos].adapter = FilmListAdapter(mContext, it.subjects, FilmView(mContext))
+                if (pos == 6)
+                    setTop250Adapter(pos, it)
+                else
+                    mListRecycler[pos].adapter = FilmListAdapter(mContext, it.subjects, FilmView(mContext))
             }.err {
                 mContext.toast(it.message.toString())
             }.end {
