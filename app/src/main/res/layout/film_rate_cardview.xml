@@ -7,7 +7,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:foreground="?attr/selectableItemBackground"
         android:layout_margin="5dp"
-        custom_view:cardElevation="5dp"
+        custom_view:cardElevation="3dp"
         android:clickable="true"
         android:focusable="true"
         custom_view:cardPreventCornerOverlap="true">

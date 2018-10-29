@@ -7,7 +7,7 @@
         android:id="@+id/cardview"
         android:foreground="?attr/selectableItemBackground"
         android:layout_margin="5dp"
-        app:cardElevation="4dp"
+        app:cardElevation="3dp"
         android:clickable="true"
         android:focusable="true"
         app:cardPreventCornerOverlap="true">

@@ -116,7 +116,11 @@ data class Author(
         val alt: String,
         val id: String,
         val name: String
-)
+) {
+    companion object {
+        val NullAuthor = Author("", "", "", "", "", "")
+    }
+}
 
 class Details {
     fun sum(): Double {
@@ -171,7 +175,6 @@ data class PopularReview(
         val alt: String,
         val id: String
 )
-
 
 data class FilmPhoto(
         val count: Int,

@@ -228,22 +228,22 @@ fun TabLayout.setTabStyle(dstDip: Int = 10) {
 }
 
 fun ImageView.setImageUrl(url: String, holder: Int = 0) {
-    Glide.with(this)
-            .load(url)
-            .apply {
-                if (holder != 0)
-                    apply(RequestOptions.placeholderOf(holder))
-            }
-            .transition(withCrossFade())
-            .into(this)
-
-//    Picasso.get()
+//    Glide.with(this)
 //            .load(url)
 //            .apply {
 //                if (holder != 0)
-//                    placeholder(holder)
+//                    apply(RequestOptions.placeholderOf(holder))
 //            }
+//            .transition(withCrossFade())
 //            .into(this)
+
+    Picasso.get()
+            .load(url)
+            .apply {
+                if (holder != 0)
+                    placeholder(holder)
+            }
+            .into(this)
 }
 
 fun String.replaceEmpty(): String {

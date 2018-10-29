@@ -18,7 +18,7 @@ class ImagePagerAdapter(context: Context, listUrl: List<String>) : PagerAdapter(
 
     private val mListUrl = listUrl
     private val mContext = context
-
+    private var mCurrentView: View? = null
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val obj = mListUrl[position]
         val view = LayoutInflater.from(mContext).inflate(R.layout.full_image_layout, null)
@@ -27,6 +27,14 @@ class ImagePagerAdapter(context: Context, listUrl: List<String>) : PagerAdapter(
         photoView.setImageUrl(obj)
         container.addView(view)
         return view
+    }
+
+    override fun setPrimaryItem(container: ViewGroup, position: Int, obj: Any) {
+        mCurrentView = obj as? View
+    }
+
+    fun getCurrView(): View? {
+        return mCurrentView
     }
 
     override fun destroyItem(container: ViewGroup, position: Int, obj: Any) {

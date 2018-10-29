@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import database.NetRequestType
 import util.GetUrlContent
 import util.fromJson
+import java.util.regex.Pattern
 
 //About Html
 object DouBanV2 {
@@ -39,14 +40,47 @@ object DouBanV2 {
 
     fun getTagFilm(tag: TagType, start: Int = 0, count: Int = 30): TagFilmList {
         val url = "$mBaseUrl$mSearchTag?type=movie&tag=${getTagString(tag)}&sort=time&page_limit=$count&page_start=$start"
-        val html = GetUrlContent(url, NetRequestType.Second)
+        val html = GetUrlContent(url, NetRequestType.Day)
         return Gson().fromJson(html)
     }
 
     fun getTagFilm(tag: String, start: Int = 0, count: Int = 30): TagFilmList {
         val url = "$mBaseUrl$mSearchTag?type=movie&tag=$tag&sort=time&page_limit=$count&page_start=$start"
-        val html = GetUrlContent(url, NetRequestType.Second)
+        val html = GetUrlContent(url, NetRequestType.Day)
         return Gson().fromJson(html)
+    }
+
+    fun getFilmPhoto(id: String, start: Int = 0): List<Photo> {
+        val url = "${mBaseUrl}subject/$id/photos?type=S&start=$start"
+        val html = GetUrlContent(url, NetRequestType.Day)
+        return parseFilmPhoto(html)
+    }
+
+    private fun parseFilmPhoto(html: String): List<Photo> {
+        val list = mutableListOf<Photo>()
+        val pattern = Pattern.compile("<img src=\"https(.+?)\" />")
+        val matcher = pattern.matcher(html)
+
+        val listImg = mutableListOf<String>()
+        while (matcher.find()) {
+            val thumb = matcher
+                    .group()
+                    .replace("<img src=\"", "")
+                    .replace("\" />", "")
+                    .trim()
+            listImg.add(thumb)
+        }
+
+        listImg.forEachIndexed { index, it ->
+            val photo = Photo(listImg.size, "", "", Author.NullAuthor, "",
+                    "", it.replace("/m/", "/sqs/"),
+                    "", "", "", 0,
+                    it.replace("/m/", "/l/"),
+                    0, index, "", "", "", "", "")
+            list.add(photo)
+        }
+
+        return list
     }
 
 }

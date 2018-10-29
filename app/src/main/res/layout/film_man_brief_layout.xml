@@ -23,7 +23,7 @@
                 android:id="@+id/cardview"
                 android:foreground="?attr/selectableItemBackground"
                 android:layout_margin="5dp"
-                app:cardElevation="5dp"
+                app:cardElevation="3dp"
                 android:clickable="true"
                 android:focusable="true"
                 app:cardPreventCornerOverlap="true"
@@ -171,13 +171,13 @@
                       android:text="的代表作品"/>
 
             <FrameLayout android:layout_width="match_parent"
-                         android:layout_height="wrap_content">
+                         android:layout_height="match_parent">
 
                 <android.support.v7.widget.RecyclerView
                         android:id="@+id/mRecyclerView"
                         android:scrollbars="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="match_parent"/>
 
                 <include layout="@layout/common_empty_layout"/>
 

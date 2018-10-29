@@ -55,7 +55,7 @@
 
         <ImageButton android:id="@+id/mBtnClose"
                      android:background="@color/transparent"
-                     android:padding="10dp"
+                     android:padding="15dp"
                      android:layout_width="50dp"
                      android:layout_height="50dp"
                      android:layout_margin="30dp"

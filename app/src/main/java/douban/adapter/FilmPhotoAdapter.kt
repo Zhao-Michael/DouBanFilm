@@ -28,14 +28,20 @@ class FilmPhotoAdapter(context: Context, filmView: IFilmView) : IRecyclerViewAda
         mListPhoto.addAll(filmPhoto.photos)
     }
 
-    override fun getItemId(position: Int): Long {
-        return mListPhoto[position].hashCode().toLong()
+    //所有剧照
+    constructor(recycler: RecyclerView, photos: List<Photo>, filmView: IFilmView) : this(recycler.context, filmView) {
+        setImageHeight(recycler)
+        mListPhoto.addAll(photos)
     }
 
     //所有影人图片
     constructor(recycler: RecyclerView, manPhoto: FilmManPhoto, filmView: IFilmView) : this(recycler.context, filmView) {
         mListPhoto.addAll(manPhoto.photos)
         setImageHeight(recycler)
+    }
+
+    override fun getItemId(position: Int): Long {
+        return mListPhoto[position].hashCode().toLong()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmPhotoAdapter.ViewHolder {
@@ -51,7 +57,7 @@ class FilmPhotoAdapter(context: Context, filmView: IFilmView) : IRecyclerViewAda
         val pos = holder.adapterPosition
         holder.setPhoto(mListPhoto[pos])
         holder.itemView.onClick {
-            ImageViewActivity.ShowImages(mContext, mListPhoto.map { it.image }, pos)
+            ImageViewActivity.showImages(mContext, mListPhoto.map { it.image }, pos)
         }
         checkToEnd(pos)
     }

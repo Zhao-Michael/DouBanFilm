@@ -67,8 +67,14 @@ fun GetUrlContent(url: String, type: NetRequestType = NetRequestType.Day, userAg
         println("Create Net Request: $url")
         val data = isNeedNewRequest(url, type)
         if (data.first) {
-            downLoadString(url, userAgent, type)
+            val result = downLoadString(url, userAgent, type)
+            if (result.isBlank() && data.second.isNotBlank()) {
+                println("From DataBase Response [${data.second}] : " + data.second.trim().take(100) + "...")
+                return@TimeElapse data.second
+            }
+            return@TimeElapse result
         } else {
+            println("From DataBase Response [${data.second}] : " + data.second.trim().take(100) + "...")
             data.second
         }
     }
@@ -81,7 +87,7 @@ private fun isNeedNewRequest(url: String, type: NetRequestType): Pair<Boolean, S
         val duration = now.time - data.time.time
         val typeMS = getMilliSecond(type)
         if (duration <= typeMS) {
-            println("From DataBase Response [${data.content}] : " + data.content.trim().take(100) + "...")
+
             return Pair(false, data.content)
         }
     }

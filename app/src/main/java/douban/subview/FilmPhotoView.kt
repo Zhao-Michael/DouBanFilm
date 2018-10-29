@@ -1,9 +1,11 @@
 package douban.subview
 
 import android.content.Context
-import douban.DouBanV1
+import android.support.v7.widget.RecyclerView
+import douban.DouBanV2
 import douban.FilmDetail
 import douban.adapter.FilmPhotoAdapter
+import douban.adapter.IRecyclerViewAdapter
 import michaelzhao.R
 import util.Rx
 
@@ -13,21 +15,47 @@ class FilmPhotoView(context: Context, filmDetail: FilmDetail) : IFilmView(contex
     override val mLayout: Int = R.layout.film_common_subview_layout
     private val mFilmDetail = filmDetail
 
+    private var mAdapter: FilmPhotoAdapter? = null
+    private var mCurrPageIndex = 0
+    private val mStep = 30
+
     init {
-        initRecyclerView(2)
+        initRecyclerView(3)
         initAdapter()
     }
 
     override fun initAdapter() {
         showSwipe()
         Rx.get {
-            DouBanV1.getFilmPhoto(mFilmDetail.id, 1)
+            DouBanV2.getFilmPhoto(mFilmDetail.id, 0)
         }.set {
-            initRecyclerView(3)
-            mRecyclerView.adapter = FilmPhotoAdapter(mRecyclerView, it, this)
+            mAdapter = FilmPhotoAdapter(mRecyclerView, it, this)
+            mRecyclerView.adapter = mAdapter
             checkEmptyAdapter()
         }.end {
             showSwipe(false)
+        }
+    }
+
+    override fun <T : RecyclerView.ViewHolder?> onLoadMore(adapter: IRecyclerViewAdapter<T>) {
+        showSwipe()
+        Rx.get {
+            mCurrPageIndex += mStep
+            DouBanV2.getFilmPhoto(mFilmDetail.id, mCurrPageIndex)
+        }.set {
+            val cnt = mAdapter?.itemCount
+            if (cnt != null && it.isNotEmpty()) {
+                mAdapter?.addListPhotos(it)
+                mAdapter?.notifyItemInserted(cnt)
+            } else {
+                mCurrPageIndex -= mStep
+                showNoMoreMsg()
+            }
+        }.end {
+            showSwipe(false)
+            adapter.loadMoreFinish()
+        }.err {
+            showErrMsg(it)
         }
     }
 
