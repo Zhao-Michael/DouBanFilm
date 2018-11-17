@@ -11,13 +11,12 @@ import android.os.Build
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import java.io.ByteArrayOutputStream
-import android.graphics.Bitmap
-import android.widget.ImageView
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
 import michaelzhao.BaseActivity
+import java.io.ByteArrayOutputStream
 import java.util.*
+import java.util.regex.Pattern
 
 
 object Util {
@@ -82,19 +81,23 @@ object Util {
         }
     }
 
-    fun ReleaseImageViewResouce(imageView: ImageView?) {
-        if (imageView == null) return
-        val drawable = imageView.drawable
-        if (drawable != null && drawable is BitmapDrawable) {
-            val bitmap = drawable.bitmap
-            if (bitmap != null && !bitmap.isRecycled) {
-                bitmap.recycle()
-            }
-        }
-    }
-
     fun CreateIcon(context: Context, icon: GoogleMaterial.Icon, size: Int): IconicsDrawable {
         return IconicsDrawable(context).icon(icon).color(BaseActivity.getPrimaryColor()).sizeDp(size)
+    }
+
+    fun GetRegexList(source: String, patStr: String, front: String = "", back: String = ""): List<String> {
+        val pattern = Pattern.compile(patStr)
+        val matcher = pattern.matcher(source)
+        val listImg = mutableListOf<String>()
+        while (matcher.find()) {
+            val thumb = matcher
+                    .group()
+                    .replace(front, "")
+                    .replace(back, "")
+                    .trim()
+            listImg.add(thumb)
+        }
+        return listImg
     }
 
 }

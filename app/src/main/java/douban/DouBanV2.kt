@@ -3,8 +3,10 @@ package douban
 import com.google.gson.Gson
 import database.NetRequestType
 import util.GetUrlContent
+import util.Util.GetRegexList
 import util.fromJson
 import java.util.regex.Pattern
+import kotlin.math.min
 
 //About Html
 object DouBanV2 {
@@ -53,28 +55,17 @@ object DouBanV2 {
     fun getFilmPhoto(id: String, start: Int = 0): List<Photo> {
         val url = "${mBaseUrl}subject/$id/photos?type=S&start=$start"
         val html = GetUrlContent(url, NetRequestType.Day)
-        return parseFilmPhoto(html)
+        return parseFilmPhoto(html, id)
     }
 
-    private fun parseFilmPhoto(html: String): List<Photo> {
+    private fun parseFilmPhoto(html: String, id: String): List<Photo> {
         val list = mutableListOf<Photo>()
-        val pattern = Pattern.compile("<img src=\"https(.+?)\" />")
-        val matcher = pattern.matcher(html)
-
-        val listImg = mutableListOf<String>()
-        while (matcher.find()) {
-            val thumb = matcher
-                    .group()
-                    .replace("<img src=\"", "")
-                    .replace("\" />", "")
-                    .trim()
-            listImg.add(thumb)
-        }
+        val listImg = GetRegexList(html, "<img src=\"https(.+?)\" />", "<img src=\"", "\" />")
 
         listImg.forEachIndexed { index, it ->
             val photo = Photo(listImg.size, "", "", Author.NullAuthor, "",
-                    "", it.replace("/m/", "/sqs/"),
-                    "", "", "", 0,
+                    id, it.replace("/m/", "/sqs/"),
+                    id, "", "", 0,
                     it.replace("/m/", "/l/"),
                     0, index, "", "", "", "", "")
             list.add(photo)
@@ -82,5 +73,32 @@ object DouBanV2 {
 
         return list
     }
+
+    fun getFilmPhotoComment(id: String, start: Int = 0): List<PhotoComment> {
+        val url = "${mBaseUrl}photos/photo/$id/?start=$start#comments"
+        val html = GetUrlContent(url, NetRequestType.Day)
+        return parseFilmPhotoComment(html)
+    }
+
+    private fun parseFilmPhotoComment(html: String): List<PhotoComment> {
+
+        val text = html.split("<div id=\"comments\" class=\"\">")[1].split("<div class=\"paginator\">")[0]
+
+        val list = mutableListOf<PhotoComment>()
+
+        val thums = GetRegexList(text, "src=\"https(.+?)\" alt=\"", "src=\"", "\" alt=\"")
+        val authors = GetRegexList(text, "alt=\"(.+?)\"/></a>", "alt=\"", "\"/></a>")
+        val contents = GetRegexList(text, "<p class=\"\">(.+?)</p>", "<p class=\"\">", "</p>")
+        val times = GetRegexList(text, "<span class=\"\">(.+?)</span>", "<span class=\"\">", "</span>")
+
+        val min = min(min(min(thums.size, authors.size), contents.size), times.size)
+
+        (0 until min).forEach {
+            list.add(PhotoComment(thums[it], authors[it], contents[it], times[it]))
+        }
+
+        return list
+    }
+
 
 }

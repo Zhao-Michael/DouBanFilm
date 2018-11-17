@@ -21,7 +21,7 @@ class FilmDetailAdapter(context: Context, filmDetail: FilmDetail?) : PagerAdapte
         mListTitle.add("剧照")
         mListTitle.add("短评")
         mListTitle.add("影评")
-        mListTitle.add("下载")
+        //mListTitle.add("下载")
 
         if (mFilmDetail != null) {
             initUI(mFilmDetail)
@@ -41,7 +41,7 @@ class FilmDetailAdapter(context: Context, filmDetail: FilmDetail?) : PagerAdapte
         mListRecycler.add(FilmPhotoView(mContext, filmDetail))
         mListRecycler.add(FilmCommentView(mContext, filmDetail))
         mListRecycler.add(FilmReviewView(mContext, filmDetail))
-        mListRecycler.add(FilmViewSummary(mContext, filmDetail))
+        //mListRecycler.add(FilmView(mContext))
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {

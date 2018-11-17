@@ -161,35 +161,36 @@ fun Context.inflate(id: Int, viewGroup: ViewGroup): View {
     return LayoutInflater.from(this).inflate(id, viewGroup, false)
 }
 
-fun TabLayout.setTabStyle(dstDip: Int = 10) {
-    var tabStrip: Field? = null
-    try {
-        tabStrip = javaClass.getDeclaredField("mTabStrip")
-    } catch (e: NoSuchFieldException) {
-        e.printStackTrace()
-    }
+fun TabLayout.setTabStyle() {
+//    var dstDip: Int = 10
+//    var tabStrip: Field? = null
+//    try {
+//        tabStrip = javaClass.getDeclaredField("mTabStrip")
+//    } catch (e: NoSuchFieldException) {
+//        e.printStackTrace()
+//    }
 
-    if (tabStrip != null) {
-        tabStrip.isAccessible = true
-        var llTab: LinearLayout? = null
-        try {
-            llTab = tabStrip.get(this) as LinearLayout?
-        } catch (e: IllegalAccessException) {
-            e.printStackTrace()
-        }
-        if (llTab != null) {
-            val dst = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dstDip.toFloat(), Resources.getSystem().displayMetrics).toInt()
-            for (i in 0 until llTab.childCount) {
-                val child = llTab.getChildAt(i)
-                child.setPadding(0, 0, 0, 0)
-                val params = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1f)
-                params.leftMargin = dst
-                params.rightMargin = dst
-                child.layoutParams = params
-                child.invalidate()
-            }
-        }
-    }
+//    if (tabStrip != null) {
+//        tabStrip.isAccessible = true
+//        var llTab: LinearLayout? = null
+//        try {
+//            llTab = tabStrip.get(this) as LinearLayout?
+//        } catch (e: IllegalAccessException) {
+//            e.printStackTrace()
+//        }
+//        if (llTab != null) {
+//            val dst = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dstDip.toFloat(), Resources.getSystem().displayMetrics).toInt()
+//            for (i in 0 until llTab.childCount) {
+//                val child = llTab.getChildAt(i)
+//                child.setPadding(0, 0, 0, 0)
+//                val params = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1f)
+//                params.leftMargin = dst
+//                params.rightMargin = dst
+//                child.layoutParams = params
+//                child.invalidate()
+//            }
+//        }
+//    }
 
     fun getTextView(pos: Int): TextView? {
         try {
@@ -253,8 +254,8 @@ fun String.replaceEmpty(): String {
         this.trim()
 }
 
-fun ImageView.setIcon(icon: IIcon) {
-    image = IconicsDrawable(context).icon(icon).color(Color.WHITE).sizeDp(18)
+fun ImageView.setIcon(icon: IIcon, size: Int = 18) {
+    image = IconicsDrawable(context).icon(icon).color(Color.WHITE).sizeDp(size)
 }
 
 fun ImageView.setIcon(icon: IIcon, color: Int, size: Int) {

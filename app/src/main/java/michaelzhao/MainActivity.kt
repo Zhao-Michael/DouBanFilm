@@ -61,10 +61,9 @@ class MainActivity : BaseActivity() {
     private fun settingMenu_Click() {
 //        Debug()
 //        return
-        setPrimaryColor(R.color.md_deep_orange_400)
-        recreate()
+//        setPrimaryColor(R.color.md_deep_orange_400)
+//        recreate()
     }
-
 
     private fun searchMenu_Click() {
         startActivity<SearchActivity>()
@@ -72,17 +71,6 @@ class MainActivity : BaseActivity() {
 
 
     private fun Debug() {
-        doAsync {
-            val okhttp = OkHttpClient()
-            val url = "https://frodo.douban.com/api/v2/search/mix?q=%E5%BC%A0&type=movie&apikey=0b2bdeda43b5688921839c8ecb20399b"
-            val request = Request.Builder().url(url).addHeader("User-Agent", "api-client/1 com.douban.movie/4.5.0(81)").build()
-            val body = okhttp.newCall(request).execute().body()
-            if (body != null) {
-                println(body.string().toUnicode())
-            } else {
-                println("body is null")
-            }
-        }
     }
 
 }
