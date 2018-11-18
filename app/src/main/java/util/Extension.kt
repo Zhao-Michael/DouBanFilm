@@ -254,6 +254,10 @@ fun String.replaceEmpty(): String {
         this.trim()
 }
 
+fun String.removeCrlf(): String {
+    return this.replace("\n", "").replace("\r", "")
+}
+
 fun ImageView.setIcon(icon: IIcon, size: Int = 18) {
     image = IconicsDrawable(context).icon(icon).color(Color.WHITE).sizeDp(size)
 }

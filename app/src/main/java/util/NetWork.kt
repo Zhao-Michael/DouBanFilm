@@ -48,7 +48,7 @@ private fun downLoadString(url: String, userAgent: String = UserAge, type: NetRe
         if (body != null) {
             result = body.string()
             NetWorkCache.Instance.addNetRequest(url, result, type)
-            println("From Net Response [${result.length}] : " + result.trim().take(100) + "...")
+            println("From Net Response [${result.length}] : " + result.trim().removeCrlf().take(100) + "...")
         } else {
             println("From Net Error: Empty Response Body  $url")
         }
@@ -69,12 +69,12 @@ fun GetUrlContent(url: String, type: NetRequestType = NetRequestType.Day, userAg
         if (data.first) {
             val result = downLoadString(url, userAgent, type)
             if (result.isBlank() && data.second.isNotBlank()) {
-                println("From DataBase Response [${data.second}] : " + data.second.trim().take(100) + "...")
+                println("From DataBase Response [${data.second}] : " + data.second.trim().removeCrlf().take(100) + "...")
                 return@TimeElapse data.second
             }
             return@TimeElapse result
         } else {
-            println("From DataBase Response [${data.second}] : " + data.second.trim().take(100) + "...")
+            println("From DataBase Response [${data.second}] : " + data.second.trim().removeCrlf().take(100) + "...")
             data.second
         }
     }
@@ -103,7 +103,7 @@ fun GetUrlContentForTest(url: String): String {
         val body = response.body()
         if (body != null) {
             result = body.string()
-            println("From Net Response [${result.length}] : " + result.trim().take(100) + "...")
+            println("From Net Response [${result.length}] : " + result.trim().removeCrlf().take(100) + "...")
         } else {
             println("From Net Error: Empty Response Body  $url")
         }

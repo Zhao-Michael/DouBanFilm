@@ -65,7 +65,7 @@ abstract class IFilmView(context: Context) : ILoadMore {
     }
 
     fun <T : RecyclerView.ViewHolder?> loadMore(adapter: IRecyclerViewAdapter<T>) {
-        if (mLoadPageStep != 0 && mLoadPageStep <= adapter.itemCount) {
+        if (mLoadPageStep != 0 && mLoadPageStep - 1 <= adapter.itemCount) {
             onLoadMore(adapter)
             mLoadMore?.invoke()
         }

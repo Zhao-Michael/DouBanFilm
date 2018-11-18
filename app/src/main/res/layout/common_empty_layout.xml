@@ -2,7 +2,6 @@
 <LinearLayout android:layout_width="wrap_content"
               android:orientation="vertical"
               android:visibility="gone"
-              android:layout_marginBottom="10dp"
               android:layout_gravity="center"
               android:id="@+id/layout_none"
               android:layout_height="wrap_content"
