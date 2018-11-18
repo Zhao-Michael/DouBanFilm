@@ -87,16 +87,18 @@ class ImageViewActivity : BaseActivity() {
 
         mBtnMore.setIcon(GoogleMaterial.Icon.gmd_more_vert)
         mBtnMore.onClick {
-            val items = Array<CharSequence>(3, Int::toString)
+            val items = Array<CharSequence>(4, Int::toString)
             items[0] = "图片源"
             items[1] = "下载图片"
             items[2] = "刷新"
+            items[3] = "显示评论"
             val builder = AlertDialog.Builder(this)
             builder.setItems(items) { _, which ->
                 when (which) {
                     0 -> showImageSrc()
                     1 -> downLoadImage()
                     2 -> reLoadImage()
+                    3 -> showComment()
                 }
             }
             builder.create().show()
@@ -132,10 +134,12 @@ class ImageViewActivity : BaseActivity() {
         if (mListLayout.isShown || mCurrID.isBlank()) {
             mListLayout.visibility = View.GONE
         } else {
-            mListLayout.removeAllViews()
-            val iView = PhotoCommentView(this, mCurrID)
-            mListLayout.addView(iView.getView())
-            mListLayout.visibility = View.VISIBLE
+            uiThread {
+                mListLayout.removeAllViews()
+                val iView = PhotoCommentView(this, mCurrID)
+                mListLayout.addView(iView.getView())
+                mListLayout.visibility = View.VISIBLE
+            }
         }
     }
 

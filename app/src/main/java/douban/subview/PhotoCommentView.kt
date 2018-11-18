@@ -21,16 +21,12 @@ class PhotoCommentView(context: Context, id: String) : IFilmView(context) {
         initAdapter()
     }
 
-    init {
-        initRecyclerView()
-        initAdapter()
-    }
-
     override fun initAdapter() {
         showSwipe()
         Rx.get {
             DouBanV2.getFilmPhotoComment(mID, 0)
         }.set {
+
             mAdapter = PhotoCommentAdapter(mContext, it, this)
             mRecyclerView.adapter = mAdapter
             checkEmptyAdapter()
