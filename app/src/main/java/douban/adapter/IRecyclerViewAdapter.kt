@@ -13,6 +13,7 @@ abstract class IRecyclerViewAdapter<T : RecyclerView.ViewHolder?>(filmView: IFil
     protected var mImageWidth: Int? = null
     private val mIFilmView = filmView
     private var mLoadingMore = false
+    private var mCanLoadMore = false
 
     override fun onBindViewHolder(holder: T, position: Int) {
         if (holder != null) {
@@ -42,12 +43,28 @@ abstract class IRecyclerViewAdapter<T : RecyclerView.ViewHolder?>(filmView: IFil
     }
 
     protected fun checkToEnd(pos: Int) {
-        if (mLoadingMore || itemCount < 8 || pos != itemCount - 1) return
-        mIFilmView.loadMore(pos == itemCount - 1, this)
+        if (!mCanLoadMore || mLoadingMore) return
+        mLoadingMore = true
+        if (itemCount <= 10 && pos == itemCount - 1) {
+            mIFilmView.loadMore(this)
+        } else if (pos > itemCount - 10) {
+            mIFilmView.loadMore(this)
+        } else {
+            mLoadingMore = false
+        }
     }
 
     fun loadMoreFinish() {
         mLoadingMore = false
+    }
+
+    fun enableLoadMore() {
+        if (mCanLoadMore) return
+        mCanLoadMore = true
+    }
+
+    fun disableLoadMore() {
+        mCanLoadMore = false
     }
 
 }

@@ -1,6 +1,8 @@
 package util
 
 import android.app.Activity
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.res.Resources
@@ -14,6 +16,7 @@ import android.view.inputmethod.InputMethodManager
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
 import michaelzhao.BaseActivity
+import org.jetbrains.anko.toast
 import java.io.ByteArrayOutputStream
 import java.util.*
 import java.util.regex.Pattern
@@ -32,6 +35,12 @@ object Util {
     fun HideKeyBoard(context: Activity) {
         val imm = context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(context.window.decorView.windowToken, 0)
+    }
+
+    fun CopyToClipBoard(context: Context, str: String) {
+        val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        cm.primaryClip = ClipData.newPlainText(null, str)
+        context.toast("已复制到剪切板")
     }
 
     fun <T> TimeElapse(str: String, action: () -> T): T {

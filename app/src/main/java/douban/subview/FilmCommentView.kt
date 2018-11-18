@@ -15,8 +15,6 @@ class FilmCommentView(context: Context, filmDetail: FilmDetail) : IFilmView(cont
     private val mFilmDetail = filmDetail
 
     private var mAdapter: FilmCommentAdapter? = null
-    private var mCurrPageIndex = 0
-    private val mStep = 30
 
     init {
         initRecyclerView()
@@ -26,7 +24,7 @@ class FilmCommentView(context: Context, filmDetail: FilmDetail) : IFilmView(cont
     override fun initAdapter() {
         showSwipe()
         Rx.get {
-            DouBanV1.getFilmComment(mFilmDetail.id, 0, mStep)
+            DouBanV1.getFilmComment(mFilmDetail.id, 0, mLoadPageStep)
         }.set {
             mAdapter = FilmCommentAdapter(mContext, it, this)
             mRecyclerView.adapter = mAdapter
@@ -39,15 +37,15 @@ class FilmCommentView(context: Context, filmDetail: FilmDetail) : IFilmView(cont
     override fun <T : RecyclerView.ViewHolder?> onLoadMore(adapter: IRecyclerViewAdapter<T>) {
         showSwipe()
         Rx.get {
-            mCurrPageIndex += mStep
-            DouBanV1.getFilmComment(mFilmDetail.id, mCurrPageIndex, mStep)
+            mCurrPageIndex += mLoadPageStep
+            DouBanV1.getFilmComment(mFilmDetail.id, mCurrPageIndex, mLoadPageStep)
         }.set {
             val cnt = mAdapter?.itemCount
             if (cnt != null && it.comments.isNotEmpty()) {
                 mAdapter?.addListComment(it.comments)
                 mAdapter?.notifyItemInserted(cnt)
             } else {
-                mCurrPageIndex -= mStep
+                mCurrPageIndex -= mLoadPageStep
                 showNoMoreMsg()
             }
         }.end {

@@ -57,7 +57,7 @@ class FilmPhotoAdapter(context: Context, filmView: IFilmView) : IRecyclerViewAda
         val pos = holder.adapterPosition
         holder.setPhoto(mListPhoto[pos])
         holder.itemView.onClick {
-            ImageViewActivity.showImages(mContext, mListPhoto.map { it.image }, pos, mListPhoto.firstOrNull()?.id)
+            ImageViewActivity.showImages(mContext, mListPhoto.map { it.image }, pos)
         }
         checkToEnd(pos)
     }

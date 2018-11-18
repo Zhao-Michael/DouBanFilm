@@ -3,6 +3,7 @@ package douban.adapter
 import android.content.Context
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
+import android.text.Html
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -63,7 +64,7 @@ class FilmCommentAdapter(context: Context, filmComment: FilmComment, filmView: I
             profile_image.setImageUrl(comment.author.avatar)
             text_name.text = comment.author.name
             text_date.text = comment.created_at
-            text_comment.text = comment.content
+            text_comment.text = Html.fromHtml(comment.content.trim())
             text_like.text = comment.useful_count.toString()
             image_like.image = Util.CreateIcon(image_like.context, GoogleMaterial.Icon.gmd_thumb_up, 12)
         }

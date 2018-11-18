@@ -15,8 +15,6 @@ class FilmReviewView(context: Context, filmDetail: FilmDetail) : IFilmView(conte
     private val mFilmDetail = filmDetail
 
     private var mAdapter: FilmReviewAdapter? = null
-    private var mCurrPageIndex = 0
-    private val mStep = 30
 
     init {
         initRecyclerView()
@@ -26,7 +24,7 @@ class FilmReviewView(context: Context, filmDetail: FilmDetail) : IFilmView(conte
     override fun initAdapter() {
         showSwipe()
         Rx.get {
-            DouBanV1.getFilmReview(mFilmDetail.id, 0, mStep)
+            DouBanV1.getFilmReview(mFilmDetail.id, 0, mLoadPageStep)
         }.set {
             mAdapter = FilmReviewAdapter(mContext, it, this)
             mRecyclerView.adapter = mAdapter
@@ -39,15 +37,15 @@ class FilmReviewView(context: Context, filmDetail: FilmDetail) : IFilmView(conte
     override fun <T : RecyclerView.ViewHolder?> onLoadMore(adapter: IRecyclerViewAdapter<T>) {
         showSwipe()
         Rx.get {
-            mCurrPageIndex += mStep
-            DouBanV1.getFilmReview(mFilmDetail.id, mCurrPageIndex, mStep)
+            mCurrPageIndex += mLoadPageStep
+            DouBanV1.getFilmReview(mFilmDetail.id, mCurrPageIndex, mLoadPageStep)
         }.set {
             val cnt = mAdapter?.itemCount
             if (cnt != null && it.reviews.isNotEmpty()) {
                 mAdapter?.addListReview(it.reviews)
                 mAdapter?.notifyItemInserted(cnt)
             } else {
-                mCurrPageIndex -= mStep
+                mCurrPageIndex -= mLoadPageStep
                 showNoMoreMsg()
             }
         }.end {

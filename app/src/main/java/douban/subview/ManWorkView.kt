@@ -14,8 +14,6 @@ class ManWorkView(context: Context, filmMan: FilmMan) : IFilmView(context) {
     override val mLayout: Int = R.layout.film_common_subview_layout
     private val mFilmMan = filmMan
     private var mAdapter: FilmListAdapter? = null
-    private var mCurrPageIndex = 0
-    private val mStep = 30
 
     init {
         initRecyclerView()
@@ -26,7 +24,7 @@ class ManWorkView(context: Context, filmMan: FilmMan) : IFilmView(context) {
     override fun initAdapter() {
         showSwipe()
         Rx.get {
-            DouBanV1.getFilmManWork(mFilmMan.id, mCurrPageIndex, mStep)
+            DouBanV1.getFilmManWork(mFilmMan.id, mCurrPageIndex, mLoadPageStep)
         }.set {
             it.works.map { it.subject }
             mAdapter = FilmListAdapter(mContext, it.works.map { it.subject }, this)
@@ -40,15 +38,15 @@ class ManWorkView(context: Context, filmMan: FilmMan) : IFilmView(context) {
     override fun <T : RecyclerView.ViewHolder?> onLoadMore(adapter: IRecyclerViewAdapter<T>) {
         showSwipe()
         Rx.get {
-            mCurrPageIndex += mStep
-            DouBanV1.getFilmManWork(mFilmMan.id, mCurrPageIndex, mStep)
+            mCurrPageIndex += mLoadPageStep
+            DouBanV1.getFilmManWork(mFilmMan.id, mCurrPageIndex, mLoadPageStep)
         }.set {
             val cnt = mAdapter?.itemCount
             if (cnt != null && it.works.isNotEmpty()) {
                 mAdapter?.addWorkList(it.works)
                 mAdapter?.notifyItemInserted(cnt)
             } else {
-                mCurrPageIndex -= mStep
+                mCurrPageIndex -= mLoadPageStep
                 showNoMoreMsg()
             }
         }.end {

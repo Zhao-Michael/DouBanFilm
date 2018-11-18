@@ -30,6 +30,9 @@ abstract class IFilmView(context: Context) : ILoadMore {
     private var mLoadMore: (() -> Unit)? = null
     protected abstract val mLayout: Int
 
+    protected var mCurrPageIndex = 0
+    protected open val mLoadPageStep = 30
+
     protected val mView: View by lazy { LayoutInflater.from(context).inflate(mLayout, null) }
     protected val mRecyclerView by lazy { mView.find<RecyclerView>(R.id.mRecyclerView) }
     protected val mSwipeLayout by lazy { mView.find<VerSwipeLayout>(R.id.mSwipeLayout) }
@@ -41,6 +44,16 @@ abstract class IFilmView(context: Context) : ILoadMore {
         mRecyclerView.setHasFixedSize(true)
         mRecyclerView.isNestedScrollingEnabled = false
         mRecyclerView.layoutManager = GridLayoutManager(mContext, span)
+        var mInitLoadMore = false
+        mRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (!mInitLoadMore) {
+                    (recyclerView?.adapter as? IRecyclerViewAdapter)?.enableLoadMore()
+                    mInitLoadMore = true
+                }
+            }
+        })
     }
 
     open fun initAdapter() {
@@ -51,8 +64,8 @@ abstract class IFilmView(context: Context) : ILoadMore {
         mLoadMore = loadMore
     }
 
-    fun <T : RecyclerView.ViewHolder?> loadMore(b: Boolean, adapter: IRecyclerViewAdapter<T>) {
-        if (b) {
+    fun <T : RecyclerView.ViewHolder?> loadMore(adapter: IRecyclerViewAdapter<T>) {
+        if (mLoadPageStep != 0 && mLoadPageStep <= adapter.itemCount) {
             onLoadMore(adapter)
             mLoadMore?.invoke()
         }
@@ -88,10 +101,10 @@ abstract class IFilmView(context: Context) : ILoadMore {
     }
 
     fun showNoMoreMsg(view: View? = null) {
-        if (mLayout != 0)
-            showSnackBar(mView, "没有更多了~")
-        else
-            showSnackBar(view, "没有更多了~")
+//        if (mLayout != 0)
+//            showSnackBar(mView, "没有更多了~")
+//        else
+//            showSnackBar(view, "没有更多了~")
     }
 
     private fun showSnackBar(view: View?, str: String) {

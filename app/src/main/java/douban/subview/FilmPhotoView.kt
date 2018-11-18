@@ -16,8 +16,6 @@ class FilmPhotoView(context: Context, filmDetail: FilmDetail) : IFilmView(contex
     private val mFilmDetail = filmDetail
 
     private var mAdapter: FilmPhotoAdapter? = null
-    private var mCurrPageIndex = 0
-    private val mStep = 30
 
     init {
         initRecyclerView(3)
@@ -40,7 +38,7 @@ class FilmPhotoView(context: Context, filmDetail: FilmDetail) : IFilmView(contex
     override fun <T : RecyclerView.ViewHolder?> onLoadMore(adapter: IRecyclerViewAdapter<T>) {
         showSwipe()
         Rx.get {
-            mCurrPageIndex += mStep
+            mCurrPageIndex += mLoadPageStep
             DouBanV2.getFilmPhoto(mFilmDetail.id, mCurrPageIndex)
         }.set {
             val cnt = mAdapter?.itemCount
@@ -48,7 +46,7 @@ class FilmPhotoView(context: Context, filmDetail: FilmDetail) : IFilmView(contex
                 mAdapter?.addListPhotos(it)
                 mAdapter?.notifyItemInserted(cnt)
             } else {
-                mCurrPageIndex -= mStep
+                mCurrPageIndex -= mLoadPageStep
                 showNoMoreMsg()
             }
         }.end {

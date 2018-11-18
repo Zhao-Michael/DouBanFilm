@@ -13,8 +13,7 @@ class PhotoCommentView(context: Context, id: String) : IFilmView(context) {
     private val mID = id
 
     private var mAdapter: PhotoCommentAdapter? = null
-    private var mCurrPageIndex = 0
-    private val mStep = 100
+    override val mLoadPageStep: Int = 100
 
     init {
         initRecyclerView()
@@ -26,7 +25,6 @@ class PhotoCommentView(context: Context, id: String) : IFilmView(context) {
         Rx.get {
             DouBanV2.getFilmPhotoComment(mID, 0)
         }.set {
-
             mAdapter = PhotoCommentAdapter(mContext, it, this)
             mRecyclerView.adapter = mAdapter
             checkEmptyAdapter()
@@ -38,7 +36,7 @@ class PhotoCommentView(context: Context, id: String) : IFilmView(context) {
     override fun <T : RecyclerView.ViewHolder?> onLoadMore(adapter: IRecyclerViewAdapter<T>) {
         showSwipe()
         Rx.get {
-            mCurrPageIndex += mStep
+            mCurrPageIndex += mLoadPageStep
             DouBanV2.getFilmPhotoComment(mID, mCurrPageIndex)
         }.set {
             val cnt = mAdapter?.itemCount
@@ -46,7 +44,7 @@ class PhotoCommentView(context: Context, id: String) : IFilmView(context) {
                 mAdapter?.addListComment(it)
                 mAdapter?.notifyItemInserted(cnt)
             } else {
-                mCurrPageIndex -= mStep
+                mCurrPageIndex -= mLoadPageStep
                 showNoMoreMsg()
             }
         }.end {

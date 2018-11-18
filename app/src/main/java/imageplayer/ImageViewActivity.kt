@@ -1,10 +1,10 @@
 package imageplayer
 
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.support.design.widget.CoordinatorLayout
 import android.support.v7.app.AlertDialog
 import android.view.View
 import android.widget.FrameLayout
@@ -13,12 +13,16 @@ import android.widget.TextView
 import com.github.chrisbanes.photoview.PhotoView
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import douban.subview.PhotoCommentView
+import eightbitlab.com.blurview.BlurView
 import org.jetbrains.anko.find
 import org.jetbrains.anko.toast
 import util.Util.HideStatusBar
 import michaelzhao.BaseActivity
 import michaelzhao.R
 import util.*
+import util.Util.CopyToClipBoard
+import eightbitlab.com.blurview.RenderScriptBlur
+import android.view.ViewGroup
 
 
 class ImageViewActivity : BaseActivity() {
@@ -26,12 +30,10 @@ class ImageViewActivity : BaseActivity() {
     companion object {
         private const val ImageUrl: String = "ImageUrl"
         private const val ImageStartIndex = "ImageStartIndex"
-        private const val ImageID = "ImageID"
-        fun showImages(context: Context, list: List<String>, start: Int = 0, id: String? = null) {
+        fun showImages(context: Context, list: List<String>, start: Int = 0) {
             val intent = Intent(context, ImageViewActivity::class.java)
             intent.putExtra(ImageUrl, list.toTypedArray())
             intent.putExtra(ImageStartIndex, start)
-            intent.putExtra(ImageID, id)
             context.startActivity(intent)
         }
     }
@@ -42,13 +44,13 @@ class ImageViewActivity : BaseActivity() {
     private val mBtnClose by lazy { find<ImageButton>(R.id.mBtnClose) }
     private val mBtnMore by lazy { find<ImageButton>(R.id.mBtnMore) }
     private val mBtnComment by lazy { find<ImageButton>(R.id.mBtnComment) }
+    private val mBlurView by lazy { find<BlurView>(R.id.mBlurView) }
+    private val mMainLayout by lazy { find<CoordinatorLayout>(R.id.mMainLayout) }
 
-    private val mTextTitle by lazy { find<TextView>(R.id.mTextTitle) }
     private val mListLayout by lazy { find<FrameLayout>(R.id.mListLayout) }
     private val mCurrIndex get() = mImageViewPager.currentItem
     private var mStartIndex = 0
     private val mListUrl = mutableListOf<String>()
-    private var mCurrID = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,8 +59,11 @@ class ImageViewActivity : BaseActivity() {
 
         mListUrl.addAll(intent.getStringArrayExtra(ImageUrl))
         mStartIndex = intent.getIntExtra(ImageStartIndex, 0)
-        mCurrID = intent.getStringExtra(ImageID)
 
+        initUI()
+    }
+
+    private fun initUI() {
         if (mListUrl.isEmpty()) {
             toast("未找到任何图片链接")
             finish()
@@ -68,15 +73,12 @@ class ImageViewActivity : BaseActivity() {
             val cnt = mListUrl.size
             if (cnt > 1) {
                 mTextPage.text = "${mCurrIndex + 1} / $cnt"
-                mTextTitle.text = mListUrl[mCurrIndex]
             }
             mImageViewPager.setPageChangeListen { index ->
-                mListLayout.visibility = View.GONE
                 mTextPage.text = "${index + 1} / $cnt"
-                mTextTitle.text = mListUrl[index]
+                switchComment()
             }
         }
-        mTextTitle.hide()
         mImageViewPager.currentItem = mStartIndex
 
         mBtnClose.setIcon(GoogleMaterial.Icon.gmd_close, 16)
@@ -103,6 +105,20 @@ class ImageViewActivity : BaseActivity() {
             }
             builder.create().show()
         }
+
+        setUpBlurView()
+    }
+
+    private fun setUpBlurView() {
+        val radius = 5f
+        val decorView = window.decorView
+        val rootView = mMainLayout as ViewGroup
+        val windowBackground = decorView.background
+        mBlurView.setupWith(rootView)
+                .setFrameClearDrawable(windowBackground)
+                .setBlurAlgorithm(RenderScriptBlur(this))
+                .setBlurRadius(radius)
+                .setHasFixedTransformationMatrix(true)
     }
 
     private fun showImageSrc() {
@@ -111,11 +127,8 @@ class ImageViewActivity : BaseActivity() {
         val url = mListUrl[mCurrIndex]
         dialog.setMessage(url)
         dialog.setPositiveButton("关闭", null)
-        dialog.setNegativeButton("复制") { d, _ ->
-            val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            cm.primaryClip = ClipData.newPlainText(null, url)
-            toast("复制到剪切板")
-            d.dismiss()
+        dialog.setNegativeButton("复制") { _, _ ->
+            CopyToClipBoard(this, url)
         }
         dialog.show()
     }
@@ -130,17 +143,40 @@ class ImageViewActivity : BaseActivity() {
         photoView?.setImageUrl(mListUrl[mCurrIndex])
     }
 
-    private fun showComment() {
-        if (mListLayout.isShown || mCurrID.isBlank()) {
-            mListLayout.visibility = View.GONE
-        } else {
-            uiThread {
-                mListLayout.removeAllViews()
-                val iView = PhotoCommentView(this, mCurrID)
-                mListLayout.addView(iView.getView())
-                mListLayout.visibility = View.VISIBLE
-            }
+    private fun getCurrPhotoID(): String {
+        try {
+            val url = mListUrl[mCurrIndex]
+            return url.split("public/p")[1].split(".")[0]
+        } catch (ex: Exception) {
+            ex.printStackTrace()
         }
+        return ""
+    }
+
+    private fun showComment() {
+        if (mListLayout.isShown || getCurrPhotoID().isBlank()) {
+            mListLayout.visibility = View.GONE
+            mBlurView.setOverlayColor(Color.parseColor("#00FFFFFF"))
+            mBlurView.setBlurEnabled(false)
+        } else {
+            showListComment()
+        }
+    }
+
+    private fun switchComment() {
+        if (mListLayout.isShown) {
+            showListComment()
+        }
+    }
+
+    private fun showListComment() {
+        mListLayout.removeAllViews()
+        val view = PhotoCommentView(this, getCurrPhotoID()).getView()
+        mListLayout.addView(view)
+        view.setHeight((BaseActivity.getScreenSize().y * 0.30).toInt())
+        mListLayout.visibility = View.VISIBLE
+        mBlurView.setOverlayColor(Color.parseColor("#22FFFFFF"))
+        mBlurView.setBlurEnabled(true)
     }
 
 }

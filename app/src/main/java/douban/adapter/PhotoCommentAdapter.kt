@@ -3,15 +3,19 @@ package douban.adapter
 import android.content.Context
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
+import android.text.Html
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import douban.PhotoComment
 import douban.subview.IFilmView
 import michaelzhao.R
 import org.jetbrains.anko.find
+import util.Util.CopyToClipBoard
 import util.inflate
+import util.onLongClick
 import util.setImageUrl
 
 class PhotoCommentAdapter(context: Context, photoComment: List<PhotoComment>, filmView: IFilmView) : IRecyclerViewAdapter<PhotoCommentAdapter.ViewHolder>(filmView) {
@@ -45,7 +49,8 @@ class PhotoCommentAdapter(context: Context, photoComment: List<PhotoComment>, fi
 
 
     class ViewHolder(mItemView: View) : RecyclerView.ViewHolder(mItemView) {
-        val cardview by lazy { mItemView.find<CardView>(R.id.cardview) }
+        val mView = mItemView
+        val main_layout by lazy { mItemView.find<FrameLayout>(R.id.mMainLayout) }
         val profile_image by lazy { mItemView.find<ImageView>(R.id.profile_image) }
         val text_name by lazy { mItemView.find<TextView>(R.id.text_name) }
         val text_date by lazy { mItemView.find<TextView>(R.id.text_date) }
@@ -53,11 +58,12 @@ class PhotoCommentAdapter(context: Context, photoComment: List<PhotoComment>, fi
         val text_page by lazy { mItemView.find<TextView>(R.id.page) }
 
         fun setComment(comment: PhotoComment, page: Int) {
-            text_page.text = page.toString()
+            main_layout.onLongClick { CopyToClipBoard(mView.context, comment.content) }
             profile_image.setImageUrl(comment.thumb)
-            text_name.text = comment.author
+            text_name.text = comment.author.trim()
             text_date.text = comment.time
-            text_comment.text = comment.content
+            text_comment.text = Html.fromHtml(comment.content.trim())
+            text_page.text = page.toString()
         }
 
     }

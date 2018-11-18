@@ -5,7 +5,6 @@ import database.NetRequestType
 import util.GetUrlContent
 import util.Util.GetRegexList
 import util.fromJson
-import java.util.regex.Pattern
 import kotlin.math.min
 
 //About Html
@@ -55,20 +54,25 @@ object DouBanV2 {
     fun getFilmPhoto(id: String, start: Int = 0): List<Photo> {
         val url = "${mBaseUrl}subject/$id/photos?type=S&start=$start"
         val html = GetUrlContent(url, NetRequestType.Day)
-        return parseFilmPhoto(html, id)
+        return parseFilmPhoto(html)
     }
 
-    private fun parseFilmPhoto(html: String, id: String): List<Photo> {
+    private fun parseFilmPhoto(html: String): List<Photo> {
         val list = mutableListOf<Photo>()
         val listImg = GetRegexList(html, "<img src=\"https(.+?)\" />", "<img src=\"", "\" />")
 
         listImg.forEachIndexed { index, it ->
-            val photo = Photo(listImg.size, "", "", Author.NullAuthor, "",
-                    id, it.replace("/m/", "/sqs/"),
-                    id, "", "", 0,
-                    it.replace("/m/", "/l/"),
-                    0, index, "", "", "", "", "")
-            list.add(photo)
+            try {
+                val t_id = it.split("public/p")[1].split(".")[0]
+                val photo = Photo(listImg.size, "", "", Author.NullAuthor, "",
+                        t_id, it.replace("/m/", "/sqs/"),
+                        t_id, "", "", 0,
+                        it.replace("/m/", "/l/"),
+                        0, index, "", "", "", "", "")
+                list.add(photo)
+            } catch (ex: Exception) {
+                ex.printStackTrace()
+            }
         }
 
         return list
