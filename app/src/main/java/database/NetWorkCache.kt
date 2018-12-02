@@ -1,14 +1,15 @@
 package database
 
 import android.database.Cursor
-import database.NetWorkRequestUtil.CONTENT
-import database.NetWorkRequestUtil.TIME
-import database.NetWorkRequestUtil.TYPE
-import database.NetWorkRequestUtil.URL
+import database.DBConstUtil.CONTENT
+import database.DBConstUtil.TIME
+import database.DBConstUtil.EXPIRE
+import database.DBConstUtil.URL
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import database.NetWorkRequestUtil.FORMATTER
+import database.DBConstUtil.FORMATTER
 import michaelzhao.App
+import util.Util
 import util.Util.NowDate
 
 class NetWorkCache : SQLiteOpenHelper(App.Instance, DATABASE_FILENAME, null, 1) {
@@ -21,7 +22,7 @@ class NetWorkCache : SQLiteOpenHelper(App.Instance, DATABASE_FILENAME, null, 1) 
                 "$URL text, " +
                 "$CONTENT text, " +
                 "$TIME text, " +
-                "$TYPE text )"
+                "$EXPIRE text )"
 
         val Instance by lazy { NetWorkCache() }
     }
@@ -82,7 +83,7 @@ class NetWorkCache : SQLiteOpenHelper(App.Instance, DATABASE_FILENAME, null, 1) 
         synchronized(mLock) {
             val db = writableDatabase
             return try {
-                val cursor = db.query(TABLE_REQUEST, arrayOf(URL, CONTENT, TIME, TYPE), "$URL=?", arrayOf(url), null, null, null)
+                val cursor = db.query(TABLE_REQUEST, arrayOf(URL, CONTENT, TIME, EXPIRE), "$URL=?", arrayOf(url), null, null, null)
                 if (cursor.moveToFirst()) {
                     val request = getValueFromCursor(cursor)
                     cursor.close()
@@ -103,7 +104,7 @@ class NetWorkCache : SQLiteOpenHelper(App.Instance, DATABASE_FILENAME, null, 1) 
         return try {
             NetWorkRequest(
                     cursor.getString(0),
-                    cursor.getString(1),
+                    Util.UnCompress(cursor.getString(1)),
                     FORMATTER.parse(cursor.getString(2)),
                     NetRequestType.valueOf(cursor.getString(3))
             )

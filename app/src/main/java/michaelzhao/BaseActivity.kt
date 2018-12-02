@@ -92,7 +92,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun refreshColor() {
         primaryColor = Hawk.get(getString(R.string.preference_primary_color),
-                getColorValue(R.color.md_indigo_500))
+                getColorValue(R.color.md_deep_orange_400))
         accentColor = Hawk.get(getString(R.string.preference_accent_color),
                 getColorValue(R.color.md_light_blue_500))
         textColorPrimary = Hawk.get(getString(R.string.preference_text_color),

@@ -17,9 +17,10 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
 import michaelzhao.BaseActivity
 import org.jetbrains.anko.toast
-import java.io.ByteArrayOutputStream
+import java.io.*
 import java.util.*
 import java.util.regex.Pattern
+import java.util.zip.*
 
 
 object Util {
@@ -108,5 +109,30 @@ object Util {
         }
         return listImg
     }
+
+    fun Compress(bs: ByteArray): ByteArray {
+        val bos = ByteArrayOutputStream()
+        val zos = DeflaterOutputStream(bos)
+        zos.write(bs)
+        zos.close()
+        return bos.toByteArray()
+    }
+
+    fun UnCompress(bs: ByteArray): ByteArray {
+        val bos = ByteArrayOutputStream()
+        val zos = InflaterOutputStream(bos)
+        zos.write(bs)
+        zos.close()
+        return bos.toByteArray()
+    }
+
+    fun Compress(str: String): String {
+        return String(Compress(str.toByteArray()))
+    }
+
+    fun UnCompress(str: String): String {
+        return String(UnCompress(str.toByteArray()))
+    }
+
 
 }

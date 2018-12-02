@@ -3,13 +3,11 @@ package util
 import database.NetRequestType
 import database.NetWorkCache
 import database.NetWorkRequest
-import database.NetWorkRequestUtil.getMilliSecond
+import database.DBConstUtil.getMilliSecond
 import michaelzhao.App.Companion.UserAge
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import util.Util.NowDate
-import java.security.KeyPair
-import java.util.*
 import java.util.concurrent.TimeUnit
 
 const val UNIT_TEST = false

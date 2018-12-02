@@ -1,14 +1,23 @@
 package database
 
 import android.content.ContentValues
-import database.NetWorkRequestUtil.CONTENT
-import database.NetWorkRequestUtil.FORMATTER
-import database.NetWorkRequestUtil.TIME
-import database.NetWorkRequestUtil.TYPE
-import database.NetWorkRequestUtil.URL
+import database.DBConstUtil.CONTENT
+import database.DBConstUtil.FORMATTER
+import database.DBConstUtil.TIME
+import database.DBConstUtil.EXPIRE
+import database.DBConstUtil.URL
 import org.apache.commons.lang3.NotImplementedException
+import util.Util
 import java.text.SimpleDateFormat
 import java.util.*
+
+enum class FavoriteType {
+    Null,//Don't use it
+    Film,
+    Photo,
+    Comment,
+    Review,
+}
 
 enum class NetRequestType {
     Null,//Don't use it
@@ -30,8 +39,7 @@ enum class NetRequestType {
     Infinite
 }
 
-
-object NetWorkRequestUtil {
+object DBConstUtil {
 
     private const val Second = 1000L
     private const val Day = 24 * 60 * 60 * Second
@@ -62,7 +70,7 @@ object NetWorkRequestUtil {
     const val URL = "url"
     const val CONTENT = "content"
     const val TIME = "time"
-    const val TYPE = "type"
+    const val EXPIRE = "expire"
     val FORMATTER = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA)
 }
 
@@ -80,15 +88,15 @@ data class NetWorkRequest(
         url = cv.getAsString(URL)
         content = cv.getAsString(CONTENT)
         time = FORMATTER.parse(cv.getAsString(TIME))
-        type = NetRequestType.valueOf(cv.getAsString(TYPE))
+        type = NetRequestType.valueOf(cv.getAsString(EXPIRE))
     }
 
     fun toSqlData(): ContentValues {
         val cv = ContentValues()
         cv.put(URL, url)
-        cv.put(CONTENT, content)
+        cv.put(CONTENT, Util.Compress(content))
         cv.put(TIME, FORMATTER.format(time))
-        cv.put(TYPE, type.toString())
+        cv.put(EXPIRE, type.toString())
         return cv
     }
 

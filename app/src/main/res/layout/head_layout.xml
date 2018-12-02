@@ -20,7 +20,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_height="190dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/gakki"/>
+                android:src="@drawable/ts"/>
 
     </android.support.v7.widget.CardView>
 

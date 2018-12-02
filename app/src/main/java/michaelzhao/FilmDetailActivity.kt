@@ -4,16 +4,21 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
+import android.widget.FrameLayout
+import com.github.ivbaranov.mfb.MaterialFavoriteButton
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.orhanobut.hawk.Hawk
+import database.FavoriteDB
 import douban.DouBanV1
 import douban.FilmDetail
 import douban.FilmMan
 import douban.adapter.FilmDetailAdapter
 import douban.adapter.FilmManAdapter
 import org.apache.commons.lang3.NotImplementedException
+import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.find
 import util.Rx
+import util.onClick
 import util.setTabStyle
 
 class FilmDetailActivity : BaseActivity() {
@@ -43,6 +48,8 @@ class FilmDetailActivity : BaseActivity() {
 
     private val mViewPager by lazy { find<ViewPager>(R.id.mViewPager) }
     private val mTableLayout by lazy { find<TabLayout>(R.id.mTabLayout) }
+    private val mImageFavorite by lazy { find<MaterialFavoriteButton>(R.id.image_favorite) }
+    private val mLayoutFavorite by lazy { find<FrameLayout>(R.id.layout_favorite) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +63,7 @@ class FilmDetailActivity : BaseActivity() {
     }
 
     private fun initUI() {
+        mLayoutFavorite.backgroundColor = getPrimaryColor()
         setToolBarIcon(GoogleMaterial.Icon.gmd_arrow_back)
         setToolBarTitle("Loading...")
         mToolBar.setNavigationOnClickListener { finish() }
@@ -107,6 +115,17 @@ class FilmDetailActivity : BaseActivity() {
         }
         setToolBarTitle("$type：" + film.title)
         mViewPager.adapter = FilmDetailAdapter(this, film)
+        val db = FavoriteDB.Instance
+        mImageFavorite.isFavorite = db.existFilmDetail(film.id)
+        mImageFavorite.onClick {
+            val result = if (FavoriteDB.Instance.existFilmDetail(film.id))
+                db.removeFilmDetail(film)
+            else
+                db.addFilmDetail(film)
+            if (result) {
+                mImageFavorite.isFavorite = !mImageFavorite.isFavorite
+            }
+        }
     }
 
 }
