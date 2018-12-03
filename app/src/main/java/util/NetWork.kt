@@ -10,7 +10,7 @@ import okhttp3.Request
 import util.Util.NowDate
 import java.util.concurrent.TimeUnit
 
-const val UNIT_TEST = false
+const val UNIT_TEST = true
 
 enum class TimeType {
     Second,
