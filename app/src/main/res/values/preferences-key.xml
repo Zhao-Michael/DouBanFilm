@@ -30,4 +30,7 @@
     <string name="preference_screen_height">preference_screen_height</string>
 
     <string name="preference_search_query">preference_search_query</string>
+
+    <string name="preference_net_total_data">preference_net_total_data</string>
+
 </resources>

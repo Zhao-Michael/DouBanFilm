@@ -6,11 +6,9 @@ import android.support.v4.view.GravityCompat
 import android.support.v4.view.ViewPager
 import android.support.v4.widget.DrawerLayout
 import android.view.Menu
+import android.view.View
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import douban.adapter.FilmMainPageAdapter
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
 import util.*
@@ -30,6 +28,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun init_UI() {
+        initStatistics()
         setToolBarIcon(GoogleMaterial.Icon.gmd_menu)
         mToolBar.setNavigationOnClickListener { mDrawerLayout.openDrawer(GravityCompat.START) }
         setToolBarTitle(R.string.app_name)
@@ -39,6 +38,27 @@ class MainActivity : BaseActivity() {
         mTableLayout.setTabTextColors(getColorValue(R.color.divider_color), getPrimaryColor())
         mViewPager.adapter = FilmMainPageAdapter(this)
         mTableLayout.setTabStyle()
+    }
+
+    private fun initStatistics() {
+        uiThread(1500) {
+            NetStatistics.Instance.init(find(R.id.mText_CurrData), find(R.id.mText_NetData))
+            mDrawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
+                override fun onDrawerStateChanged(newState: Int) = Unit
+
+                override fun onDrawerSlide(drawerView: View, slideOffset: Float) = Unit
+
+                override fun onDrawerClosed(drawerView: View) {
+                    NetStatistics.Instance.pause()
+                    NetStatistics.Instance.save()
+                }
+
+                override fun onDrawerOpened(drawerView: View) {
+                    NetStatistics.Instance.start()
+                }
+
+            })
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
