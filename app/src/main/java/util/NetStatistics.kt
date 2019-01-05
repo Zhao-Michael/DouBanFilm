@@ -1,3 +1,5 @@
+@file:Suppress("PrivatePropertyName")
+
 package util
 
 import android.net.TrafficStats
@@ -20,8 +22,8 @@ class NetStatistics private constructor() {
     private val mAllNetData: Double get() = mTotalNetData + mSaveNetData
     private var mSaveNetData: Double = 0.0
 
-    var mText_CurrData: TextView? = null
-    var mText_NetData: TextView? = null
+    private var mText_CurrData: TextView? = null
+    private var mText_NetData: TextView? = null
 
     private var mFlag_Pause = false //For pause
 

@@ -19,7 +19,7 @@ class App : Application() {
         super.onCreate()
         Instance = this
         initPicasso(this)
-        //mCrashHandler.init()
+        mCrashHandler.init()
         Hawk.init(this).build()
     }
 

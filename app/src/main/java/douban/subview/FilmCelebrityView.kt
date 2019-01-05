@@ -5,7 +5,7 @@ import douban.FilmDetail
 import douban.adapter.FilmCelebrityAdapter
 import michaelzhao.R
 
-class FilmViewCelebrity(context: Context, filmDetail: FilmDetail) : IFilmView(context) {
+class FilmCelebrityView(context: Context, filmDetail: FilmDetail) : IFilmView(context) {
 
     override val mLayout: Int = R.layout.film_common_subview_layout
     private val mFilmDetail = filmDetail

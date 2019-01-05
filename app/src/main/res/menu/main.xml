@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/groud_main" android:checkableBehavior="single">
+
+        <item android:id="@+id/action_openhome"
+              android:checked="true"
+              android:title="首页"/>
+
+        <item android:id="@+id/action_btsearch"
+              android:title="磁力搜索"/>
+
+    </group>
+</menu>

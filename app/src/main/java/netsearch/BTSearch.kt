@@ -13,7 +13,7 @@ object BTSearch {
 
     data class BTDetail(val title: String, val length: String, val date: String, val view: String, val link: String, val files: List<String>, val hotKeys: List<String>)
 
-    const val mBaseUrl = "https://www.bturl.so/"
+    const val mBaseUrl = "https://www.bturl.us/"
 
     fun searchBT(key: String, type: SearchType = SearchType.CLICK, page: Int = 1): SearchResult {
 

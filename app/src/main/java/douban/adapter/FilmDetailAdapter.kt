@@ -36,8 +36,8 @@ class FilmDetailAdapter(context: Context, filmDetail: FilmDetail?) : PagerAdapte
 
     private fun initUI(filmDetail: FilmDetail) {
         mListRecycler.clear()
-        mListRecycler.add(FilmViewSummary(mContext, filmDetail))
-        mListRecycler.add(FilmViewCelebrity(mContext, filmDetail))
+        mListRecycler.add(FilmSummaryView(mContext, filmDetail))
+        mListRecycler.add(FilmCelebrityView(mContext, filmDetail))
         mListRecycler.add(FilmPhotoView(mContext, filmDetail))
         mListRecycler.add(FilmCommentView(mContext, filmDetail))
         mListRecycler.add(FilmReviewView(mContext, filmDetail))

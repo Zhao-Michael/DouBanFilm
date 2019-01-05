@@ -37,7 +37,7 @@ abstract class IFilmView(context: Context) : ILoadMore {
     protected val mRecyclerView by lazy { mView.find<RecyclerView>(R.id.mRecyclerView) }
     protected val mSwipeLayout by lazy { mView.find<VerSwipeLayout>(R.id.mSwipeLayout) }
     private val mImageNone by lazy { mView.find<ImageView>(R.id.imgae_none) }
-    private val mTextone by lazy { mView.find<TextView>(R.id.text_none) }
+    private val mTextNone by lazy { mView.find<TextView>(R.id.text_none) }
     private val mLayoutNone by lazy { mView.find<View>(R.id.layout_none) }
 
     protected fun initRecyclerView(span: Int = 1) {
@@ -95,7 +95,7 @@ abstract class IFilmView(context: Context) : ILoadMore {
             mLayoutNone.hide()
         } else {
             mImageNone.image = CreateIcon(mContext, GoogleMaterial.Icon.gmd_sentiment_very_dissatisfied, 40)
-            mTextone.textColor = BaseActivity.getPrimaryColor()
+            mTextNone.textColor = BaseActivity.getPrimaryColor()
             mLayoutNone.show()
         }
     }

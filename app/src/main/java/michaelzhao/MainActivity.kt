@@ -1,6 +1,8 @@
 package michaelzhao
 
+import android.content.res.ColorStateList
 import android.os.Bundle
+import android.support.design.widget.NavigationView
 import android.support.design.widget.TabLayout
 import android.support.v4.view.GravityCompat
 import android.support.v4.view.ViewPager
@@ -21,6 +23,7 @@ class MainActivity : BaseActivity() {
     private val mDrawerLayout by lazy { find<DrawerLayout>(R.id.mDrawerLayout) }
     private val mTableLayout by lazy { find<TabLayout>(R.id.mTabLayout) }
     private val mViewPager by lazy { find<ViewPager>(R.id.mViewPager) }
+    private val mNavigationView by lazy { find<NavigationView>(R.id.home_navigation_drawer) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +31,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun init_UI() {
-        initStatistics()
+        init_MainMenu()
         setToolBarIcon(GoogleMaterial.Icon.gmd_menu)
         mToolBar.setNavigationOnClickListener { mDrawerLayout.openDrawer(GravityCompat.START) }
         setToolBarTitle(R.string.app_name)
@@ -38,6 +41,24 @@ class MainActivity : BaseActivity() {
         mTableLayout.setTabTextColors(getColorValue(R.color.divider_color), getPrimaryColor())
         mViewPager.adapter = FilmMainPageAdapter(this)
         mTableLayout.setTabStyle()
+        initStatistics()
+    }
+
+    private fun init_MainMenu() {
+        mNavigationView.itemIconTintList = ColorStateList.valueOf(getPrimaryColor())
+        mNavigationView.itemTextColor = ColorStateList.valueOf(resources.getColor(R.color.black))
+        mNavigationView.menu.getItem(0).icon = getDrawableIcon(GoogleMaterial.Icon.gmd_home)
+        mNavigationView.menu.getItem(1).icon = getDrawableIcon(GoogleMaterial.Icon.gmd_search)
+
+        mNavigationView.setNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.action_openhome -> {
+                }
+                R.id.action_btsearch -> {
+                }
+            }
+            return@setNavigationItemSelectedListener true
+        }
     }
 
     private fun initStatistics() {
@@ -65,32 +86,16 @@ class MainActivity : BaseActivity() {
         menuInflater.inflate(R.menu.menu_main, menu)
         run {
             val mMenuSearch = menu?.findItem(R.id.search_action)
-            mMenuSearch?.onItemClick { searchMenu_Click() }
+            mMenuSearch?.onItemClick { startActivity<SearchActivity>() }
             mMenuSearch?.icon = getDrawableIcon(GoogleMaterial.Icon.gmd_search)
         }
 
         run {
             val mMenuSetting = menu?.findItem(R.id.settings_action)
             mMenuSetting?.icon = getDrawableIcon(GoogleMaterial.Icon.gmd_settings)
-            mMenuSetting?.onItemClick { settingMenu_Click() }
+            mMenuSetting?.onItemClick { }
         }
-
         return true
-    }
-
-    private fun settingMenu_Click() {
-//        Debug()
-//        return
-//        setPrimaryColor(R.color.md_deep_orange_400)
-//        recreate()
-    }
-
-    private fun searchMenu_Click() {
-        startActivity<SearchActivity>()
-    }
-
-
-    private fun Debug() {
     }
 
 }

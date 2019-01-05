@@ -18,7 +18,7 @@ import michaelzhao.R
 import michaelzhao.TagFilmActivity
 import org.jetbrains.anko.find
 
-class FilmViewSummary(context: Context, filmDetail: FilmDetail) : IFilmView(context) {
+class FilmSummaryView(context: Context, filmDetail: FilmDetail) : IFilmView(context) {
 
     override val mLayout: Int = R.layout.film_summary_layout
     private val mFilmDetail = filmDetail

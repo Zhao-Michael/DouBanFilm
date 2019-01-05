@@ -3,9 +3,9 @@
     <group android:id="@+id/general_action">
 
         <item
-                android:id="@+id/search_action"
-                android:title="@string/search_menu"
-                app:showAsAction="always"/>
+            android:id="@+id/search_action"
+            android:title="@string/search_menu"
+            app:showAsAction="always"/>
         <item
                 android:id="@+id/settings_action"
                 android:title="@string/settings"
