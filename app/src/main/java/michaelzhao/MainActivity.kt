@@ -7,10 +7,12 @@ import android.support.design.widget.TabLayout
 import android.support.v4.view.GravityCompat
 import android.support.v4.view.ViewPager
 import android.support.v4.widget.DrawerLayout
+import android.view.Gravity
 import android.view.Menu
 import android.view.View
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import douban.adapter.FilmMainPageAdapter
+import michaelzhao.WebActivity.Companion.showWebView
 import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
 import util.*
@@ -55,8 +57,10 @@ class MainActivity : BaseActivity() {
                 R.id.action_openhome -> {
                 }
                 R.id.action_btsearch -> {
+                    startActivity<BTSearchActivity>()
                 }
             }
+            mDrawerLayout.closeDrawer(Gravity.START)
             return@setNavigationItemSelectedListener true
         }
     }
@@ -86,7 +90,7 @@ class MainActivity : BaseActivity() {
         menuInflater.inflate(R.menu.menu_main, menu)
         run {
             val mMenuSearch = menu?.findItem(R.id.search_action)
-            mMenuSearch?.onItemClick { startActivity<SearchActivity>() }
+            mMenuSearch?.onItemClick { startActivity<FilmSearchActivity>() }
             mMenuSearch?.icon = getDrawableIcon(GoogleMaterial.Icon.gmd_search)
         }
 

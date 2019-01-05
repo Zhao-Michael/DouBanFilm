@@ -29,7 +29,7 @@ class TagFilmActivity : BaseActivity(), FloatingSearchView.OnSearchListener {
         }
     }
 
-    override val mLayout: Int = R.layout.activity_tagfilm
+    override val mLayout: Int = R.layout.activity_common_search
 
     private val mRecyclerView by lazy { find<RecyclerView>(R.id.mRecyclerView) }
     private val mSearchView by lazy { find<FloatingSearchView>(R.id.floating_search_view) }

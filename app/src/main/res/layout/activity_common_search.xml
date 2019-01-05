@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:android="http://schemas.android.com/apk/res/android">
 
     <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -16,7 +16,6 @@
             <!--suppress AndroidDomInspection -->
             <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
-                    app:layout_scrollFlags="scroll|enterAlways"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"/>
 
@@ -25,7 +24,7 @@
                     android:id="@+id/floating_search_view"
                     android:layout_width="match_parent"
                     android:layout_height="?actionBarSize"
-                    app:floatingSearch_searchHint="Search Tag..."
+                    app:floatingSearch_searchHint="Search..."
                     app:floatingSearch_leftActionMode="showHome"
                     app:floatingSearch_close_search_on_keyboard_dismiss="true"/>
 
@@ -35,7 +34,6 @@
 
     <util.VerSwipeLayout
             android:id="@+id/mSwipeLayout"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
             android:layout_marginTop="?attr/actionBarSize"
             android:layout_height="match_parent">
@@ -47,7 +45,7 @@
                     android:id="@+id/mRecyclerView"
                     android:scrollbars="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="match_parent"/>
 
             <include layout="@layout/common_empty_layout"/>
 
@@ -55,4 +53,5 @@
 
     </util.VerSwipeLayout>
 
-</android.support.constraint.ConstraintLayout>
+</android.support.design.widget.CoordinatorLayout>
+

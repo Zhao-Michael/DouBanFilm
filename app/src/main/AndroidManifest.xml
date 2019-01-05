@@ -10,7 +10,7 @@
 
 
     <application
-            android:name="michaelzhao.App"
+            android:name=".App"
             android:allowBackup="true"
             android:icon="@mipmap/ic_main_icon"
             android:label="@string/app_name"
@@ -23,20 +23,20 @@
             android:supportsRtl="true"
             tools:targetApi="n">
 
-        <activity android:name="michaelzhao.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
-        <activity android:name="michaelzhao.SearchActivity"/>
-
         <activity android:name="imageplayer.ImageViewActivity"/>
 
-        <activity android:name="michaelzhao.FilmDetailActivity"/>
+        <activity android:name=".FilmSearchActivity"/>
+        <activity android:name=".FilmDetailActivity"/>
         <activity android:name=".WebActivity"/>
         <activity android:name=".TagFilmActivity"/>
+        <activity android:name=".BTSearchActivity"/>
 
     </application>
 

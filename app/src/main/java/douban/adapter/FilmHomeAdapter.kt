@@ -23,7 +23,7 @@ class FilmHomeAdapter(
     : IRecyclerViewAdapter<FilmHomeAdapter.ViewHolder>(filmView) {
 
     private val mContext = recycler.context
-    private val listTag = DouBanV2.TagType.values().toList()
+    private val listTag = DouBanV2.FilmTagType.values().toList()
 
     init {
         recycler.setItemViewCacheSize(listTag.size)
@@ -62,13 +62,13 @@ class FilmHomeAdapter(
             recyclerView.setHasFixedSize(true)
         }
 
-        fun setTagItem(tag: DouBanV2.TagType, index: Int) {
+        fun setTagItem(filmTag: DouBanV2.FilmTagType, index: Int) {
             page.text = index.toString()
             title.textColor = BaseActivity.getPrimaryColor()
-            title.text = getTagString(tag)
+            title.text = getTagString(filmTag)
             swipeLayout.Enable()
             swipeLayout.ShowRefresh()
-            cardview.onClick { showTagFilmList(DouBanV2.getTagString(tag)) }
+            cardview.onClick { showTagFilmList(DouBanV2.getTagString(filmTag)) }
 
             run {
                 val mStep = 30
@@ -77,7 +77,7 @@ class FilmHomeAdapter(
                 val mFilmView = FilmView(recyclerView.context)
 
                 Rx.get {
-                    DouBanV2.getTagFilm(tag)
+                    DouBanV2.getTagFilm(filmTag)
                 }.set {
                     mAdapter = FilmTagAdapter(recyclerView, it, mFilmView)
                     recyclerView.adapter = mAdapter
@@ -86,7 +86,7 @@ class FilmHomeAdapter(
                             swipeLayout.ShowRefresh()
                             Rx.get {
                                 mCurrPageIndex += mStep
-                                DouBanV2.getTagFilm(tag, mCurrPageIndex, mStep)
+                                DouBanV2.getTagFilm(filmTag, mCurrPageIndex, mStep)
                             }.set {
                                 val cnt = mAdapter?.itemCount
                                 if (cnt != null && it.subjects.isNotEmpty()) {

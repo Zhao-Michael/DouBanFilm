@@ -11,45 +11,75 @@ import kotlin.math.min
 object DouBanV2 {
 
     private const val mBaseUrl = "https://movie.douban.com/"
-    private const val mSearchTag = "j/search_subjects?"
+    private const val mSearchTag = "j/search_subjects"
 
-    enum class TagType {
+    enum class FilmTagType {
         Hot, New, Classic, Play, High, Rare, China, West, Korea, Japan, Action, Comedy, Love, Science, Suspense, Horror, Literary
     }
 
-    fun getTagString(tag: TagType): String {
-        return when (tag) {
-            DouBanV2.TagType.Hot -> "热门"
-            DouBanV2.TagType.New -> "最新"
-            DouBanV2.TagType.Classic -> "经典"
-            DouBanV2.TagType.Play -> "可播放"
-            DouBanV2.TagType.High -> "豆瓣高分"
-            DouBanV2.TagType.Rare -> "冷门佳片"
-            DouBanV2.TagType.China -> "华语"
-            DouBanV2.TagType.West -> "欧美"
-            DouBanV2.TagType.Korea -> "韩国"
-            DouBanV2.TagType.Japan -> "日本"
-            DouBanV2.TagType.Action -> "动作"
-            DouBanV2.TagType.Comedy -> "喜剧"
-            DouBanV2.TagType.Love -> "爱情"
-            DouBanV2.TagType.Science -> "科幻"
-            DouBanV2.TagType.Suspense -> "悬疑"
-            DouBanV2.TagType.Horror -> "恐怖"
-            DouBanV2.TagType.Literary -> "文艺"
+    enum class TVTagType {
+        Hot, US, GB, KR, JP, MainLand, HK, JPAnimation, Show, Documentary
+    }
+
+    fun getTagString(tvTagType: TVTagType): String {
+        return when (tvTagType) {
+            TVTagType.Hot -> "热门"
+            TVTagType.US -> "美剧"
+            TVTagType.GB -> "英剧"
+            TVTagType.KR -> "韩剧"
+            TVTagType.JP -> "日剧"
+            TVTagType.MainLand -> "国产剧"
+            TVTagType.HK -> "港剧"
+            TVTagType.JPAnimation -> "日本动画"
+            TVTagType.Show -> "综艺"
+            TVTagType.Documentary -> "纪录片"
         }
     }
 
-    fun getTagFilm(tag: TagType, start: Int = 0, count: Int = 30): TagFilmList {
-        val url = "$mBaseUrl$mSearchTag?type=movie&tag=${getTagString(tag)}&page_limit=$count&page_start=$start"
+    fun getTagString(filmTag: FilmTagType): String {
+        return when (filmTag) {
+            DouBanV2.FilmTagType.Hot -> "热门"
+            DouBanV2.FilmTagType.New -> "最新"
+            DouBanV2.FilmTagType.Classic -> "经典"
+            DouBanV2.FilmTagType.Play -> "可播放"
+            DouBanV2.FilmTagType.High -> "豆瓣高分"
+            DouBanV2.FilmTagType.Rare -> "冷门佳片"
+            DouBanV2.FilmTagType.China -> "华语"
+            DouBanV2.FilmTagType.West -> "欧美"
+            DouBanV2.FilmTagType.Korea -> "韩国"
+            DouBanV2.FilmTagType.Japan -> "日本"
+            DouBanV2.FilmTagType.Action -> "动作"
+            DouBanV2.FilmTagType.Comedy -> "喜剧"
+            DouBanV2.FilmTagType.Love -> "爱情"
+            DouBanV2.FilmTagType.Science -> "科幻"
+            DouBanV2.FilmTagType.Suspense -> "悬疑"
+            DouBanV2.FilmTagType.Horror -> "恐怖"
+            DouBanV2.FilmTagType.Literary -> "文艺"
+        }
+    }
+
+    private fun getTagContent(tag: String, start: Int = 0, count: Int = 30, isFilm: Boolean = true): TagFilmList {
+        val url = "$mBaseUrl$mSearchTag?type=${if (isFilm) "movie" else "tv"}&tag=$tag&page_limit=$count&page_start=$start"
         val html = GetUrlContent(url, NetRequestType.Day)
         return Gson().fromJson(html)
     }
 
-    fun getTagFilm(tag: String, start: Int = 0, count: Int = 30): TagFilmList {
-        val url = "$mBaseUrl$mSearchTag?type=movie&tag=$tag&page_limit=$count&page_start=$start"
-        val html = GetUrlContent(url, NetRequestType.Day)
-        return Gson().fromJson(html)
+    fun getTagFilm(filmTag: FilmTagType, start: Int = 0, count: Int = 30): TagFilmList {
+        return getTagContent(getTagString(filmTag), start, count)
     }
+
+    fun getTagFilm(tag: String, start: Int = 0, count: Int = 30): TagFilmList {
+        return getTagContent(tag, start, count)
+    }
+
+    fun getTagTV(filmTag: TVTagType, start: Int = 0, count: Int = 30): TagFilmList {
+        return getTagContent(getTagString(filmTag), start, count, false)
+    }
+
+    fun getTagTV(tag: String, start: Int = 0, count: Int = 30): TagFilmList {
+        return getTagContent(tag, start, count, false)
+    }
+
 
     fun getFilmPhoto(id: String, start: Int = 0): List<Photo> {
         val url = "${mBaseUrl}subject/$id/photos?type=S&start=$start"

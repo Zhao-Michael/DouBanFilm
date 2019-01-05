@@ -1,6 +1,8 @@
 package netsearch
 
 
+import douban.DouBanV2
+import douban.DouBanV2.getTagTV
 import org.junit.Assert
 import org.junit.Test
 
