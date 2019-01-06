@@ -21,6 +21,7 @@ class UtilUnitTest {
         println("Compress percent : ${zip.size * 100f / str.length} %")
 
         Assert.assertTrue(str == str1)
+
     }
 
 

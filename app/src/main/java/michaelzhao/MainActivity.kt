@@ -50,11 +50,15 @@ class MainActivity : BaseActivity() {
         mNavigationView.itemIconTintList = ColorStateList.valueOf(getPrimaryColor())
         mNavigationView.itemTextColor = ColorStateList.valueOf(resources.getColor(R.color.black))
         mNavigationView.menu.getItem(0).icon = getDrawableIcon(GoogleMaterial.Icon.gmd_home)
-        mNavigationView.menu.getItem(1).icon = getDrawableIcon(GoogleMaterial.Icon.gmd_search)
+        mNavigationView.menu.getItem(1).icon = getDrawableIcon(GoogleMaterial.Icon.gmd_favorite)
+        mNavigationView.menu.getItem(2).icon = getDrawableIcon(GoogleMaterial.Icon.gmd_search)
 
         mNavigationView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.action_openhome -> {
+                }
+                R.id.action_favorite -> {
+                    startActivity<FavoriteActivity>()
                 }
                 R.id.action_btsearch -> {
                     startActivity<BTSearchActivity>()

@@ -94,7 +94,7 @@ data class NetWorkRequest(
     fun toSqlData(): ContentValues {
         val cv = ContentValues()
         cv.put(URL, url)
-        cv.put(CONTENT, Util.Compress(content))
+        cv.put(CONTENT, Util.Compress(content.toByteArray()))
         cv.put(TIME, FORMATTER.format(time))
         cv.put(EXPIRE, type.toString())
         return cv

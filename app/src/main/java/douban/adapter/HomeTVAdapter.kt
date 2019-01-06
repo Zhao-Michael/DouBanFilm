@@ -17,13 +17,13 @@ import org.jetbrains.anko.find
 import org.jetbrains.anko.textColor
 import util.*
 
-class FilmHomeAdapter(
+class HomeTVAdapter(
         recycler: RecyclerView,
         filmView: IFilmView)
-    : IRecyclerViewAdapter<FilmHomeAdapter.ViewHolder>(filmView) {
+    : IRecyclerViewAdapter<HomeTVAdapter.ViewHolder>(filmView) {
 
     private val mContext = recycler.context
-    private val listTag = DouBanV2.FilmTagType.values().toList()
+    private val listTag = DouBanV2.TVTagType.values().toList()
 
     init {
         recycler.setItemViewCacheSize(listTag.size)
@@ -32,7 +32,7 @@ class FilmHomeAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = mContext.inflate(R.layout.listitem_home_film_cardview, parent)
-        return FilmHomeAdapter.ViewHolder(view, mImageWidth)
+        return HomeTVAdapter.ViewHolder(view, mImageWidth)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -62,13 +62,13 @@ class FilmHomeAdapter(
             recyclerView.setHasFixedSize(true)
         }
 
-        fun setTagItem(filmTag: DouBanV2.FilmTagType, index: Int) {
+        fun setTagItem(filmTag: DouBanV2.TVTagType, index: Int) {
             page.text = index.toString()
             title.textColor = BaseActivity.getPrimaryColor()
             title.text = getTagString(filmTag)
             swipeLayout.Enable()
             swipeLayout.ShowRefresh()
-            cardview.onClick { showTagFilmList(DouBanV2.getTagString(filmTag)) }
+            cardview.onClick { showTagFilmList(DouBanV2.getTagString(filmTag), "tv") }
 
             run {
                 val mStep = 30
@@ -77,7 +77,7 @@ class FilmHomeAdapter(
                 val mFilmView = FilmView(recyclerView.context)
 
                 Rx.get {
-                    DouBanV2.getTagFilm(filmTag)
+                    DouBanV2.getTagTV(filmTag)
                 }.set {
                     mAdapter = FilmTagAdapter(recyclerView, it, mFilmView)
                     recyclerView.adapter = mAdapter
@@ -86,7 +86,7 @@ class FilmHomeAdapter(
                             swipeLayout.ShowRefresh()
                             Rx.get {
                                 mCurrPageIndex += mStep
-                                DouBanV2.getTagFilm(filmTag, mCurrPageIndex, mStep)
+                                DouBanV2.getTagTV(filmTag, mCurrPageIndex, mStep)
                             }.set {
                                 val cnt = mAdapter?.itemCount
                                 if (cnt != null && it.subjects.isNotEmpty()) {

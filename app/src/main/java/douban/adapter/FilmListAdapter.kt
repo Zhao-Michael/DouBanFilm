@@ -22,13 +22,22 @@ import org.jetbrains.anko.find
 import util.*
 
 //主页电影列表
-class FilmListAdapter(context: Context, filmList: List<FilmItem>, filmView: IFilmView) : IRecyclerViewAdapter<FilmListAdapter.ViewHolder>(filmView) {
+class FilmListAdapter(context: Context, filmView: IFilmView) : IRecyclerViewAdapter<FilmListAdapter.ViewHolder>(filmView) {
     private val mContext = context
     private var mFilmList = mutableListOf<FilmItem>()
+    private var mDetailList = mutableListOf<FilmDetail>()
 
-    init {
+    private val mIsFilmItem by lazy { mFilmList.isNotEmpty() }
+
+
+    constructor(context: Context, filmList: List<FilmItem>, filmView: IFilmView) : this(context, filmView) {
         mFilmList.addAll(filmList)
     }
+
+    constructor(context: Context, filmView: IFilmView, filmList: List<FilmDetail>) : this(context, filmView) {
+        mDetailList.addAll(filmList)
+    }
+
 
     fun addFilmList(list: List<FilmItem>) {
         mFilmList.addAll(list)
@@ -40,23 +49,28 @@ class FilmListAdapter(context: Context, filmList: List<FilmItem>, filmView: IFil
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = mContext.inflate(R.layout.listitem_film_cardview, parent)
-        return ViewHolder(view)
+        return ViewHolder(view, mIsFilmItem)
     }
 
     override fun getItemCount(): Int {
-        return mFilmList.size
+        return if (mIsFilmItem) mFilmList.size else mDetailList.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
         val pos = holder.adapterPosition
-        val film = mFilmList[pos]
-        holder.setFilmItem(film)
+        if (mIsFilmItem) {
+            val film = mFilmList[pos]
+            holder.setFilmItem(film)
+        } else {
+            val film = mDetailList[pos]
+            holder.setFilmDetail(film)
+        }
         checkToEnd(pos)
     }
 
-    class ViewHolder(mItemView: View) : RecyclerView.ViewHolder(mItemView) {
-
+    class ViewHolder(mItemView: View, flag: Boolean = true) : RecyclerView.ViewHolder(mItemView) {
+        private val mFlag = flag // For FavoriteActivity
         val cardview by lazy { mItemView.find<CardView>(R.id.cardview) }
         val image by lazy { mItemView.find<ImageView>(R.id.image) }
         val title by lazy { mItemView.find<TextView>(R.id.title) }
@@ -99,7 +113,6 @@ class FilmListAdapter(context: Context, filmList: List<FilmItem>, filmView: IFil
             cardview.onClick { FilmDetailActivity.showFilmDetail(film.id) }
         }
 
-
         fun setFilmDetail(film: FilmDetail) {
             title.text = film.title.replaceEmpty()
             year.text = film.year.replaceEmpty()
@@ -121,7 +134,15 @@ class FilmListAdapter(context: Context, filmList: List<FilmItem>, filmView: IFil
             switch_btn.tag = false // IsExpanded
             switch_btn.setIcon(GoogleMaterial.Icon.gmd_keyboard_arrow_down, Color.GRAY, 10)
             switch_btn.onClick { switch_BtnClick(film) }
-            cardview.onClick { switch_btn.callOnClick() }
+            if (!mFlag) {
+                page.text = (adapterPosition + 1).toString()
+            }
+            cardview.onClick {
+                if (mFlag)
+                    switch_btn.callOnClick()
+                else
+                    FilmDetailActivity.showFilmDetail(film.id)
+            }
             other_name.text = film.aka.joinToString("\n").replaceEmpty()
             durations.text = film.durations.joinToString("/").replaceEmpty()
             pubdate.text = film.pubdates.joinToString("\n").replaceEmpty()

@@ -12,7 +12,6 @@ import douban.adapter.FilmListAdapter
 import douban.subview.FilmView
 import org.jetbrains.anko.find
 import util.Rx
-import util.Util
 import util.hide
 import util.show
 
@@ -108,12 +107,6 @@ class FilmSearchActivity : BaseActivity(), FloatingSearchView.OnSearchListener, 
                 mFilmView.showErrMsg(it)
             }
         }
-    }
-
-
-    override fun onPause() {
-        super.onPause()
-        Util.HideKeyBoard(this)
     }
 
 }

@@ -37,6 +37,7 @@
         <activity android:name=".WebActivity"/>
         <activity android:name=".TagFilmActivity"/>
         <activity android:name=".BTSearchActivity"/>
+        <activity android:name=".FavoriteActivity"/>
 
     </application>
 

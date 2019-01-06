@@ -39,7 +39,7 @@ class FilmSummaryView(context: Context, filmDetail: FilmDetail) : IFilmView(cont
 
     private fun initSummary() {
         mTextBrief.isSelected = true
-        mTextBrief.text = "电影：${mFilmDetail.summary.trim()}"
+        mTextBrief.text = if (mFilmDetail.isMovie()) "电影" else "电视剧" + "：${mFilmDetail.summary.trim()}"
     }
 
     private fun getTextView(id: Int): TextView {
@@ -78,7 +78,7 @@ class FilmSummaryView(context: Context, filmDetail: FilmDetail) : IFilmView(cont
             override fun onTagCrossClick(position: Int) = Unit
 
             override fun onTagClick(position: Int, text: String?) {
-                TagFilmActivity.showTagFilmList(text.toString())
+                TagFilmActivity.showTagFilmList(text.toString(), mFilmDetail.subtype)
             }
         })
 

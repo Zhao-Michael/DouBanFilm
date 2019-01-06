@@ -129,16 +129,21 @@ abstract class BaseActivity : AppCompatActivity() {
         return ContextCompat.getColor(this, color)
     }
 
-    fun getDrawableIcon(icon: IIcon): IconicsDrawable {
-        return IconicsDrawable(this).icon(icon).color(Color.WHITE).sizeDp(18)
+    fun getDrawableIcon(icon: IIcon, size: Int = 18): IconicsDrawable {
+        return IconicsDrawable(this).icon(icon).color(Color.WHITE).sizeDp(size)
     }
 
     //init Find Nothing Layout
     protected fun initNoneLayout() {
         val mImageNone = find<ImageView>(R.id.imgae_none)
-        val mTextone = find<TextView>(R.id.text_none)
+        val mTextNone = find<TextView>(R.id.text_none)
         mImageNone.image = CreateIcon(this, GoogleMaterial.Icon.gmd_sentiment_very_dissatisfied, 40)
-        mTextone.textColor = BaseActivity.getPrimaryColor()
+        mTextNone.textColor = BaseActivity.getPrimaryColor()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Util.HideKeyBoard(this)
     }
 
 }

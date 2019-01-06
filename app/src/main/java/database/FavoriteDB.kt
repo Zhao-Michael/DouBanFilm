@@ -8,6 +8,7 @@ import douban.FilmDetail
 import michaelzhao.App
 import util.Util
 import util.Util.NowDate
+import util.fromJson
 
 class FavoriteDB : SQLiteOpenHelper(App.Instance, DATABASE_FILENAME, null, 1) {
 
@@ -47,8 +48,8 @@ class FavoriteDB : SQLiteOpenHelper(App.Instance, DATABASE_FILENAME, null, 1) {
         synchronized(mLock) {
             val db = writableDatabase
             return try {
-                val content = Util.Compress(Gson().toJson(film))
-                val cv = creatCValue(FavoriteType.Film, content, film.id)
+                val content = Util.Compress(Gson().toJson(film).toByteArray())
+                val cv = createCValue(FavoriteType.Film, content, film.id)
                 if (existFilmDetail(film.id)) {
                     db.update(TABLE_REQUEST, cv, "$TAG=?", arrayOf(film.id))
                     println("DateBase[$TABLE_REQUEST] : update ${film.title} into favorite database")
@@ -83,6 +84,31 @@ class FavoriteDB : SQLiteOpenHelper(App.Instance, DATABASE_FILENAME, null, 1) {
         }
     }
 
+    fun getAllFilmDetail(): List<FilmDetail> {
+        val lstResult = mutableListOf<FilmDetail>()
+        synchronized(mLock) {
+            val db = writableDatabase
+            return try {
+                val cursor = db.query(TABLE_REQUEST, null, null, null, null, null, null)
+                if (cursor.count > 0) {
+                    cursor.moveToFirst()
+                    val index = cursor.getColumnIndex(CONTENT)
+                    do {
+                        try {
+                            lstResult.add(Gson().fromJson(String(Util.UnCompress(cursor.getBlob(index)))))
+                        } catch (e: Exception) {
+                        }
+                    } while (cursor.moveToNext())
+                }
+                cursor.close()
+                lstResult
+            } catch (ex: Exception) {
+                ex.printStackTrace()
+                lstResult
+            }
+        }
+    }
+
 
     fun existFilmDetail(id: String): Boolean {
         synchronized(mLock) {
@@ -99,7 +125,7 @@ class FavoriteDB : SQLiteOpenHelper(App.Instance, DATABASE_FILENAME, null, 1) {
         }
     }
 
-    private fun creatCValue(type: FavoriteType, content: String, tag: String): ContentValues {
+    private fun createCValue(type: FavoriteType, content: ByteArray, tag: String): ContentValues {
         val cv = ContentValues()
         cv.put(TYPE, type.name)
         cv.put(CONTENT, content)

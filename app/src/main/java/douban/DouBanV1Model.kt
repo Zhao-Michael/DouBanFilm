@@ -97,7 +97,9 @@ data class FilmDetail(
         val popular_reviews: List<PopularReview>,
         val ratings_count: Int,
         val aka: List<String>
-)
+) {
+    fun isMovie() = subtype == "movie"
+}
 
 data class PopularComment(
         val rating: Rating,

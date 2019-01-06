@@ -1,10 +1,13 @@
 package michaelzhao
 
+import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.widget.SwipeRefreshLayout
 import android.view.KeyEvent
+import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
@@ -24,7 +27,7 @@ class BTSearchActivity : BaseActivity() {
     private var mSnackBar: Snackbar? = null
 
     private var mOnBTListen: (str: String) -> Unit = { str ->
-        mSnackBar = Snackbar.make(mWebView, "是否复制磁力链接？", Snackbar.LENGTH_INDEFINITE)
+        mSnackBar = Snackbar.make(mWebView, "是否复制磁力链接？", Snackbar.LENGTH_SHORT)
         mSnackBar?.setAction("复制") {
             CopyToClipBoard(this, str)
         }
@@ -76,6 +79,20 @@ class BTSearchActivity : BaseActivity() {
                 }
             }
 
+        }
+
+
+        override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+            val url = request?.url.toString()
+
+            if (url.startsWith("magnet:?xt=")) {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                App.Instance.startActivity(intent)
+                return true
+            }
+
+            return super.shouldOverrideUrlLoading(view, request)
         }
 
 

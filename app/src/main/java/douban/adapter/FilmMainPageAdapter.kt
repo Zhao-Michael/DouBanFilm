@@ -27,6 +27,7 @@ class FilmMainPageAdapter(context: Context) : PagerAdapter() {
 
     init {
         mListTitle.add("首页")
+        mListTitle.add("电视剧")
         mListTitle.add("院线电影")
         mListTitle.add("即将上映")
         mListTitle.add("周榜")
@@ -48,6 +49,7 @@ class FilmMainPageAdapter(context: Context) : PagerAdapter() {
         val mFilmView = FilmView(recyclerView.context)
 
         mAdapter = FilmListAdapter(recyclerView.context, it.subjects, mFilmView)
+        mAdapter.enableLoadMore()
         recyclerView.adapter = mAdapter
 
         mFilmView.apply {
@@ -73,6 +75,7 @@ class FilmMainPageAdapter(context: Context) : PagerAdapter() {
                 }
             }
         }
+
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
@@ -109,21 +112,24 @@ class FilmMainPageAdapter(context: Context) : PagerAdapter() {
     private fun updatePageFromNet(pos: Int) {
         if (pos == 0) {
             mListSwipeLayout[pos].DisEnable()
-            mListRecycler[pos].adapter = FilmHomeAdapter(mListRecycler[pos], FilmView(mListRecycler[pos].context))
+            mListRecycler[pos].adapter = HomeFilmAdapter(mListRecycler[pos], FilmView(mListRecycler[pos].context))
+        } else if (pos == 1) {
+            mListSwipeLayout[pos].DisEnable()
+            mListRecycler[pos].adapter = HomeTVAdapter(mListRecycler[pos], FilmView(mListRecycler[pos].context))
         } else {
             Rx.get {
                 mListSwipeLayout[pos].ShowRefresh()
                 return@get when (pos) {
-                    1 -> DouBanV1.getTheaterFilms("上海")
-                    2 -> DouBanV1.getComingFilm()
-                    3 -> DouBanV1.getWeeklyRank().convetToFilmList()
-                    4 -> DouBanV1.getNewFilmRank()
-                    5 -> DouBanV1.getUSFilmRank().convetToFilmList()
-                    6 -> DouBanV1.getTop250Film()
+                    2 -> DouBanV1.getTheaterFilms("上海")
+                    3 -> DouBanV1.getComingFilm()
+                    4 -> DouBanV1.getWeeklyRank().convetToFilmList()
+                    5 -> DouBanV1.getNewFilmRank()
+                    6 -> DouBanV1.getUSFilmRank().convetToFilmList()
+                    7 -> DouBanV1.getTop250Film()
                     else -> throw NotImplementedError("updatePageFromNet : index out of range")
                 }
             }.set {
-                if (pos == 6)
+                if (pos == 7)
                     setTop250Adapter(pos, it)
                 else
                     mListRecycler[pos].adapter = FilmListAdapter(mContext, it.subjects, FilmView(mContext))

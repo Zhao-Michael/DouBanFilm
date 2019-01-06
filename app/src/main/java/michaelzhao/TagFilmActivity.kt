@@ -21,10 +21,12 @@ class TagFilmActivity : BaseActivity(), FloatingSearchView.OnSearchListener {
 
     companion object {
         private val TAG_NAME = TagFilmActivity::javaClass.name + "_Tag"
+        private val TYPE_NAME = TagFilmActivity::javaClass.name + "_Type"
         private val mTag get() = Hawk.get<String>(TAG_NAME)
-
-        fun showTagFilmList(tag: String) {
+        private val mType get() = Hawk.get<String>(TYPE_NAME)  //TV or Film
+        fun showTagFilmList(tag: String, type: String) {
             Hawk.put(TAG_NAME, tag)
+            Hawk.put(TYPE_NAME, type)
             App.Instance.startActivity(TagFilmActivity::class.java)
         }
     }
@@ -56,7 +58,10 @@ class TagFilmActivity : BaseActivity(), FloatingSearchView.OnSearchListener {
     private fun updateList(tag: String, index: Int, isNew: Boolean = false) {
         mSwipeLayout.ShowRefresh()
         Rx.get {
-            DouBanV2.getTagFilm(tag, index, mStep)
+            if (mType == "movie")
+                DouBanV2.getTagFilm(tag, index, mStep)
+            else
+                DouBanV2.getTagTV(tag, index, mStep)
         }.set {
             if (it.subjects.isNotEmpty()) {
                 mEmptyLayout.hide()

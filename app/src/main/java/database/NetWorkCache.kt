@@ -104,7 +104,7 @@ class NetWorkCache : SQLiteOpenHelper(App.Instance, DATABASE_FILENAME, null, 1) 
         return try {
             NetWorkRequest(
                     cursor.getString(0),
-                    Util.UnCompress(cursor.getString(1)),
+                    String(Util.UnCompress(cursor.getBlob(1))),
                     FORMATTER.parse(cursor.getString(2)),
                     NetRequestType.valueOf(cursor.getString(3))
             )

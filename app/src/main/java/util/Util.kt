@@ -126,13 +126,4 @@ object Util {
         return bos.toByteArray()
     }
 
-    fun Compress(str: String): String {
-        return String(Compress(str.toByteArray()))
-    }
-
-    fun UnCompress(str: String): String {
-        return String(UnCompress(str.toByteArray()))
-    }
-
-
 }
