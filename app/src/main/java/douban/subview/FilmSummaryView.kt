@@ -39,7 +39,7 @@ class FilmSummaryView(context: Context, filmDetail: FilmDetail) : IFilmView(cont
 
     private fun initSummary() {
         mTextBrief.isSelected = true
-        mTextBrief.text = if (mFilmDetail.isMovie()) "电影" else "电视剧" + "：${mFilmDetail.summary.trim()}"
+        mTextBrief.text = mFilmDetail.summary.trim()
     }
 
     private fun getTextView(id: Int): TextView {
