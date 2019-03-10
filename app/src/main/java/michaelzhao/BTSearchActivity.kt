@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar
 import android.support.v4.widget.SwipeRefreshLayout
 import android.view.KeyEvent
 import android.webkit.WebResourceRequest
+import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
@@ -80,8 +81,7 @@ class BTSearchActivity : BaseActivity() {
             }
 
         }
-
-
+ 
         override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
             val url = request?.url.toString()
 
