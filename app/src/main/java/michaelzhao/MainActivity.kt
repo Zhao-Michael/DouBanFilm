@@ -12,13 +12,16 @@ import android.view.Menu
 import android.view.View
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import douban.adapter.FilmMainPageAdapter
-import michaelzhao.WebActivity.Companion.showWebView
 import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
 import util.*
+import util.Util.DisableWarningDialog
 
 
 class MainActivity : BaseActivity() {
+    companion object {
+        lateinit var Instance: MainActivity
+    }
 
     override val mLayout: Int = R.layout.activity_main
 
@@ -29,7 +32,9 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Instance = this
         init_UI()
+        DisableWarningDialog()
     }
 
     private fun init_UI() {

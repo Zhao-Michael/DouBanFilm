@@ -7,6 +7,7 @@ import database.DBConstUtil.getMilliSecond
 import michaelzhao.App.Companion.UserAge
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.Response
 import util.Util.NowDate
 import java.util.concurrent.TimeUnit
 
@@ -56,6 +57,24 @@ private fun downLoadString(url: String, userAgent: String = UserAge, type: NetRe
         println("From Net Error: $ex  $url")
     }
     return result
+}
+
+fun GetBytesFromNet(url: String, userAgent: String = UserAge): ByteArray {
+    var response: Response? = null
+    try {
+        val real_url = url.replace(Regex("\\s+"), "+")
+        val request = Request.Builder().url(real_url).addHeader("User-Agent", userAgent).build()
+        response = okhttp.newCall(request).execute()
+        val body = response.body()
+        if (body != null) {
+            return body.bytes()
+        }
+    } catch (ex: Exception) {
+        println("From Net Error: $ex  $url")
+    } finally {
+        response?.close()
+    }
+    return ByteArray(0)
 }
 
 fun GetUrlContent(url: String, type: NetRequestType = NetRequestType.Day, userAgent: String = UserAge): String {

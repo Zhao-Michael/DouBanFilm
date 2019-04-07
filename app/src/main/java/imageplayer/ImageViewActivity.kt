@@ -3,6 +3,7 @@ package imageplayer
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.net.Network
 import android.os.Bundle
 import android.support.design.widget.CoordinatorLayout
 import android.support.v7.app.AlertDialog
@@ -23,6 +24,11 @@ import util.*
 import util.Util.CopyToClipBoard
 import eightbitlab.com.blurview.RenderScriptBlur
 import android.view.ViewGroup
+import michaelzhao.MainActivity
+import util.Util.GetImagesPath
+import util.Util.VerifyStoragePermissions
+import java.io.File
+import kotlin.concurrent.thread
 
 
 class ImageViewActivity : BaseActivity() {
@@ -134,7 +140,27 @@ class ImageViewActivity : BaseActivity() {
     }
 
     private fun downLoadImage() {
+        val imgUrl = mListUrl[mCurrIndex]
+        val fileName = File(imgUrl).name
+        GetImagesPath(fileName)
 
+        thread {
+            try {
+                val bs = GetBytesFromNet(imgUrl)
+                if (bs.isNotEmpty()) {
+                    val path = GetImagesPath(fileName, false)
+                    VerifyStoragePermissions(MainActivity.Instance)
+                    File(File(path).parent).mkdirs()
+                    File(path).writeBytes(bs)
+                    uiThread { toast("图片下载完成: $path") }
+                } else {
+                    uiThread { toast("图片下载失败") }
+                }
+            } catch (ex: Exception) {
+                println(ex.message)
+                uiThread { toast("图片下载失败") }
+            }
+        }
     }
 
     private fun reLoadImage() {

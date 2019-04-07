@@ -81,7 +81,7 @@ class BTSearchActivity : BaseActivity() {
             }
 
         }
- 
+
         override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
             val url = request?.url.toString()
 

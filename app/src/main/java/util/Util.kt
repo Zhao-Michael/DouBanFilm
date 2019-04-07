@@ -1,26 +1,38 @@
 package util
 
+import android.Manifest
 import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
+import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.os.Environment
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
+import android.support.v4.content.PermissionChecker
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
+import michaelzhao.App
+import michaelzhao.App.Companion.APPNAME
 import michaelzhao.BaseActivity
+import michaelzhao.R
 import org.jetbrains.anko.toast
 import java.io.*
 import java.util.*
 import java.util.regex.Pattern
 import java.util.zip.*
+import java.lang.reflect.Array.setBoolean
+import java.lang.reflect.AccessibleObject.setAccessible
+import java.util.concurrent.CountDownLatch
 
 
 object Util {
@@ -124,6 +136,75 @@ object Util {
         zos.write(bs)
         zos.close()
         return bos.toByteArray()
+    }
+
+    fun DisableWarningDialog() {
+
+        try {
+            val aClass = Class.forName("android.content.pm.PackageParser\$Package")
+            val declaredConstructor = aClass.getDeclaredConstructor(String::class.java)
+            declaredConstructor.isAccessible = true
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        try {
+            val cls = Class.forName("android.app.ActivityThread")
+            val declaredMethod = cls.getDeclaredMethod("currentActivityThread")
+            declaredMethod.isAccessible = true
+            val activityThread = declaredMethod.invoke(null)
+            val mHiddenApiWarningShown = cls.getDeclaredField("mHiddenApiWarningShown")
+            mHiddenApiWarningShown.isAccessible = true
+            mHiddenApiWarningShown.setBoolean(activityThread, true)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    fun GetAPPPath(str: String = ""): String {
+        return (Environment.getExternalStorageDirectory().path.toString() + "/$APPNAME/" + str + "/").replace("//", "/")
+    }
+
+    fun GetImagesPath(str: String = "", isPath: Boolean = true): String {
+        return (GetAPPPath("/Images/") + str + if (isPath) "/" else "")
+                .replace("//", "/")
+    }
+
+    fun VerifyStoragePermissions(activity: BaseActivity): Boolean {
+
+        if (App.mHasStorgePermission) return true
+
+        val PERMISSIONS_STORAGE = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
+        val REQUEST_EXTERNAL_STORAGE = 1
+
+        val permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            val lock = CountDownLatch(1)
+            var result = false
+            activity.PermissionsResultCallBack = { _: Int, _: Array<out String>, grantResults: IntArray ->
+                if (grantResults[0] > -1) {
+                    result = true
+                } else {
+                    activity.uiThread(100) {
+                        activity.toast("")
+                    }
+                }
+                lock.countDown()
+            }
+            ActivityCompat.requestPermissions(activity, PERMISSIONS_STORAGE, REQUEST_EXTERNAL_STORAGE)
+            lock.await()
+            activity.PermissionsResultCallBack = null
+            App.mHasStorgePermission = result
+            return result
+        }
+        return true
+    }
+
+    fun GetTargetSdkVersion(context: Context): Int {
+        val info = context.packageManager.getPackageInfo(context.packageName, 0)
+        return info.applicationInfo.targetSdkVersion
     }
 
 }

@@ -14,13 +14,11 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.IIcon
 import com.orhanobut.hawk.Hawk
-import org.jetbrains.anko.backgroundColor
-import org.jetbrains.anko.find
-import org.jetbrains.anko.image
-import org.jetbrains.anko.textColor
+import org.jetbrains.anko.*
 import util.VerSwipeLayout
 import util.*
 import util.Util.CreateIcon
+import util.Util.VerifyStoragePermissions
 
 @SuppressLint("Registered")
 abstract class BaseActivity : AppCompatActivity() {
@@ -47,9 +45,13 @@ abstract class BaseActivity : AppCompatActivity() {
 
     protected val mToolBar by lazy { find<Toolbar>(R.id.toolbar) }
     protected val mSwipeLayout by lazy { find<VerSwipeLayout>(R.id.mSwipeLayout) }
-
+    var PermissionsResultCallBack: ((requestCode: Int, permissions: Array<out String>, grantResults: IntArray) -> Unit)? = null
     abstract val mLayout: Int
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        PermissionsResultCallBack?.invoke(requestCode, permissions, grantResults)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +62,7 @@ abstract class BaseActivity : AppCompatActivity() {
         setNavBarColor()
         setToolBarColor()
         initScreenSize()
+        doAsync { VerifyStoragePermissions(this@BaseActivity) }
     }
 
     private fun initScreenSize() {
