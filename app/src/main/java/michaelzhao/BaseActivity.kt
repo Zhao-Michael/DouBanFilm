@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.Point
 import android.os.Bundle
-import android.support.annotation.ColorInt
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -103,14 +102,12 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     @SuppressLint("SupportAnnotationUsage")
-    @ColorInt
     fun setPrimaryColor(id: Int) {
         Hawk.put(getString(R.string.preference_primary_color),
                 getColorValue(id))
     }
 
     @SuppressLint("SupportAnnotationUsage")
-    @ColorInt
     private fun setAccountColor(id: Int) {
         Hawk.put(getString(R.string.preference_accent_color),
                 getColorValue(id))
