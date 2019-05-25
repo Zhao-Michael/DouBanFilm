@@ -53,7 +53,7 @@ class MainActivity : BaseActivity() {
 
     private fun init_MainMenu() {
         mNavigationView.itemIconTintList = ColorStateList.valueOf(getPrimaryColor())
-        mNavigationView.itemTextColor = ColorStateList.valueOf(resources.getColor(R.color.black))
+        mNavigationView.itemTextColor = ColorStateList.valueOf(resources.getColor(R.color.black,null))
         mNavigationView.menu.getItem(0).icon = getDrawableIcon(GoogleMaterial.Icon.gmd_home)
         mNavigationView.menu.getItem(1).icon = getDrawableIcon(GoogleMaterial.Icon.gmd_favorite)
         mNavigationView.menu.getItem(2).icon = getDrawableIcon(GoogleMaterial.Icon.gmd_search)

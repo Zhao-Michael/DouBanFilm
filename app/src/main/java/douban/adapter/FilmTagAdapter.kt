@@ -30,10 +30,10 @@ class FilmTagAdapter(
         setImageHeight(recycler, 13, 3)
         var mInitLoadMore = false
         recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!mInitLoadMore) {
-                    (recyclerView?.adapter as? IRecyclerViewAdapter)?.enableLoadMore()
+                    (recyclerView.adapter as? IRecyclerViewAdapter)?.enableLoadMore()
                     mInitLoadMore = true
                 }
             }
