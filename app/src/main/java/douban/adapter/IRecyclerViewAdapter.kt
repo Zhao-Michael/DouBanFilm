@@ -19,14 +19,14 @@ abstract class IRecyclerViewAdapter<T : RecyclerView.ViewHolder?>(filmView: IFil
         if (holder != null) {
             val pos = holder.adapterPosition
             if (pos == 0) {
-                val lp = holder.itemView?.layoutParams as? ViewGroup.MarginLayoutParams
+                val lp = holder.itemView.layoutParams as? ViewGroup.MarginLayoutParams
                 if (lp != null) {
                     if (mMargin == null) mMargin = lp.topMargin * 2
                     lp.topMargin = mMargin!!
                 }
             }
             if (pos == itemCount - 1) {
-                val lp = holder.itemView?.layoutParams as? ViewGroup.MarginLayoutParams
+                val lp = holder.itemView.layoutParams as? ViewGroup.MarginLayoutParams
                 if (lp != null) {
                     if (mMargin == null) mMargin = lp.topMargin * 2
                     lp.bottomMargin = mMargin!!

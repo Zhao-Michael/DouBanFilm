@@ -81,7 +81,7 @@ class FilmMainPageAdapter(context: Context) : PagerAdapter() {
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view = mContext.inflate(R.layout.main_page_item_layout, container)
         mListSwipeLayout[position] = view.find<VerSwipeLayout>(R.id.mSwipeLayout).apply {
-            onRefresh { updatePageFromNet(position) }
+            setOnRefreshListener { updatePageFromNet(position) }
         }
         val recycler = view.find<RecyclerView>(R.id.mRecyclerView)
         recycler.layoutManager = GridLayoutManager(mContext, 1)

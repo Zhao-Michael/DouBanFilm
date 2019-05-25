@@ -24,7 +24,7 @@ class FavoriteActivity : BaseActivity(), FloatingSearchView.OnQueryChangeListene
         super.onCreate(savedInstanceState)
         initNoneLayout()
         mSwipeLayout.setColorSchemeColors(getPrimaryColor())
-        mSwipeLayout.onRefresh {
+        mSwipeLayout.setOnRefreshListener {
             updateFavoriteList(mAllFilm)
             mSwipeLayout.HideRefresh()
         }

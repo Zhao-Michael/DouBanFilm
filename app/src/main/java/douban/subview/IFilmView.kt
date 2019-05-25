@@ -46,10 +46,10 @@ abstract class IFilmView(context: Context) : ILoadMore {
         mRecyclerView.layoutManager = GridLayoutManager(mContext, span)
         var mInitLoadMore = false
         mRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!mInitLoadMore) {
-                    (recyclerView?.adapter as? IRecyclerViewAdapter)?.enableLoadMore()
+                    (recyclerView.adapter as? IRecyclerViewAdapter)?.enableLoadMore()
                     mInitLoadMore = true
                 }
             }
@@ -101,10 +101,8 @@ abstract class IFilmView(context: Context) : ILoadMore {
     }
 
     fun showNoMoreMsg(view: View? = null) {
-//        if (mLayout != 0)
-//            showSnackBar(mView, "没有更多了~")
-//        else
-//            showSnackBar(view, "没有更多了~")
+        if (view != null)
+            println(view.toString())
     }
 
     private fun showSnackBar(view: View?, str: String) {
