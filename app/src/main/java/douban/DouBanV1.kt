@@ -8,6 +8,7 @@ import util.*
 object DouBanV1 {
 
     const val mBaseUrl = "https://api.douban.com/v2/movie/"
+    const val mBaseUrl_bak = "https://douban-api.now.sh/v2/movie/"
     const val mApiKey = "apikey=0b2bdeda43b5688921839c8ecb20399b"
     const val mIPCity = "http://pv.sohu.com/cityjson"
 
@@ -106,7 +107,7 @@ object DouBanV1 {
 
     //获取豆瓣 Top 250
     fun getTop250Film(start: Int = 0, count: Int = 30): FilmList {
-        val url = "${mBaseUrl}top250?&start=$start&count=$count"
+        val url = "${mBaseUrl_bak}top250?&start=$start&count=$count"
         val html = GetUrlContent(url)
         return Gson().fromJson(html)
     }
