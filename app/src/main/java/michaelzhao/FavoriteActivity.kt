@@ -1,16 +1,15 @@
 package michaelzhao
 
 import android.os.Bundle
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.View
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.arlib.floatingsearchview.FloatingSearchView
 import database.FavoriteDB
 import douban.FilmDetail
 import douban.adapter.FilmListAdapter
 import douban.subview.FilmView
 import org.jetbrains.anko.find
-import org.jetbrains.anko.support.v4.onRefresh
 import util.Util
 
 class FavoriteActivity : BaseActivity(), FloatingSearchView.OnQueryChangeListener {

@@ -3,10 +3,7 @@ package imageplayer
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.net.Network
 import android.os.Bundle
-import android.support.design.widget.CoordinatorLayout
-import android.support.v7.app.AlertDialog
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageButton
@@ -16,17 +13,19 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import douban.subview.PhotoCommentView
 import eightbitlab.com.blurview.BlurView
 import org.jetbrains.anko.find
-import org.jetbrains.anko.toast
-import util.Util.HideStatusBar
 import michaelzhao.BaseActivity
 import michaelzhao.R
 import util.*
 import util.Util.CopyToClipBoard
 import eightbitlab.com.blurview.RenderScriptBlur
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import michaelzhao.MainActivity
 import util.Util.GetImagesPath
+import util.Util.HideStatusBar
 import util.Util.VerifyStoragePermissions
+import util.Util.toast
 import java.io.File
 import kotlin.concurrent.thread
 

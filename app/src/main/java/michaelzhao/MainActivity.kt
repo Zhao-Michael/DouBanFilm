@@ -2,14 +2,14 @@ package michaelzhao
 
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.support.design.widget.NavigationView
-import android.support.design.widget.TabLayout
-import android.support.v4.view.GravityCompat
-import android.support.v4.view.ViewPager
-import android.support.v4.widget.DrawerLayout
 import android.view.Gravity
 import android.view.Menu
 import android.view.View
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.viewpager.widget.ViewPager
+import com.google.android.material.navigation.NavigationView
+import com.google.android.material.tabs.TabLayout
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import douban.adapter.FilmMainPageAdapter
 import org.jetbrains.anko.find
@@ -53,7 +53,7 @@ class MainActivity : BaseActivity() {
 
     private fun init_MainMenu() {
         mNavigationView.itemIconTintList = ColorStateList.valueOf(getPrimaryColor())
-        mNavigationView.itemTextColor = ColorStateList.valueOf(resources.getColor(R.color.black,null))
+        mNavigationView.itemTextColor = ColorStateList.valueOf(resources.getColor(R.color.black, null))
         mNavigationView.menu.getItem(0).icon = getDrawableIcon(GoogleMaterial.Icon.gmd_home)
         mNavigationView.menu.getItem(1).icon = getDrawableIcon(GoogleMaterial.Icon.gmd_favorite)
         mNavigationView.menu.getItem(2).icon = getDrawableIcon(GoogleMaterial.Icon.gmd_search)
@@ -69,7 +69,7 @@ class MainActivity : BaseActivity() {
                     startActivity<BTSearchActivity>()
                 }
             }
-            mDrawerLayout.closeDrawer(Gravity.START)
+            mDrawerLayout.closeDrawer(GravityCompat.START)
             return@setNavigationItemSelectedListener true
         }
     }

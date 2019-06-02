@@ -1,11 +1,11 @@
 package michaelzhao
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.design.widget.TabLayout
-import android.support.v4.view.ViewPager
 import android.widget.FrameLayout
+import androidx.viewpager.widget.ViewPager
 import com.github.ivbaranov.mfb.MaterialFavoriteButton
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.tabs.TabLayout
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.orhanobut.hawk.Hawk
 import database.FavoriteDB

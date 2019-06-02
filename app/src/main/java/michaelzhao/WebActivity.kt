@@ -5,9 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.support.v4.widget.SwipeRefreshLayout
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import org.jetbrains.anko.find
 

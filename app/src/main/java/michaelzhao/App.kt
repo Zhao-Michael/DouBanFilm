@@ -7,8 +7,6 @@ import android.content.Intent
 import com.orhanobut.hawk.Hawk
 import com.squareup.picasso.LruCache
 import com.squareup.picasso.Picasso
-import util.Util.GetImagesPath
-import java.io.File
 
 class App : Application() {
     companion object {

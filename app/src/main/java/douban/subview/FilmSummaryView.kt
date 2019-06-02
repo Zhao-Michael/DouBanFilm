@@ -4,10 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.support.v7.widget.CardView
 import android.view.MotionEvent
 import android.view.View
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import co.lujun.androidtagview.TagContainerLayout
 import co.lujun.androidtagview.TagView
 import com.daimajia.numberprogressbar.NumberProgressBar
@@ -73,6 +73,10 @@ class FilmSummaryView(context: Context, filmDetail: FilmDetail) : IFilmView(cont
         }
 
         mTagContainer.setOnTagClickListener(object : TagView.OnTagClickListener {
+            override fun onSelectedTagDrag(position: Int, text: String?) {
+
+            }
+
             override fun onTagLongClick(position: Int, text: String?) = Unit
 
             override fun onTagCrossClick(position: Int) = Unit

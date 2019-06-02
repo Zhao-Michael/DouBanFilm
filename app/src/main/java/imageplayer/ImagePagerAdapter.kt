@@ -2,11 +2,11 @@ package imageplayer
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.support.v4.view.PagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import androidx.viewpager.widget.PagerAdapter
 import com.github.chrisbanes.photoview.PhotoView
 import michaelzhao.BaseActivity
 import org.jetbrains.anko.find

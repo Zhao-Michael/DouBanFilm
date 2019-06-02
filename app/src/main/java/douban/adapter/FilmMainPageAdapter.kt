@@ -1,17 +1,16 @@
 package douban.adapter
 
 import android.content.Context
-import android.support.v4.view.PagerAdapter
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.PagerAdapter
 import douban.DouBanV1
 import douban.FilmList
 import douban.subview.FilmView
 import michaelzhao.R
 import org.jetbrains.anko.find
-import org.jetbrains.anko.support.v4.onRefresh
 import org.jetbrains.anko.toast
 import util.Rx
 import util.VerSwipeLayout

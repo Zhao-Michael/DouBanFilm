@@ -4,12 +4,9 @@ package util
 
 import android.app.Activity
 import android.content.Context
-import android.content.res.Resources
 import android.graphics.Color
 import android.os.Looper
-import android.support.design.widget.TabLayout
 import android.util.Base64
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -19,10 +16,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
-import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.IIcon
@@ -33,7 +27,6 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.image
 import org.jetbrains.anko.uiThread
 import michaelzhao.App
-import java.lang.reflect.Field
 import java.net.URLDecoder
 import java.net.URLEncoder
 
@@ -229,15 +222,6 @@ fun TabLayout.setTabStyle() {
 }
 
 fun ImageView.setImageUrl(url: String, holder: Int = 0) {
-//    Glide.with(this)
-//            .load(url)
-//            .apply {
-//                if (holder != 0)
-//                    apply(RequestOptions.placeholderOf(holder))
-//            }
-//            .transition(withCrossFade())
-//            .into(this)
-
     Picasso.get()
             .load(url)
             .apply {

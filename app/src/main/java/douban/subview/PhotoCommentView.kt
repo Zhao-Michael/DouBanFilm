@@ -1,7 +1,7 @@
 package douban.subview
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import douban.DouBanV2
 import douban.adapter.IRecyclerViewAdapter
 import douban.adapter.PhotoCommentAdapter

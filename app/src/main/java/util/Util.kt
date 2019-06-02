@@ -11,27 +11,22 @@ import android.content.res.Resources
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.os.Environment
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
-import android.support.v4.content.PermissionChecker
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
 import michaelzhao.App
 import michaelzhao.App.Companion.APPNAME
 import michaelzhao.BaseActivity
-import michaelzhao.R
 import org.jetbrains.anko.toast
 import java.io.*
 import java.util.*
 import java.util.regex.Pattern
 import java.util.zip.*
-import java.lang.reflect.Array.setBoolean
-import java.lang.reflect.AccessibleObject.setAccessible
 import java.util.concurrent.CountDownLatch
 
 
@@ -92,15 +87,11 @@ object Util {
     }
 
     fun Activity.HideStatusBar() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS or WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                window.statusBarColor = Color.TRANSPARENT
-                window.navigationBarColor = Color.TRANSPARENT
-            }
-        }
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS or WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.statusBarColor = Color.TRANSPARENT
+        window.navigationBarColor = Color.TRANSPARENT
     }
 
     fun CreateIcon(context: Context, icon: GoogleMaterial.Icon, size: Int): IconicsDrawable {
@@ -202,9 +193,9 @@ object Util {
         return true
     }
 
-    fun GetTargetSdkVersion(context: Context): Int {
-        val info = context.packageManager.getPackageInfo(context.packageName, 0)
-        return info.applicationInfo.targetSdkVersion
-    }
-
+    fun Context.toast(message: CharSequence): Toast = Toast
+            .makeText(this, message, Toast.LENGTH_SHORT)
+            .apply {
+                show()
+            }
 }

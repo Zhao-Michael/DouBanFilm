@@ -1,8 +1,8 @@
 package douban.adapter
 
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import douban.subview.IFilmView
 import michaelzhao.BaseActivity
 import util.dip2px
