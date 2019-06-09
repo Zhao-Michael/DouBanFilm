@@ -79,7 +79,7 @@ object DouBanV1 {
 
     //获取影人信息
     fun getFilmManInfo(id: String): FilmMan {
-        val url = "${mBaseUrl}celebrity/$id"
+        val url = "${mBaseUrl}celebrity/$id?$mApiKey"
         val html = GetUrlContent(url)
         return Gson().fromJson(html)
     }
