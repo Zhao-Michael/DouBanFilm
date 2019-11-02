@@ -31,7 +31,7 @@ abstract class IFilmView(context: Context) : ILoadMore {
     protected abstract val mLayout: Int
 
     protected var mCurrPageIndex = 0
-    protected open val mLoadPageStep = 30
+    protected open val mLoadPageStep = 25
 
     protected val mView: View by lazy { LayoutInflater.from(context).inflate(mLayout, null) }
     protected val mRecyclerView by lazy { mView.find<RecyclerView>(R.id.mRecyclerView) }

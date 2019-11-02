@@ -885,7 +885,7 @@ class DouBanV1UnitTest {
 
     @Test
     fun test_getTop250_fromNet() {
-        val film = DouBanV1.getTop250Film(0, 10)
+        val film = DouBanV1.getTop250Film(0)
         test_FilmList(film)
     }
 

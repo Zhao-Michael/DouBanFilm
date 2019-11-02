@@ -1,6 +1,7 @@
 package douban
 
 import com.google.gson.Gson
+import org.jsoup.Jsoup
 import util.GetUrlContent
 import util.*
 
@@ -105,10 +106,10 @@ object DouBanV1 {
     }
 
     //获取豆瓣 Top 250
-    fun getTop250Film(start: Int = 0, count: Int = 30): FilmList {
-        val url = "${mBaseUrl}top250?&start=$start&count=$count"
+    fun getTop250Film(start: Int = 0, count: Int = 25): FilmList {
+        val url = "https://movie.douban.com/top250?start=$start&count=25"
         val html = GetUrlContent(url)
-        return Gson().fromJson(html)
+        return paresTop250Films(start, html)
     }
 
     //获取北美票房榜
@@ -138,5 +139,37 @@ object DouBanV1 {
         val html = GetUrlContent(url)
         return Gson().fromJson(html)
     }
+
+    private fun paresTop250Films(start: Int, html: String): FilmList {
+        val list = mutableListOf<FilmItem>()
+
+        val doc = Jsoup.parse(html)
+        val films = doc.select("ol li")
+        films.forEach {
+            val thum_url = it.select("img").attr("src")
+            val title = it.select(".title").first().text().trim()
+            val id = it.select(".hd").first().child(0).attr("href").trim('/').split("/").last()
+            val rate = it.select(".rating_num").first().text().toDouble()
+            val detail = it.select(".bd").first().child(0).text()
+            val origin_title = it.select(".other").first().text().trim('/')
+            val director = detail.split("导演:").last().split("主演:").first()
+            val actor = detail.split("主演:").last().split("...").first().trim('/')
+            val year = detail.split("...").last().split("/").first().trim()
+            var type = detail.split("\n").last().split("/").last().trim('/')
+            if (type.startsWith("/")) type = type.drop(1)
+
+            val rating = Rating(10, rate, "1", 0, Details())
+            val genres = type.split(" ")
+            val listActor = mutableListOf(Celebrity(Avatars("", "", ""), "", actor, "", ""))
+            val listDirector = mutableListOf(Celebrity(Avatars("", "", ""), "", director, "", ""))
+            val image = Images(thum_url, thum_url, thum_url)
+            val item = FilmItem(rating, genres, title, listActor, 0, origin_title, "movie", listDirector, year, image, "", id)
+
+            list.add(item)
+        }
+
+        return FilmList(25, start, 25, list, "Top250")
+    }
+
 
 }

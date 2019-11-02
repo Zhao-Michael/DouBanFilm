@@ -41,7 +41,7 @@ class FilmMainPageAdapter(context: Context) : PagerAdapter() {
     }
 
     private fun setTop250Adapter(index: Int, it: FilmList) {
-        val mStep = 30
+        val mStep = 25
         var mCurrPageIndex = 0
         val mAdapter: FilmListAdapter?
         val recyclerView = mListRecycler[index]

@@ -12,7 +12,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 28
         versionCode 1
-        versionName "0.0.0.2"
+        versionName "0.0.0.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         configurations {
@@ -58,6 +58,7 @@ dependencies {
     implementation 'com.github.ivbaranov:materialfavoritebutton:0.1.5'
 
     //tools
+    implementation 'org.jsoup:jsoup:1.12.1'
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     implementation 'com.github.florent37:picassopalette:2.0.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
