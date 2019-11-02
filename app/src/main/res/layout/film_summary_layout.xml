@@ -28,22 +28,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-            <co.lujun.androidtagview.TagContainerLayout
+            <com.cunoraz.tagview.TagView
                     android:id="@+id/layout_tagcontainer"
+                    xmlns:tagview="http://schemas.android.com/apk/res-auto"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:visibility="gone"
-                    app:container_border_color="@color/transparent"
-                    app:container_background_color="@color/transparent"
-                    app:tag_ripple_alpha="250"
-                    app:tag_ripple_duration="200"
-                    app:container_enable_drag="false"
-                    app:horizontal_interval="10dp"
-                    app:vertical_interval="10dp"
-                    app:tag_corner_radius="5dp"
-                    app:tag_clickable="true"
-                    app:tag_theme="random"/>
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    tagview:lineMargin="5dp"
+                    tagview:tagMargin="5dp"
+                    tagview:textPaddingLeft="8dp"
+                    tagview:textPaddingTop="5dp"
+                    tagview:textPaddingRight="8dp"
+                    tagview:textPaddingBottom="5dp"/>
 
         </android.support.v7.widget.CardView>
 

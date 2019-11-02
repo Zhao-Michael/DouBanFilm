@@ -8,8 +8,8 @@ import android.support.v7.widget.CardView
 import android.view.MotionEvent
 import android.view.View
 import android.widget.TextView
-import co.lujun.androidtagview.TagContainerLayout
-import co.lujun.androidtagview.TagView
+import com.cunoraz.tagview.Tag
+import com.cunoraz.tagview.TagView
 import com.daimajia.numberprogressbar.NumberProgressBar
 import douban.FilmDetail
 import douban.adapter.FilmListAdapter
@@ -23,7 +23,7 @@ class FilmSummaryView(context: Context, filmDetail: FilmDetail) : IFilmView(cont
     override val mLayout: Int = R.layout.film_summary_layout
     private val mFilmDetail = filmDetail
     private val mTextBrief by lazy { mView.find<TextView>(R.id.mTextBrief) }
-    private val mTagContainer by lazy { mView.find<TagContainerLayout>(R.id.layout_tagcontainer) }
+    private val mTagContainer by lazy { mView.find<TagView>(R.id.layout_tagcontainer) }
     private val mTagCardView by lazy { mView.find<CardView>(R.id.cardview_tag) }
 
     init {
@@ -72,19 +72,11 @@ class FilmSummaryView(context: Context, filmDetail: FilmDetail) : IFilmView(cont
             return@setOnTouchListener false
         }
 
-        mTagContainer.setOnTagClickListener(object : TagView.OnTagClickListener {
-            override fun onTagLongClick(position: Int, text: String?) = Unit
-
-            override fun onTagCrossClick(position: Int) = Unit
-
-            override fun onTagClick(position: Int, text: String?) {
-                TagFilmActivity.showTagFilmList(text.toString(), mFilmDetail.subtype)
-            }
-        })
+        mTagContainer.setOnTagClickListener { tag, _ -> TagFilmActivity.showTagFilmList(tag!!.text, mFilmDetail.subtype) }
 
         if (mFilmDetail.tags.isNotEmpty()) {
             mTagContainer.visibility = View.VISIBLE
-            mTagContainer.tags = mFilmDetail.tags
+            mTagContainer.addTags(mFilmDetail.tags.toTypedArray())
         }
     }
 
