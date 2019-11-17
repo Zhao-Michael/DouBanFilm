@@ -76,8 +76,32 @@ class FilmSummaryView(context: Context, filmDetail: FilmDetail) : IFilmView(cont
 
         if (mFilmDetail.tags.isNotEmpty()) {
             mTagContainer.visibility = View.VISIBLE
-            mTagContainer.addTags(mFilmDetail.tags.toTypedArray())
+            val tag = mFilmDetail.tags.map { Tag(it).apply { layoutColor = getRandomColor(); } }
+            mTagContainer.addTags(tag)
         }
+    }
+
+
+    private fun getRandomColor(): Int {
+        val RED = "F44336";
+        val LIGHTBLUE = "03A9F4";
+        val AMBER = "FFC107";
+        val ORANGE = "FF9800";
+        val YELLOW = "FFEB3B";
+        val LIME = "CDDC39";
+        val BLUE = "2196F3";
+        val INDIGO = "3F51B5";
+        val LIGHTGREEN = "8BC34A";
+        val GREY = "9E9E9E";
+        val DEEPPURPLE = "673AB7";
+        val TEAL = "009688";
+        val CYAN = "00BCD4";
+
+        val BG_COLOR_ALPHA = "99"
+
+        val COLORS = arrayOf(RED, LIGHTBLUE, AMBER, ORANGE, YELLOW, LIME, BLUE, INDIGO, LIGHTGREEN, GREY, DEEPPURPLE, TEAL, CYAN)
+        val random = (Math.random() * COLORS.size)
+        return Color.parseColor("#" + BG_COLOR_ALPHA + COLORS[random.toInt()])
     }
 
 }

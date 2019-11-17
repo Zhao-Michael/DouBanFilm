@@ -4,15 +4,16 @@ import android.content.Context
 import android.support.v4.view.PagerAdapter
 import android.view.View
 import android.view.ViewGroup
+import douban.DouBanV1
 import douban.FilmMan
 import douban.subview.*
 
-class FilmManAdapter(context: Context, filmMan: FilmMan?) : PagerAdapter() {
+class FilmManAdapter(context: Context, filmMan: DouBanV1.CelebrityDetail?) : PagerAdapter() {
 
     private val mContext = context
     private val mListRecycler = mutableListOf<IFilmView>()
     private val mListTitle = mutableListOf<String>()
-    private val mFilmMan: FilmMan? = filmMan
+    private val mFilmMan: DouBanV1.CelebrityDetail? = filmMan
 
     init {
         mListTitle.add("影人简介")
@@ -31,7 +32,7 @@ class FilmManAdapter(context: Context, filmMan: FilmMan?) : PagerAdapter() {
 
     }
 
-    private fun initUI(filmMan: FilmMan) {
+    private fun initUI(filmMan: DouBanV1.CelebrityDetail) {
         mListRecycler.clear()
         mListRecycler.add(ManSummary(mContext, filmMan))
         mListRecycler.add(ManPhotoView(mContext, filmMan))

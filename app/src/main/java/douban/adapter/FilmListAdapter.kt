@@ -20,6 +20,7 @@ import michaelzhao.FilmDetailActivity
 import michaelzhao.R
 import org.jetbrains.anko.find
 import util.*
+import kotlin.math.roundToInt
 
 //主页电影列表
 class FilmListAdapter(context: Context, filmView: IFilmView) : IRecyclerViewAdapter<FilmListAdapter.ViewHolder>(filmView) {
@@ -96,12 +97,12 @@ class FilmListAdapter(context: Context, filmView: IFilmView) : IRecyclerViewAdap
             title.text = film.title.replaceEmpty()
             year.text = film.year.replaceEmpty()
             rate.text = film.rating.average.toString().replaceEmpty()
-            genres.text = film.genres.joinToString("/")
+            genres.text = film.genres.joinToString("/").trim('/')
             org_name.text = film.original_title.replaceEmpty()
             director.text = film.directors.joinToString("/") { it.name }.replaceEmpty()
             actor.text = film.casts.joinToString("/") { it.name }.replaceEmpty()
             ratingbar.max = 100
-            ratingbar.progress = Math.round(film.rating.average.toFloat() * 10)
+            ratingbar.progress = (film.rating.average.toFloat() * 10).roundToInt()
             val color = ColorStateList.valueOf(Color.rgb(0xFF, 0xBB, 0x33))
             ratingbar.supportProgressTintList = color
             if (film.rating.stars.toInt() == 0) {

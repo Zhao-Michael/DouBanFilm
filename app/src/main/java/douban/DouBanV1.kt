@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import org.jsoup.Jsoup
 import util.GetUrlContent
 import util.*
+import java.lang.StringBuilder
 
 
 object DouBanV1 {
@@ -11,7 +12,7 @@ object DouBanV1 {
     const val mBaseUrl = "https://api.douban.com/v2/movie/"
     const val mApiKey = "apikey=0b2bdeda43b5688921839c8ecb20399b"
     const val mIPCity = "http://pv.sohu.com/cityjson"
-
+    const val mHomeUrl = "https://movie.douban.com/"
 
     //获取影片介绍
     fun getFilmDetail(id: String): FilmDetail {
@@ -78,10 +79,10 @@ object DouBanV1 {
     }
 
     //获取影人信息
-    fun getFilmManInfo(id: String): FilmMan {
-        val url = "${mBaseUrl}celebrity/$id"
+    fun getFilmManInfo(id: String): CelebrityDetail {
+        val url = "${mHomeUrl}celebrity/$id"
         val html = GetUrlContent(url)
-        return Gson().fromJson(html)
+        return parseCelebrity(html, id)
     }
 
     //获取影人作品
@@ -107,7 +108,7 @@ object DouBanV1 {
 
     //获取豆瓣 Top 250
     fun getTop250Film(start: Int = 0, count: Int = 25): FilmList {
-        val url = "https://movie.douban.com/top250?start=$start&count=25"
+        val url = "${mHomeUrl}top250?start=$start&count=25"
         val html = GetUrlContent(url)
         return paresTop250Films(start, html)
     }
@@ -171,5 +172,124 @@ object DouBanV1 {
         return FilmList(25, start, 25, list, "Top250")
     }
 
+    private fun parseCelebrity(html: String, _id: String): CelebrityDetail {
+        val doc = Jsoup.parse(html)
+        val title = doc.title().replace("(豆瓣)", "").trim()
+        val head = doc.select(".item ul li").map { it.text() }
+        val thumb = doc.getElementById("headline").selectFirst(".nbg").attr("href")
+        val gender = head.firstOrNull { it.contains("性别") }
+        val constellation = head.firstOrNull { it.contains("星座") }
+        val occupation = head.firstOrNull { it.contains("职业") }
+        val born_date = head.firstOrNull { it.contains("出生日期") }
+        val born_place = head.firstOrNull { it.contains("出生地") }
+        val name_en = head.firstOrNull { it.contains("更多外文名") }
+        val name = head.firstOrNull { it.contains("更多中文名") }
+        val family = head.firstOrNull { it.contains("家庭成员") }
+
+        val summary = doc.select("div.bd span.all.hidden").text()
+        val imageList = doc.select(".pic-col5 li a img").map { it.attr("src") }
+        val awards = doc.select(".award")
+
+        val awardlist = mutableListOf<String>()
+        awards.forEach { it ->
+            val sb = StringBuilder()
+            it.children().forEach { it1 ->
+                if (it1.children().size == 0) {
+                    sb.append(it1.text())
+                } else {
+                    sb.append(it1.child(0).text())
+                }
+                sb.append(" - ")
+            }
+            awardlist.add(sb.toString().trim().trim('-'))
+        }
+
+        val recent_works = mutableListOf<CelebrityWork>()
+        val recentHtml = doc.getElementById("recent_movies").select(".bd .list-s li")
+        recentHtml.forEach {
+            val year = it.child(0).text()
+            val info = it.selectFirst(".info")
+            val id = info.child(0).attr("href").trim('/').split('/').last().toInt()
+            val title = info.child(0).attr("title")
+            val rate = info.child(1).text()
+            val image = it.selectFirst("img").attr("src")
+            val work = CelebrityWork(year, id, image, title, rate)
+            recent_works.add(work)
+        }
+
+        val top_works = mutableListOf<CelebrityWork>()
+        val topHtml = doc.getElementById("best_movies").select(".bd ul li")
+        topHtml.forEach {
+            val year = it.selectFirst(".pl").text()
+            val id = it.selectFirst("div a").attr("href").trim('/').split('/').last().toInt()
+            val title = it.selectFirst("div a img").attr("alt")
+            val rate = it.selectFirst("em").text()
+            val image = it.selectFirst("div a img").attr("src")
+            val work = CelebrityWork(year, id, image, title, rate)
+            top_works.add(work)
+        }
+
+        val partners = mutableListOf<Partners>()
+        val partnerHtml = doc.getElementById("partners").select("div ul li")
+        partnerHtml.forEach {
+            val name = it.selectFirst("img").attr("alt")
+            val id = it.selectFirst(".pic a").attr("href").trim('/').split('/').last().toInt()
+            val thumb = it.selectFirst("img").attr("src")
+            partners.add(Partners(name, thumb, id))
+        }
+
+        return CelebrityDetail(
+                title,
+                _id,
+                thumb,
+                gender ?: "",
+                constellation ?: "",
+                born_date ?: "",
+                born_place ?: "",
+                occupation ?: "",
+                name ?: "",
+                name_en ?: "",
+                family ?: "",
+                summary,
+                imageList,
+                awardlist,
+                recent_works,
+                top_works,
+                partners)
+    }
+
+    data class CelebrityWork(
+            val year: String,
+            val film_id: Int,
+            val work_thumb: String,
+            val title: String,
+            val rate: String
+    )
+
+    data class Partners(
+            val name: String,
+            val thumb: String,
+            val id: Int
+    )
+
+    data class CelebrityDetail(
+            val short_name: String,
+            val id: String,
+            val thumb: String,
+            val gender: String,
+            val constellation: String,
+            val born_date: String,
+            val born_place: String,
+            val occupation: String,
+            val name: String,
+            val name_en: String,
+            val family: String,
+            val summary: String,
+            val photos: List<String>,
+            val awards: List<String>,
+            val recent_works: List<CelebrityWork>,
+            val toprate_works: List<CelebrityWork>,
+            val workmates: List<Partners>
+    )
 
 }

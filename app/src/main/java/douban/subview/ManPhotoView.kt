@@ -10,7 +10,7 @@ import michaelzhao.R
 import util.Rx
 
 //影人图片
-class ManPhotoView(context: Context, filmMan: FilmMan) : IFilmView(context) {
+class ManPhotoView(context: Context, filmMan: DouBanV1.CelebrityDetail) : IFilmView(context) {
 
     override val mLayout: Int = R.layout.film_common_subview_layout
     private val mFilmMan = filmMan

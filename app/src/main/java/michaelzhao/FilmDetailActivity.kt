@@ -89,8 +89,8 @@ class FilmDetailActivity : BaseActivity() {
         }
     }
 
-    private fun updateFilmMan(film: FilmMan) {
-        setToolBarTitle("影人：" + film.name)
+    private fun updateFilmMan(film: DouBanV1.CelebrityDetail) {
+        setToolBarTitle("影人：" + film.short_name)
         mViewPager.adapter = FilmManAdapter(this, film)
     }
 

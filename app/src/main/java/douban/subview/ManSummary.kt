@@ -1,52 +1,94 @@
 package douban.subview
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.support.v7.widget.CardView
+import android.view.MotionEvent
+import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
-import douban.FilmMan
-import douban.adapter.FilmListAdapter
-import michaelzhao.BaseActivity
+import douban.DouBanV1
 import michaelzhao.R
 import org.jetbrains.anko.find
-import org.jetbrains.anko.textColor
-import util.replaceEmpty
+import util.onClick
 import util.setImageUrl
 
-class ManSummary(context: Context, filmMan: FilmMan) : IFilmView(context) {
+class ManSummary(context: Context, filmMan: DouBanV1.CelebrityDetail) : IFilmView(context) {
 
     override val mLayout: Int = R.layout.film_man_brief_layout
     private val mFilmMan = filmMan
     private val mImageView by lazy { mView.find<ImageView>(R.id.image) }
-    private val mTextTitle by lazy { mView.find<TextView>(R.id.title) }
-    private val mTextOtherName by lazy { mView.find<TextView>(R.id.other_name) }
-    private val mTextNameEn by lazy { mView.find<TextView>(R.id.text_name_en) }
-    private val mTextGenres by lazy { mView.find<TextView>(R.id.genres) }
-    private val mTextLoc by lazy { mView.find<TextView>(R.id.location) }
-    private val mTextWorks by lazy { mView.find<TextView>(R.id.text_works) }
+    private val mTextBrief by lazy { mView.find<TextView>(R.id.mTextBrief) }
+    private val brief_cardview by lazy { mView.find<CardView>(R.id.brief_cardview) }
+    private val mHeaderLayout by lazy { mView.find<LinearLayout>(R.id.header_layout) }
 
     init {
-        initRecyclerView()
         initSummary()
         initFilmList()
+        initBrief()
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun initBrief() {
+        setBrief()
+        brief_cardview.onClick { setBrief() }
+        mTextBrief.setOnTouchListener { _: View, motionEvent: MotionEvent ->
+            brief_cardview.onTouchEvent(motionEvent)
+            return@setOnTouchListener false
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun setBrief() {
+        val maxLen = 140
+        val len = mTextBrief.text.toString().length
+        if (len == 0)
+            mTextBrief.text = mFilmMan.summary.take(maxLen) + "..."
+        else if (len < maxLen + 4)
+            mTextBrief.text = mFilmMan.summary
+        else
+            mTextBrief.text = mFilmMan.summary.take(maxLen) + "..."
     }
 
     private fun initSummary() {
-        mImageView.setImageUrl(mFilmMan.avatars.large)
-        mTextTitle.text = mFilmMan.name.replaceEmpty()
-        val list = mFilmMan.aka.plus(mFilmMan.aka_en)
-        mTextOtherName.text = list.joinToString("\n").replaceEmpty()
-        mTextOtherName.setLines(mTextOtherName.text.split("\n").size)
-        mTextNameEn.text = mFilmMan.name_en.replaceEmpty()
-        mTextGenres.text = mFilmMan.gender.replaceEmpty()
-        mTextLoc.text = mFilmMan.born_place.replaceEmpty()
-        mTextWorks.textColor = BaseActivity.getPrimaryColor()
-        mTextWorks.text = mFilmMan.name.trim() + mTextWorks.text
+        mImageView.setImageUrl(mFilmMan.thumb)
+        addInfo(mFilmMan.gender)
+        addInfo(mFilmMan.constellation)
+        addInfo(mFilmMan.born_date)
+        addInfo(mFilmMan.born_place)
+        addInfo(mFilmMan.occupation)
+        addInfo(mFilmMan.name, true)
+        addInfo(mFilmMan.name_en, true)
+        addInfo(mFilmMan.family, true)
+    }
+
+    private fun addInfo(txt: String, more: Boolean = false) {
+        var text = txt
+
+        if (text.isBlank())
+            return
+
+        if (more) {
+            if (text.contains("/")) {
+                text = text.replace("/", "\r\n\t\t")
+            }
+
+            if (text.contains(":")) {
+                text = text.replace(":", ":\r\n\t\t")
+            }
+        }
+
+        val textView = TextView(mContext)
+        textView.text = text
+        textView.textSize = 12f
+        mHeaderLayout.addView(textView)
     }
 
     private fun initFilmList() {
-        val listFilm = mFilmMan.works.map { it.subject }
-        mRecyclerView.adapter = FilmListAdapter(mContext, listFilm, this)
-        checkEmptyAdapter()
+//        val listFilm = mFilmMan.works.map { it.subject }
+//        mRecyclerView.adapter = FilmListAdapter(mContext, listFilm, this)
+//        checkEmptyAdapter()
     }
 
 }

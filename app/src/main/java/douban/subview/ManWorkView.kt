@@ -9,7 +9,7 @@ import douban.adapter.IRecyclerViewAdapter
 import michaelzhao.R
 import util.Rx
 
-class ManWorkView(context: Context, filmMan: FilmMan) : IFilmView(context) {
+class ManWorkView(context: Context, filmMan: DouBanV1.CelebrityDetail) : IFilmView(context) {
 
     override val mLayout: Int = R.layout.film_common_subview_layout
     private val mFilmMan = filmMan

@@ -15,7 +15,6 @@ import douban.adapter.FilmMainPageAdapter
 import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
 import util.*
-import util.Util.DisableWarningDialog
 
 
 class MainActivity : BaseActivity() {
@@ -29,12 +28,12 @@ class MainActivity : BaseActivity() {
     private val mTableLayout by lazy { find<TabLayout>(R.id.mTabLayout) }
     private val mViewPager by lazy { find<ViewPager>(R.id.mViewPager) }
     private val mNavigationView by lazy { find<NavigationView>(R.id.home_navigation_drawer) }
+    private var mInitialized = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Instance = this
         init_UI()
-        DisableWarningDialog()
     }
 
     private fun init_UI() {
@@ -48,12 +47,18 @@ class MainActivity : BaseActivity() {
         mTableLayout.setTabTextColors(getColorValue(R.color.divider_color), getPrimaryColor())
         mViewPager.adapter = FilmMainPageAdapter(this)
         mTableLayout.setTabStyle()
-        initStatistics()
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        if (hasFocus && !mInitialized) {
+            mInitialized = true
+            initStatistics()
+        }
     }
 
     private fun init_MainMenu() {
         mNavigationView.itemIconTintList = ColorStateList.valueOf(getPrimaryColor())
-        mNavigationView.itemTextColor = ColorStateList.valueOf(resources.getColor(R.color.black,null))
+        mNavigationView.itemTextColor = ColorStateList.valueOf(resources.getColor(R.color.black, null))
         mNavigationView.menu.getItem(0).icon = getDrawableIcon(GoogleMaterial.Icon.gmd_home)
         mNavigationView.menu.getItem(1).icon = getDrawableIcon(GoogleMaterial.Icon.gmd_favorite)
         mNavigationView.menu.getItem(2).icon = getDrawableIcon(GoogleMaterial.Icon.gmd_search)
@@ -75,24 +80,22 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initStatistics() {
-        uiThread(1500) {
-            NetStatistics.Instance.init(find(R.id.mText_CurrData), find(R.id.mText_NetData))
-            mDrawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
-                override fun onDrawerStateChanged(newState: Int) = Unit
+        NetStatistics.Instance.init(find(R.id.mText_CurrData), find(R.id.mText_NetData))
+        mDrawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
+            override fun onDrawerStateChanged(newState: Int) = Unit
 
-                override fun onDrawerSlide(drawerView: View, slideOffset: Float) = Unit
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) = Unit
 
-                override fun onDrawerClosed(drawerView: View) {
-                    NetStatistics.Instance.pause()
-                    NetStatistics.Instance.save()
-                }
+            override fun onDrawerClosed(drawerView: View) {
+                NetStatistics.Instance.pause()
+                NetStatistics.Instance.save()
+            }
 
-                override fun onDrawerOpened(drawerView: View) {
-                    NetStatistics.Instance.start()
-                }
+            override fun onDrawerOpened(drawerView: View) {
+                NetStatistics.Instance.start()
+            }
 
-            })
-        }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
