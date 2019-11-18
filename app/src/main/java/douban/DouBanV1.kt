@@ -186,7 +186,10 @@ object DouBanV1 {
         val name = head.firstOrNull { it.contains("更多中文名") }
         val family = head.firstOrNull { it.contains("家庭成员") }
 
-        val summary = doc.select("div.bd span.all.hidden").text()
+        var summary = doc.select("div.bd span.all.hidden").html().replace("<br/>","\r\n").replace("<br>","\r\n")
+        if (summary.isBlank()) {
+            summary = doc.selectFirst("div.mod div.bd").text().trim()
+        }
         val imageList = doc.select(".pic-col5 li a img").map { it.attr("src") }
         val awards = doc.select(".award")
 

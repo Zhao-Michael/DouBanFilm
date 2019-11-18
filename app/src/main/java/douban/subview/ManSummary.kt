@@ -3,16 +3,17 @@ package douban.subview
 import android.annotation.SuppressLint
 import android.content.Context
 import android.support.v7.widget.CardView
+import android.support.v7.widget.RecyclerView
 import android.view.MotionEvent
 import android.view.View
+import android.widget.HorizontalScrollView
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import douban.DouBanV1
 import michaelzhao.R
 import org.jetbrains.anko.find
-import util.onClick
-import util.setImageUrl
+import util.*
 
 class ManSummary(context: Context, filmMan: DouBanV1.CelebrityDetail) : IFilmView(context) {
 
@@ -22,10 +23,11 @@ class ManSummary(context: Context, filmMan: DouBanV1.CelebrityDetail) : IFilmVie
     private val mTextBrief by lazy { mView.find<TextView>(R.id.mTextBrief) }
     private val brief_cardview by lazy { mView.find<CardView>(R.id.brief_cardview) }
     private val mHeaderLayout by lazy { mView.find<LinearLayout>(R.id.header_layout) }
+    private val mImage_layout by lazy { mView.find<LinearLayout>(R.id.image_layout) }
 
     init {
         initSummary()
-        initFilmList()
+        initImageList()
         initBrief()
     }
 
@@ -85,10 +87,16 @@ class ManSummary(context: Context, filmMan: DouBanV1.CelebrityDetail) : IFilmVie
         mHeaderLayout.addView(textView)
     }
 
-    private fun initFilmList() {
-//        val listFilm = mFilmMan.works.map { it.subject }
-//        mRecyclerView.adapter = FilmListAdapter(mContext, listFilm, this)
-//        checkEmptyAdapter()
+    private fun initImageList() {
+        mFilmMan.photos.forEach {
+            val image = ImageView(mContext)
+            image.scaleType = ImageView.ScaleType.CENTER_CROP
+            image.setImageUrl(it)
+            image.setPadding(10, 10, 10, 10)
+            mImage_layout.addView(image)
+            image.setHeight(140.dip2px())
+            image.setWidth(140.dip2px())
+        }
     }
 
 }
