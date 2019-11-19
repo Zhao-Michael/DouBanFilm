@@ -10,7 +10,7 @@ import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.orhanobut.hawk.Hawk
 import douban.DouBanV2
-import douban.adapter.FilmTagAdapter
+import douban.adapter.CommonInfoAdapter
 import douban.subview.FilmView
 import org.jetbrains.anko.find
 import util.hide
@@ -36,7 +36,7 @@ class TagFilmActivity : BaseActivity(), FloatingSearchView.OnSearchListener {
     private val mRecyclerView by lazy { find<RecyclerView>(R.id.mRecyclerView) }
     private val mSearchView by lazy { find<FloatingSearchView>(R.id.floating_search_view) }
     private val mEmptyLayout by lazy { find<View>(R.id.layout_none) }
-    private var mFilmTagAdapter: FilmTagAdapter? = null
+    private var mCommonInfoAdapter: CommonInfoAdapter? = null
     private val mFilmView = FilmView(this)
     private val mStep = 30
     private var mCurrPageIndex = 0
@@ -65,14 +65,14 @@ class TagFilmActivity : BaseActivity(), FloatingSearchView.OnSearchListener {
         }.set {
             if (it.subjects.isNotEmpty()) {
                 mEmptyLayout.hide()
-                if (mFilmTagAdapter == null || isNew) {
-                    mFilmTagAdapter = FilmTagAdapter(mRecyclerView, it, mFilmView)
-                    mRecyclerView.adapter = mFilmTagAdapter
+                if (mCommonInfoAdapter == null || isNew) {
+                    mCommonInfoAdapter = CommonInfoAdapter(mRecyclerView, it, mFilmView)
+                    mRecyclerView.adapter = mCommonInfoAdapter
                 } else {
-                    val cnt = mFilmTagAdapter?.itemCount
+                    val cnt = mCommonInfoAdapter?.itemCount
                     if (cnt == null || cnt > 0) {
-                        mFilmTagAdapter?.addTagList(it.subjects)
-                        mFilmTagAdapter?.notifyItemInserted(cnt!!)
+                        mCommonInfoAdapter?.addTagList(it.subjects)
+                        mCommonInfoAdapter?.notifyItemInserted(cnt!!)
                     }
                 }
             } else if (index == 0) {
@@ -85,7 +85,7 @@ class TagFilmActivity : BaseActivity(), FloatingSearchView.OnSearchListener {
         }.end {
             mSwipeLayout.HideRefresh()
             mSwipeLayout.DisEnable()
-            mFilmTagAdapter?.loadMoreFinish()
+            mCommonInfoAdapter?.loadMoreFinish()
         }.err {
             mRecyclerView.adapter = null
             mEmptyLayout.show()

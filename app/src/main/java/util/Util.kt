@@ -184,4 +184,16 @@ object Util {
         return info.applicationInfo.targetSdkVersion
     }
 
+    inline fun <reified T : View> HideParent(view: View) {
+        var parent = view.parent
+
+        while (parent != null) {
+            if (parent is T) {
+                view.hide()
+                return
+            }
+            parent = (parent as View).parent
+        }
+    }
+
 }

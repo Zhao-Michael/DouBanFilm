@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import douban.CommonInfo
+import douban.CommonInfoList
 import douban.Subject
 import douban.TagFilmList
 import douban.subview.IFilmView
@@ -16,14 +18,21 @@ import org.jetbrains.anko.find
 import org.jetbrains.anko.textColor
 import util.*
 
-class FilmTagAdapter(
+class CommonInfoAdapter(
         recycler: RecyclerView,
         filmTag: TagFilmList,
         filmView: IFilmView)
-    : IRecyclerViewAdapter<FilmTagAdapter.ViewHolder>(filmView) {
+    : IRecyclerViewAdapter<CommonInfoAdapter.ViewHolder>(filmView) {
 
     private var mTagList = mutableListOf<Subject>()
+    private var mInfoList = mutableListOf<CommonInfo>()
     private val mContext = recycler.context
+
+    constructor(recycler: RecyclerView,
+                filmInfoList: CommonInfoList,
+                filmView: IFilmView) : this(recycler, TagFilmList(emptyList()), filmView) {
+        mInfoList.addAll(filmInfoList.infoList)
+    }
 
     init {
         mTagList.addAll(filmTag.subjects)
@@ -40,14 +49,17 @@ class FilmTagAdapter(
         })
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmTagAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommonInfoAdapter.ViewHolder {
         val view = mContext.inflate(R.layout.listitem_tag_film_cardview, parent)
-        return FilmTagAdapter.ViewHolder(view, mImageWidth)
+        return CommonInfoAdapter.ViewHolder(view, mImageWidth)
     }
 
-    override fun onBindViewHolder(holder: FilmTagAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CommonInfoAdapter.ViewHolder, position: Int) {
         val pos = holder.adapterPosition
-        holder.setTagItem(mTagList[pos])
+        if (mInfoList.isNotEmpty())
+            holder.setTagItem(mInfoList[pos])
+        else
+            holder.setTagItem(mTagList[pos])
         checkToEnd(pos)
     }
 
@@ -84,6 +96,23 @@ class FilmTagAdapter(
                 layout_rate.show()
             image.setImageUrl(sub.cover, R.drawable.loading_large)
             cardview.onClick { FilmDetailActivity.showFilmDetail(sub.id) }
+        }
+
+        fun setTagItem(info: CommonInfo) {
+            title.text = info.title
+            rate.text = info.topright
+            rate.textColor = BaseActivity.getPrimaryColor()
+            if (info.topright.isBlank())
+                layout_rate.hide()
+            else
+                layout_rate.show()
+            image.setImageUrl(info.cover, R.drawable.loading_large)
+            cardview.onClick {
+                if (info.isfilm)
+                    FilmDetailActivity.showFilmDetail(info.id)
+                else
+                    FilmDetailActivity.showFilmMan(info.id)
+            }
         }
 
     }

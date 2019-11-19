@@ -73,13 +73,13 @@ class HomeTVAdapter(
             run {
                 val mStep = 30
                 var mCurrPageIndex = 0
-                var mAdapter: FilmTagAdapter?
+                var mAdapter: CommonInfoAdapter?
                 val mFilmView = FilmView(recyclerView.context)
 
                 Rx.get {
                     DouBanV2.getTagTV(filmTag)
                 }.set {
-                    mAdapter = FilmTagAdapter(recyclerView, it, mFilmView)
+                    mAdapter = CommonInfoAdapter(recyclerView, it, mFilmView)
                     recyclerView.adapter = mAdapter
                     mFilmView.apply {
                         setLoadMore {

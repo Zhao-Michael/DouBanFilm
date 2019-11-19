@@ -186,7 +186,7 @@ object DouBanV1 {
         val name = head.firstOrNull { it.contains("更多中文名") }
         val family = head.firstOrNull { it.contains("家庭成员") }
 
-        var summary = doc.select("div.bd span.all.hidden").html().replace("<br/>","\r\n").replace("<br>","\r\n")
+        var summary = doc.select("div.bd span.all.hidden").html().replace("<br/>", "\r\n").replace("<br>", "\r\n")
         if (summary.isBlank()) {
             summary = doc.selectFirst("div.mod div.bd").text().trim()
         }
@@ -212,7 +212,7 @@ object DouBanV1 {
         recentHtml.forEach {
             val year = it.child(0).text()
             val info = it.selectFirst(".info")
-            val id = info.child(0).attr("href").trim('/').split('/').last().toInt()
+            val id = info.child(0).attr("href").trim('/').split('/').last()
             val title = info.child(0).attr("title")
             val rate = info.child(1).text()
             val image = it.selectFirst("img").attr("src")
@@ -224,7 +224,7 @@ object DouBanV1 {
         val topHtml = doc.getElementById("best_movies").select(".bd ul li")
         topHtml.forEach {
             val year = it.selectFirst(".pl").text()
-            val id = it.selectFirst("div a").attr("href").trim('/').split('/').last().toInt()
+            val id = it.selectFirst("div a").attr("href").trim('/').split('/').last()
             val title = it.selectFirst("div a img").attr("alt")
             val rate = it.selectFirst("em").text()
             val image = it.selectFirst("div a img").attr("src")
@@ -236,7 +236,7 @@ object DouBanV1 {
         val partnerHtml = doc.getElementById("partners").select("div ul li")
         partnerHtml.forEach {
             val name = it.selectFirst("img").attr("alt")
-            val id = it.selectFirst(".pic a").attr("href").trim('/').split('/').last().toInt()
+            val id = it.selectFirst(".pic a").attr("href").trim('/').split('/').last()
             val thumb = it.selectFirst("img").attr("src")
             partners.add(Partners(name, thumb, id))
         }
@@ -263,17 +263,26 @@ object DouBanV1 {
 
     data class CelebrityWork(
             val year: String,
-            val film_id: Int,
-            val work_thumb: String,
+            val film_id: String,
+            val thumb: String,
             val title: String,
             val rate: String
-    )
+    ) {
+        fun toCommonInfo(): CommonInfo {
+            return CommonInfo(film_id, thumb, true, rate, title)
+        }
+    }
+
 
     data class Partners(
             val name: String,
             val thumb: String,
-            val id: Int
-    )
+            val id: String
+    ) {
+        fun toCommonInfo(): CommonInfo {
+            return CommonInfo(id, thumb, false, "", name)
+        }
+    }
 
     data class CelebrityDetail(
             val short_name: String,

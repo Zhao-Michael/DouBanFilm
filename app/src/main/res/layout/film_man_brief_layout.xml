@@ -53,6 +53,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
+                    <TextView android:id="@+id/manname_text"
+                              android:layout_width="match_parent"
+                              android:layout_marginTop="0dp"
+                              android:layout_marginStart="0dp"
+                              android:textStyle="bold"
+                              android:layout_height="wrap_content"/>
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -76,7 +83,7 @@
                           android:layout_height="wrap_content">
 
                 <TextView android:layout_width="match_parent"
-                          android:layout_marginTop="5dp"
+                          android:layout_marginTop="3dp"
                           android:layout_marginStart="5dp"
                           android:textStyle="bold"
                           android:layout_height="wrap_content"
@@ -117,7 +124,7 @@
                           android:layout_height="wrap_content">
 
                 <TextView android:layout_width="match_parent"
-                          android:layout_marginTop="5dp"
+                          android:layout_marginTop="3dp"
                           android:layout_marginStart="5dp"
                           android:textStyle="bold"
                           android:layout_height="wrap_content"
@@ -133,6 +140,145 @@
                           android:focusable="true"
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+                android:id="@+id/award_cardview"
+                android:foreground="?attr/selectableItemBackground"
+                android:layout_margin="5dp"
+                app:cardElevation="3dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardPreventCornerOverlap="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <LinearLayout android:layout_width="match_parent"
+                          android:id="@+id/award_layout"
+                          android:orientation="vertical"
+                          android:layout_margin="5dp"
+                          android:layout_height="wrap_content">
+
+                <TextView android:layout_width="match_parent"
+                          android:layout_marginTop="3dp"
+                          android:layout_marginStart="5dp"
+                          android:textStyle="bold"
+                          android:layout_height="wrap_content"
+                          android:text="获奖情况"/>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+                android:foreground="?attr/selectableItemBackground"
+                android:layout_margin="5dp"
+                app:cardElevation="3dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardPreventCornerOverlap="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <LinearLayout android:layout_width="match_parent"
+                          android:orientation="vertical"
+                          android:layout_margin="5dp"
+                          android:layout_height="wrap_content">
+
+                <TextView android:layout_width="match_parent"
+                          android:layout_marginTop="3dp"
+                          android:layout_marginStart="5dp"
+                          android:textStyle="bold"
+                          android:layout_height="wrap_content"
+                          android:text="最近的5部作品"/>
+
+                <HorizontalScrollView android:focusable="true"
+                                      android:layout_width="match_parent"
+                                      android:layout_height="wrap_content">
+
+                    <LinearLayout android:layout_width="wrap_content"
+                                  android:id="@+id/recentwork_layout"
+                                  android:orientation="horizontal"
+                                  android:layout_height="wrap_content"/>
+
+                </HorizontalScrollView>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+                android:foreground="?attr/selectableItemBackground"
+                android:layout_margin="5dp"
+                app:cardElevation="3dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardPreventCornerOverlap="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <LinearLayout android:layout_width="match_parent"
+                          android:orientation="vertical"
+                          android:layout_margin="5dp"
+                          android:layout_height="wrap_content">
+
+                <TextView android:layout_width="match_parent"
+                          android:layout_marginTop="3dp"
+                          android:layout_marginStart="5dp"
+                          android:textStyle="bold"
+                          android:layout_height="wrap_content"
+                          android:text="最受好评的5部作品"/>
+
+                <HorizontalScrollView android:focusable="true"
+                                      android:layout_width="match_parent"
+                                      android:layout_height="wrap_content">
+
+                    <LinearLayout android:layout_width="wrap_content"
+                                  android:id="@+id/topwork_layout"
+                                  android:orientation="horizontal"
+                                  android:layout_height="wrap_content"/>
+
+                </HorizontalScrollView>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+                android:foreground="?attr/selectableItemBackground"
+                android:layout_margin="5dp"
+                app:cardElevation="3dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardPreventCornerOverlap="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <LinearLayout android:layout_width="match_parent"
+                          android:orientation="vertical"
+                          android:layout_margin="5dp"
+                          android:layout_height="wrap_content">
+
+                <TextView android:layout_width="match_parent"
+                          android:layout_marginTop="3dp"
+                          android:layout_marginStart="5dp"
+                          android:textStyle="bold"
+                          android:layout_height="wrap_content"
+                          android:text="合作2次以上的影人"/>
+
+                <HorizontalScrollView android:focusable="true"
+                                      android:layout_width="match_parent"
+                                      android:layout_height="wrap_content">
+
+                    <LinearLayout android:layout_width="wrap_content"
+                                  android:id="@+id/workmate_layout"
+                                  android:orientation="horizontal"
+                                  android:layout_height="wrap_content"/>
+
+                </HorizontalScrollView>
 
             </LinearLayout>
 
