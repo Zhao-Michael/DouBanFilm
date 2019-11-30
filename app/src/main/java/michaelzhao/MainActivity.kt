@@ -13,8 +13,10 @@ import android.view.View
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import douban.adapter.FilmMainPageAdapter
 import org.jetbrains.anko.find
+import org.jetbrains.anko.longToast
 import org.jetbrains.anko.startActivity
 import util.*
+import android.content.pm.PackageManager
 
 
 class MainActivity : BaseActivity() {
@@ -109,7 +111,8 @@ class MainActivity : BaseActivity() {
         run {
             val mMenuSetting = menu?.findItem(R.id.settings_action)
             mMenuSetting?.icon = getDrawableIcon(GoogleMaterial.Icon.gmd_settings)
-            mMenuSetting?.onItemClick { }
+            val info = packageManager.getPackageInfo(packageName, PackageManager.GET_CONFIGURATIONS)
+            mMenuSetting?.onItemClick { longToast(info.versionName.toString()) }
         }
         return true
     }

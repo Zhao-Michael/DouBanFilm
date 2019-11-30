@@ -46,8 +46,8 @@ class FilmSearchActivity : BaseActivity(), FloatingSearchView.OnSearchListener, 
                 DouBanV1.getSearchBrief(newQuery)
             }.set {
                 if (newQuery == mSearchView.query) {
-                    mRecyclerView.layoutManager = GridLayoutManager(this, 2)
-                    mRecyclerView.adapter = FilmBriefAdapter(it, this, filmView)
+                    mRecyclerView.layoutManager = GridLayoutManager(this, 3)
+                    mRecyclerView.adapter = FilmBriefAdapter(mRecyclerView,it, this, filmView)
                 }
             }.err {
                 filmView.showErrMsg(it, mRecyclerView)

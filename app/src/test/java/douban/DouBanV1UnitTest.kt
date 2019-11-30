@@ -909,12 +909,6 @@ class DouBanV1UnitTest {
     }
 
     @Test
-    fun text_getFilmMan_fromNet() {
-        val film = DouBanV1.getFilmManInfo("1054398")
-        test_FilmMan(film)
-    }
-
-    @Test
     fun test_getFilmMan_fromLocal() {
         val film: FilmMan = Gson().fromJson(strFilmMan)
         test_FilmMan(film)
