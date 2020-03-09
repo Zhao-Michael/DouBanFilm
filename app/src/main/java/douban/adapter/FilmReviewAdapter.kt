@@ -40,6 +40,7 @@ class FilmReviewAdapter(context: Context, filmReview: FilmReview, filmView: IFil
         val pos = holder.adapterPosition
         val review = mListReview[pos]
         holder.setReview(review, pos + 1)
+
         val url = review.alt.replace("movie.douban.com/review/", "douban.com/doubanapp/dispatch/review/")
         holder.cardview.onClick { WebActivity.showWebView(mContext, url, review.title) }
         checkToEnd(pos)

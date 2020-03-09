@@ -31,22 +31,24 @@ class FilmListAdapter(context: Context, filmView: IFilmView) : IRecyclerViewAdap
     private val mIsFilmItem by lazy { mFilmList.isNotEmpty() }
 
 
-    constructor(context: Context, filmList: List<FilmItem>, filmView: IFilmView) : this(context, filmView) {
+    constructor(context: Context, filmList: Iterable<FilmItem>, filmView: IFilmView) : this(context, filmView) {
         mFilmList.addAll(filmList)
     }
 
-    constructor(context: Context, filmView: IFilmView, filmList: List<FilmDetail>) : this(context, filmView) {
+    constructor(context: Context, filmView: IFilmView, filmList: Iterable<FilmDetail>) : this(context, filmView) {
         mDetailList.addAll(filmList)
     }
 
 
-    fun addFilmList(list: List<FilmItem>) {
+    fun addFilmList(list: Iterable<FilmItem>) {
         mFilmList.addAll(list)
     }
 
-    fun addWorkList(works: List<Work>) {
+    fun addWorkList(works: Iterable<Work>) {
         mFilmList.addAll(works.map { it.subject })
     }
+
+    fun getAllFilmList() = mFilmList
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = mContext.inflate(R.layout.listitem_film_cardview, parent)
@@ -98,6 +100,7 @@ class FilmListAdapter(context: Context, filmView: IFilmView) : IRecyclerViewAdap
             year.text = film.year.replaceEmpty()
             rate.text = film.rating.average.toString().replaceEmpty()
             genres.text = film.genres.joinToString("/").trim('/')
+            if (genres.text.isBlank()) genres.text = "无"
             org_name.text = film.original_title.replaceEmpty()
             director.text = film.directors.joinToString("/") { it.name }.replaceEmpty()
             actor.text = film.casts.joinToString("/") { it.name }.replaceEmpty()
@@ -105,7 +108,7 @@ class FilmListAdapter(context: Context, filmView: IFilmView) : IRecyclerViewAdap
             ratingbar.progress = (film.rating.average.toFloat() * 10).roundToInt()
             val color = ColorStateList.valueOf(Color.rgb(0xFF, 0xBB, 0x33))
             ratingbar.supportProgressTintList = color
-            if (film.rating.stars.toInt() == 0) {
+            if (film.rating.stars.toInt() == 0 || film.rating.average == 0.0) {
                 ratingbar.visibility = View.GONE
                 rate.text = "暂无评分"
             }
@@ -123,7 +126,7 @@ class FilmListAdapter(context: Context, filmView: IFilmView) : IRecyclerViewAdap
             director.text = film.directors.joinToString("/") { it.name }.replaceEmpty()
             actor.text = film.casts.joinToString("/") { it.name }.replaceEmpty()
             ratingbar.max = 100
-            ratingbar.progress = Math.round(film.rating.average.toFloat() * 10)
+            ratingbar.progress = (film.rating.average.toFloat() * 10).roundToInt()
             val color = ColorStateList.valueOf(Color.rgb(0xFF, 0xBB, 0x33))
             ratingbar.supportProgressTintList = color
             if (film.rating.stars.toInt() == 0) {

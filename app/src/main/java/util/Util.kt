@@ -196,4 +196,16 @@ object Util {
         }
     }
 
+    inline fun <reified T : View> FindParent(view: View): T? {
+        var parent = view.parent
+
+        while (parent != null) {
+            if (parent is T) {
+                return parent
+            }
+            parent = (parent as View).parent
+        }
+        return null
+    }
+
 }

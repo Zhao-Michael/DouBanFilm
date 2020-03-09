@@ -17,6 +17,7 @@ import michaelzhao.R
 import org.jetbrains.anko.find
 import org.jetbrains.anko.textColor
 import util.*
+import kotlin.math.roundToInt
 
 class CommonInfoAdapter(
         recycler: RecyclerView,
@@ -49,12 +50,12 @@ class CommonInfoAdapter(
         })
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommonInfoAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = mContext.inflate(R.layout.listitem_tag_film_cardview, parent)
-        return CommonInfoAdapter.ViewHolder(view, mImageWidth)
+        return ViewHolder(view, mImageWidth)
     }
 
-    override fun onBindViewHolder(holder: CommonInfoAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val pos = holder.adapterPosition
         if (mInfoList.isNotEmpty())
             holder.setTagItem(mInfoList[pos])
@@ -82,7 +83,7 @@ class CommonInfoAdapter(
             if (wid != null) {
                 cardview.setWidth(wid)
                 image.setWidth(wid)
-                image.setHeight(Math.round(wid / 0.7f))
+                image.setHeight((wid / 0.7f).roundToInt())
             }
         }
 

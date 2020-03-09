@@ -364,4 +364,3 @@ data class RankFilmItem(
         val subject: FilmItem,
         val delta: Int
 )
-

@@ -17,11 +17,9 @@ import douban.adapter.FilmManAdapter
 import org.apache.commons.lang3.NotImplementedException
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.find
-import util.Rx
-import util.onClick
-import util.setTabStyle
+import util.*
 
-class FilmDetailActivity : BaseActivity() {
+class FilmDetailActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
     companion object {
         private val THE_ID = FilmDetailActivity::javaClass.name + "_THE_ID"
@@ -44,12 +42,20 @@ class FilmDetailActivity : BaseActivity() {
 
     }
 
+    inner class CornerCallBack {
+        var mTabSelected: (Int) -> Unit = { _ -> }
+        var mCornerClick: () -> Unit = {}
+        fun resetCorner() = resetFavoriteButton()
+    }
+
     override val mLayout: Int = R.layout.activity_filmdetail
 
     private val mViewPager by lazy { find<ViewPager>(R.id.mViewPager) }
     private val mTableLayout by lazy { find<TabLayout>(R.id.mTabLayout) }
     private val mImageFavorite by lazy { find<MaterialFavoriteButton>(R.id.image_favorite) }
     private val mLayoutFavorite by lazy { find<FrameLayout>(R.id.layout_favorite) }
+    private var mCurrentFilm: FilmDetail? = null
+    private val mCornerCallBack = CornerCallBack()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +75,7 @@ class FilmDetailActivity : BaseActivity() {
         mToolBar.setNavigationOnClickListener { finish() }
         mSwipeLayout.setColorSchemeColors(getPrimaryColor())
         mTableLayout.setupWithViewPager(mViewPager)
+        mViewPager.addOnPageChangeListener(this)
         mTableLayout.tabMode = TabLayout.MODE_FIXED
         mTableLayout.setSelectedTabIndicatorColor(getPrimaryColor())
         mTableLayout.setTabTextColors(getColorValue(R.color.divider_color), getPrimaryColor())
@@ -81,6 +88,7 @@ class FilmDetailActivity : BaseActivity() {
         Rx.get {
             DouBanV1.getFilmManInfo(mSpecifiedID)
         }.set {
+            mCurrentFilm = null
             updateFilmMan(it)
         }.err {
             Snackbar.make(mViewPager, "${it.message}", Snackbar.LENGTH_INDEFINITE).show()
@@ -92,6 +100,7 @@ class FilmDetailActivity : BaseActivity() {
     private fun updateFilmMan(film: DouBanV1.CelebrityDetail) {
         setToolBarTitle("影人：" + film.short_name)
         mViewPager.adapter = FilmManAdapter(this, film)
+        mImageFavorite.hide()
     }
 
     private fun refreshFilmDetail() {
@@ -99,6 +108,7 @@ class FilmDetailActivity : BaseActivity() {
         Rx.get {
             DouBanV1.getFilmDetail(mSpecifiedID)
         }.set {
+            mCurrentFilm = it
             updateFilmDetail(it)
         }.err {
             Snackbar.make(mViewPager, "${it.message}", Snackbar.LENGTH_INDEFINITE).show()
@@ -108,6 +118,7 @@ class FilmDetailActivity : BaseActivity() {
     }
 
     private fun updateFilmDetail(film: FilmDetail) {
+        mImageFavorite.show()
         val type = when (film.subtype) {
             "tv" -> "电视剧"
             "movie" -> "电影"
@@ -115,17 +126,34 @@ class FilmDetailActivity : BaseActivity() {
         }
         setToolBarTitle("$type：" + film.title)
         mViewPager.adapter = FilmDetailAdapter(this, film)
-        val db = FavoriteDB.Instance
-        mImageFavorite.isFavorite = db.existFilmDetail(film.id)
-        mImageFavorite.onClick {
-            val result = if (FavoriteDB.Instance.existFilmDetail(film.id))
-                db.removeFilmDetail(film)
-            else
-                db.addFilmDetail(film)
-            if (result) {
-                mImageFavorite.isFavorite = !mImageFavorite.isFavorite
+    }
+
+    fun resetFavoriteButton() {
+        if (mCurrentFilm == null) {
+            mImageFavorite.hide()
+        } else {
+            mImageFavorite.show()
+            val film = mCurrentFilm!!
+            val db = FavoriteDB.Instance
+            mImageFavorite.isFavorite = db.existFilmDetail(film.id)
+            mImageFavorite.onClick {
+                val result = if (db.existFilmDetail(film.id))
+                    db.removeFilmDetail(film)
+                else
+                    db.addFilmDetail(film)
+                if (result) {
+                    mImageFavorite.isFavorite = !mImageFavorite.isFavorite
+                }
             }
         }
+    }
+
+    override fun onPageScrollStateChanged(p0: Int) = Unit
+
+    override fun onPageScrolled(p0: Int, p1: Float, p2: Int) = Unit
+
+    override fun onPageSelected(p0: Int) {
+        mCornerCallBack.mTabSelected(p0)
     }
 
 }

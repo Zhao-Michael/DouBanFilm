@@ -38,6 +38,7 @@
         <activity android:name=".TagFilmActivity"/>
         <activity android:name=".BTSearchActivity"/>
         <activity android:name=".FavoriteActivity"/>
+        <activity android:name=".CelebrityWorkActivity"/>
 
     </application>
 

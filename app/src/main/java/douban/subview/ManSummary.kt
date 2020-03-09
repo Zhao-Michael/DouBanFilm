@@ -10,13 +10,17 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import douban.Celebrity
 import douban.CommonInfoList
 import douban.DouBanV1
 import douban.adapter.CommonInfoAdapter
+import imageplayer.ImageViewActivity
 import michaelzhao.BaseActivity
+import michaelzhao.CelebrityWorkActivity
 import michaelzhao.R
 import org.jetbrains.anko.find
 import util.*
+import util.Util.FindParent
 import util.Util.HideParent
 
 class ManSummary(context: Context, filmMan: DouBanV1.CelebrityDetail) : IFilmView(context) {
@@ -29,10 +33,13 @@ class ManSummary(context: Context, filmMan: DouBanV1.CelebrityDetail) : IFilmVie
     private val brief_cardview by lazy { mView.find<CardView>(R.id.brief_cardview) }
     private val mHeaderLayout by lazy { mView.find<LinearLayout>(R.id.header_layout) }
     private val mImage_layout by lazy { mView.find<LinearLayout>(R.id.image_layout) }
+    private val mImage_CardView by lazy { mView.find<CardView>(R.id.image_cardview) }
     private val mAward_layout by lazy { mView.find<LinearLayout>(R.id.award_layout) }
     private val recentwork_layout by lazy { mView.find<LinearLayout>(R.id.recentwork_layout) }
     private val topwork_layout by lazy { mView.find<LinearLayout>(R.id.topwork_layout) }
     private val workmate_layout by lazy { mView.find<LinearLayout>(R.id.workmate_layout) }
+    private val recentwork_cardview by lazy { mView.find<CardView>(R.id.recentwork_cardview) }
+    private val topwork_cardview by lazy { mView.find<CardView>(R.id.topwork_cardview) }
 
     val mImageWidth = BaseActivity.getScreenSize().x / 3 - 16.dip2px() - 1
 
@@ -115,16 +122,18 @@ class ManSummary(context: Context, filmMan: DouBanV1.CelebrityDetail) : IFilmVie
 
     private fun initImageList() {
         if (mFilmMan.photos.isEmpty())
-            HideParent<CardView>(mImage_layout)
+            mImage_CardView.hide()
 
-        mFilmMan.photos.forEach {
+        mFilmMan.photos.forEachIndexed { index, it ->
+            val imgUrl = it.replace("/sqxs/", "/l/")
             val image = ImageView(mContext)
             image.scaleType = ImageView.ScaleType.CENTER_CROP
-            image.setImageUrl(it, R.drawable.loading_large)
+            image.setImageUrl(imgUrl, R.drawable.loading_large)
             image.setPadding(10, 10, 10, 10)
             mImage_layout.addView(image)
             image.setHeight(140.dip2px())
             image.setWidth(140.dip2px())
+            image.onClick { ImageViewActivity.showImages(mContext, mFilmMan.photos.map { it.replace("/sqxs/", "/l/") }, index) }
         }
     }
 
@@ -150,6 +159,8 @@ class ManSummary(context: Context, filmMan: DouBanV1.CelebrityDetail) : IFilmVie
             CommonInfoAdapter.ViewHolder(view, mImageWidth).setTagItem(it.toCommonInfo())
             recentwork_layout.addView(view)
         }
+
+        recentwork_cardview.onClick { CelebrityWorkActivity.showCelebrityWorkList(mFilmMan.id, true, mFilmMan.short_name) }
     }
 
     private fun initTopWork() {
@@ -161,6 +172,8 @@ class ManSummary(context: Context, filmMan: DouBanV1.CelebrityDetail) : IFilmVie
             CommonInfoAdapter.ViewHolder(view, mImageWidth).setTagItem(it.toCommonInfo())
             topwork_layout.addView(view)
         }
+
+        topwork_cardview.onClick { CelebrityWorkActivity.showCelebrityWorkList(mFilmMan.id, false, mFilmMan.short_name) }
     }
 
     private fun initWorkMate() {

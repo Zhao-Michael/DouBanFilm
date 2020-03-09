@@ -2,6 +2,7 @@ package douban
 
 import com.google.gson.Gson
 import database.NetRequestType
+import org.jsoup.Jsoup
 import util.GetUrlContent
 import util.Util.GetRegexList
 import util.fromJson
@@ -132,6 +133,54 @@ object DouBanV2 {
         }
 
         return list
+    }
+
+    fun getCelebrityWorkList(celebrityID: String, isByTime: Boolean, start: Int = 0, count: Int = 10): FilmList {
+        val url = "${mBaseUrl}/celebrity/${celebrityID}/movies?start=${start}&sortby=${if (isByTime) "time" else "vote"}"
+        val html = GetUrlContent(url)
+        return getCelebrityWork(start, html)
+    }
+
+    private fun getCelebrityWork(start: Int, html: String): FilmList {
+        val list = mutableListOf<FilmItem>()
+        val doc = Jsoup.parse(html)
+        val films = doc.select("li dl dt a")
+        films.forEach { t ->
+            val it = t.parent().parent()
+            val id = it.select("a.nbg").attr("href").trim('/').split('/').last()
+            val thum_url = it.selectFirst("img").attr("src")
+            val title = it.selectFirst("img").attr("alt")
+            val origin_title = it.selectFirst("img").attr("title")
+            val year = it.selectFirst("span").text().replace("(", "").replace(")", "")
+            val isHasRate = it.selectFirst("div").children().size > 1
+            val rate = if (isHasRate) it.selectFirst("div").child(1).text().toDouble() else 0.0
+            val person = it.selectFirst("dd dl").allElements
+            var director = ""
+            var actor = ""
+            if (person.size == 5) {
+                director = person[2].text().trim()
+                actor = person[4].text().trim()
+            } else if (person.size == 4) {
+                director = person[1].text().trim()
+                actor = person[3].text().trim()
+            }
+
+            val rating = Rating(10, rate, "1", 0, Details())
+            val genres = emptyList<String>()
+            val listActor = mutableListOf(Celebrity(Avatars("", "", ""), "", actor, "", ""))
+            val listDirector = mutableListOf(Celebrity(Avatars("", "", ""), "", director, "", ""))
+            val image = Images(thum_url, thum_url, thum_url)
+            val item = FilmItem(rating, genres, title, listActor, 0, origin_title, "movie", listDirector, year, image, "", id)
+
+            list.add(item)
+        }
+        val title = doc.title()
+        var total = 1000
+        if (title.endsWith("）")) {
+            total = title.split("（").last().split("）").first().toInt()
+        }
+
+        return FilmList(films.size, start, total, list, "CelebrityWorkList")
     }
 
 

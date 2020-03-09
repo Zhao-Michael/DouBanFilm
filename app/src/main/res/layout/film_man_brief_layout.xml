@@ -179,6 +179,7 @@
                 app:cardElevation="3dp"
                 android:clickable="true"
                 android:focusable="true"
+                android:id="@+id/recentwork_cardview"
                 app:cardPreventCornerOverlap="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -216,6 +217,7 @@
                 app:cardElevation="3dp"
                 android:clickable="true"
                 android:focusable="true"
+                android:id="@+id/topwork_cardview"
                 app:cardPreventCornerOverlap="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

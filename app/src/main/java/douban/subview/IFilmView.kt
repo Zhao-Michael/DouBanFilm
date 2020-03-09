@@ -19,21 +19,20 @@ import org.jetbrains.anko.longToast
 import util.*
 import util.Util.CreateIcon
 
-
 interface ILoadMore {
     fun <T : RecyclerView.ViewHolder?> onLoadMore(adapter: IRecyclerViewAdapter<T>)
 }
 
-abstract class IFilmView(context: Context) : ILoadMore {
+abstract class IFilmView(context: Context, step: Int = 25) : ILoadMore {
 
     protected val mContext = context
     private var mLoadMore: (() -> Unit)? = null
     protected abstract val mLayout: Int
 
     protected var mCurrPageIndex = 0
-    protected open val mLoadPageStep = 25
+    protected open val mLoadPageStep = step
 
-    protected val mView: View by lazy { LayoutInflater.from(context).inflate(mLayout, null) }
+    val mView: View by lazy { LayoutInflater.from(context).inflate(mLayout, null) }
     protected val mRecyclerView by lazy { mView.find<RecyclerView>(R.id.mRecyclerView) }
     protected val mSwipeLayout by lazy { mView.find<VerSwipeLayout>(R.id.mSwipeLayout) }
     private val mImageNone by lazy { mView.find<ImageView>(R.id.imgae_none) }
@@ -127,6 +126,6 @@ abstract class IFilmView(context: Context) : ILoadMore {
 
 }
 
-class FilmView(context: Context) : IFilmView(context) {
+class FilmView(context: Context, step: Int = 25) : IFilmView(context, step) {
     override val mLayout: Int = 0
 }
