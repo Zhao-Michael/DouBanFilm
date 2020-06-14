@@ -110,7 +110,8 @@ object DouBanV2 {
     }
 
     fun getFilmPhotoComment(id: String, start: Int = 0): List<PhotoComment> {
-        val url = "${mBaseUrl}photos/photo/$id/?start=$start#comments"
+        val backUrl = if (start == 0) "#comments" else "?start=$start#comments"
+        val url = "${mBaseUrl}photos/photo/$id/$backUrl"
         val html = GetUrlContent(url, NetRequestType.Day)
         return parseFilmPhotoComment(html)
     }

@@ -1,6 +1,7 @@
 package douban.adapter
 
 import android.content.Context
+import android.graphics.Typeface
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -70,6 +71,9 @@ class FilmCelebrityAdapter(context: Context, filmDetail: FilmDetail, filmView: I
 
         fun setCelebrity(cele: Celebrity, pos: Int) {
             image_celebrity.setImageUrl(cele.avatars.medium)
+            if (pos == 0 || cele.alt == "演员") {
+                text_name.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+            }
             text_name.text = cele.name
             text_name_en.text = cele.name_en
             text_alt.text = cele.alt
